@@ -1,7 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://vqn12ddepg07"]
+[gd_scene load_steps=9 format=3 uid="uid://vqn12ddepg07"]
 
 [ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="1_qib1k"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
 [ext_resource type="Texture2D" uid="uid://lwxv0dtn6gej" path="res://assets/shmup_ext.png" id="2_s1lhr"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m3hv2"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_x7au4"]
+noise = SubResource("FastNoiseLite_m3hv2")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xf7lh"]
 resource_name = "Environment"
@@ -399,7 +405,10 @@ sources/0 = SubResource("TileSetAtlasSource_xf7lh")
 sources/1 = SubResource("TileSetAtlasSource_f7w3d")
 
 [node name="Level" type="Node2D"]
+script = ExtResource("1_rkt2c")
+noise_texture = SubResource("NoiseTexture2D_x7au4")
 
 [node name="TileMap" type="TileMap" parent="."]
+unique_name_in_owner = true
 tile_set = SubResource("TileSet_3l6d4")
 format = 2
