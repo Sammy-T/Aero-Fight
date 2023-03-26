@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const SPEED: int = 150
+const SPEED: int = 250
 
 
 # Called when the node enters the scene tree for the first time.
