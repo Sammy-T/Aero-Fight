@@ -1,7 +1,7 @@
 extends Node2D
 
 
-@export var noise_texture: NoiseTexture2D
+@export var noise: Noise
 
 @onready var tile_map: TileMap = %TileMap
 
@@ -17,8 +17,15 @@ func _ready() -> void:
 
 
 func _init_map() -> void:
-	var noise: Noise = noise_texture.noise
+	var grass_tiles: Array[Vector2i] = []
 	
-	for x in 32:
+	for x in 64:
 		for y in 32:
-			print(noise.get_noise_2d(x, y))
+			var noise_strength: float = noise.get_noise_2d(x, y)
+			
+			if noise_strength > 0.25:
+				grass_tiles.append(Vector2i(x,y))
+			else:
+				tile_map.set_cell(0, Vector2i(x, y), 0, Vector2i(6, 3))
+	
+	tile_map.set_cells_terrain_connect(0, grass_tiles, 0, 0)
