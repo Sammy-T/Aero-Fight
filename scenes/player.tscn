@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_53uw7"]
 [ext_resource type="Texture2D" uid="uid://sg7pmipq5sfe" path="res://icon.svg" id="1_63h1p"]
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" groups=["player"]]
 script = ExtResource("1_53uw7")
 
 [node name="Icon" type="Sprite2D" parent="."]

@@ -1,17 +1,26 @@
 extends Node2D
 
 
+const MAP_LOAD_SIZE: int = 64
 const TILE_COORD_WATER: Vector2i = Vector2i(6, 3)
 const TILE_COORD_ISLAND: Vector2i = Vector2i(4, 5)
 const TILE_COORD_ISLAND2: Vector2i = Vector2i(10, 5)
 
 @export var map_noise: Noise
 
+var player: Node2D
+
 @onready var tile_map: TileMap = %TileMap
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var map_end_pos: Vector2 = tile_map.map_to_local(Vector2i.ONE * MAP_LOAD_SIZE)
+	
+	# Place the player at the center of the map's load area
+	player = get_tree().get_first_node_in_group("player")
+	player.position = map_end_pos * 0.5
+	
 	_init_map()
 
 
@@ -26,8 +35,8 @@ func _init_map() -> void:
 	
 	var noise_range: Vector2 = Vector2()
 	
-	for x in 64:
-		for y in 64:
+	for x in MAP_LOAD_SIZE:
+		for y in MAP_LOAD_SIZE:
 			var cell_coord: Vector2i = Vector2i(x, y)
 			var noise_strength: float = map_noise.get_noise_2d(x, y)
 			
