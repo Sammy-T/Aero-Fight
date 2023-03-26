@@ -27,7 +27,7 @@ func _init_map() -> void:
 	var noise_range: Vector2 = Vector2()
 	
 	for x in 64:
-		for y in 32:
+		for y in 64:
 			var cell_coord: Vector2i = Vector2i(x, y)
 			var noise_strength: float = map_noise.get_noise_2d(x, y)
 			
