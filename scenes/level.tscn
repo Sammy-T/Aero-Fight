@@ -1,12 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://vqn12ddepg07"]
+[gd_scene load_steps=9 format=3 uid="uid://vqn12ddepg07"]
 
 [ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="1_qib1k"]
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
 [ext_resource type="Texture2D" uid="uid://lwxv0dtn6gej" path="res://assets/shmup_ext.png" id="2_s1lhr"]
+[ext_resource type="PackedScene" uid="uid://cxaevyowm52pm" path="res://scenes/player.tscn" id="4_s6q5f"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_vrs52"]
-frequency = 0.069
-fractal_octaves = 1
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_j3dcp"]
+frequency = 0.02
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xf7lh"]
 resource_name = "Environment"
@@ -378,6 +378,16 @@ texture = ExtResource("1_qib1k")
 0:9/0 = 0
 1:9/0 = 0
 2:9/0 = 0
+2:9/0/terrain_set = 0
+2:9/0/terrain = 0
+2:9/0/terrains_peering_bit/right_side = 0
+2:9/0/terrains_peering_bit/bottom_right_corner = 0
+2:9/0/terrains_peering_bit/bottom_side = 0
+2:9/0/terrains_peering_bit/bottom_left_corner = 0
+2:9/0/terrains_peering_bit/left_side = 0
+2:9/0/terrains_peering_bit/top_left_corner = 0
+2:9/0/terrains_peering_bit/top_side = 0
+2:9/0/terrains_peering_bit/top_right_corner = 0
 3:9/0 = 0
 3:9/0/terrain_set = 0
 3:9/0/terrain = 1
@@ -460,9 +470,11 @@ sources/1 = SubResource("TileSetAtlasSource_f7w3d")
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_rkt2c")
-noise = SubResource("FastNoiseLite_vrs52")
+map_noise = SubResource("FastNoiseLite_j3dcp")
 
 [node name="TileMap" type="TileMap" parent="."]
 unique_name_in_owner = true
 tile_set = SubResource("TileSet_3l6d4")
 format = 2
+
+[node name="Player" parent="." instance=ExtResource("4_s6q5f")]
