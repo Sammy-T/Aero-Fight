@@ -10,6 +10,9 @@ const TILE_COORD_ISLAND2: Vector2i = Vector2i(10, 5)
 
 var player: Node2D
 var map_section: Vector2i = Vector2i.ZERO
+var map_offset: Vector2i = Vector2i.ZERO
+var thread: Thread
+var semaphore: Semaphore
 
 @onready var tile_map: TileMap = %TileMap
 
@@ -22,7 +25,12 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	player.position = map_end_pos * 0.5
 	
-	_load_map()
+	semaphore = Semaphore.new()
+	thread = Thread.new()
+	var err: Error = thread.start(_process_load_map, Thread.PRIORITY_NORMAL)
+	print(err)
+	
+	_threaded_load_map()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -57,40 +65,48 @@ func _check_section_load(next_direction: Vector2i) -> void:
 	# If the source of the checked tile doesn't exist load the next section
 	if next_load_source == -1:
 		print("load next")
-		_load_map(next_section)
+		_threaded_load_map(next_section)
 
 
-func _load_map(offset: Vector2i = Vector2i.ZERO) -> void:
-	var grass_cells: PackedVector2Array = []
-	var dirt_cells: PackedVector2Array = []
-	
-	var half_section: int = int(MAP_SECTION_SIZE / 2.0)
-	
-	# Use the noise to determine the terrain tiles
-	for x in half_section:
-		for y in half_section:
-			var x_pos: int = x + offset.x * MAP_SECTION_SIZE
-			var y_pos: int = y + offset.y * MAP_SECTION_SIZE
-			
-			var x2_pos: int = (offset.x + 1) * MAP_SECTION_SIZE - x - 1
-			var y2_pos: int = (offset.y + 1) * MAP_SECTION_SIZE - y - 1
-			
-			_append_or_set_cell(x_pos, y_pos, grass_cells, dirt_cells)
-			_append_or_set_cell(x2_pos, y_pos, grass_cells, dirt_cells)
-			_append_or_set_cell(x_pos, y2_pos, grass_cells, dirt_cells)
-			_append_or_set_cell(x2_pos, y2_pos, grass_cells, dirt_cells)
-	
-	# Set and connect the terrain tiles
-	tile_map.set_cells_terrain_connect(0, grass_cells, 0, 0)
-	tile_map.set_cells_terrain_connect(0, dirt_cells, 0, 2)
-	
-	# The terrain tiles I'm using don't work well with single tiles
-	# so remove any islands
-	_remove_island_cells(grass_cells, TILE_COORD_ISLAND)
-	_remove_island_cells(dirt_cells, TILE_COORD_ISLAND2)
+func _threaded_load_map(offset: Vector2i = Vector2i.ZERO) -> void:
+	map_offset = offset
+	semaphore.post()
 
 
-func _append_or_set_cell(x_pos: int, y_pos: int,\
+func _process_load_map() -> void:
+	while true:
+		semaphore.wait()
+		
+		var grass_cells: PackedVector2Array = []
+		var dirt_cells: PackedVector2Array = []
+		
+		var half_section: int = int(MAP_SECTION_SIZE / 2.0)
+		
+		# Use the noise to determine the terrain tiles
+		for x in half_section:
+			for y in half_section:
+				var x_pos: int = x + map_offset.x * MAP_SECTION_SIZE
+				var y_pos: int = y + map_offset.y * MAP_SECTION_SIZE
+				
+				var x2_pos: int = (map_offset.x + 1) * MAP_SECTION_SIZE - x - 1
+				var y2_pos: int = (map_offset.y + 1) * MAP_SECTION_SIZE - y - 1
+				
+				_proc_append_or_set_cell(x_pos, y_pos, grass_cells, dirt_cells)
+				_proc_append_or_set_cell(x2_pos, y_pos, grass_cells, dirt_cells)
+				_proc_append_or_set_cell(x_pos, y2_pos, grass_cells, dirt_cells)
+				_proc_append_or_set_cell(x2_pos, y2_pos, grass_cells, dirt_cells)
+		
+		# Set and connect the terrain tiles
+		tile_map.call_deferred("set_cells_terrain_connect", 0, grass_cells, 0, 0)
+		tile_map.call_deferred("set_cells_terrain_connect", 0, dirt_cells, 0, 2)
+		
+		# The terrain tiles I'm using don't work well with single tiles
+		# so remove any islands
+		_proc_remove_island_cells(grass_cells, TILE_COORD_ISLAND)
+		_proc_remove_island_cells(dirt_cells, TILE_COORD_ISLAND2)
+
+
+func _proc_append_or_set_cell(x_pos: int, y_pos: int,\
 			grass_cells: PackedVector2Array, dirt_cells: PackedVector2Array) -> void:
 	var cell_coord: Vector2i = Vector2i(x_pos, y_pos)
 	var noise_strength: float = map_noise.get_noise_2d(x_pos, y_pos)
@@ -100,12 +116,12 @@ func _append_or_set_cell(x_pos: int, y_pos: int,\
 	elif noise_strength <= -0.5:
 		dirt_cells.append(cell_coord)
 	else:
-		tile_map.set_cell(0, cell_coord, 0, TILE_COORD_WATER)
+		tile_map.call_deferred("set_cell", 0, cell_coord, 0, TILE_COORD_WATER)
 
 
-func _remove_island_cells(cells: Array[Vector2i], island_tile: Vector2i) -> void:
+func _proc_remove_island_cells(cells: Array[Vector2i], island_tile: Vector2i) -> void:
 	for cell in cells:
 		var tile_coord: Vector2i = tile_map.get_cell_atlas_coords(0, cell)
 		
 		if tile_coord == island_tile:
-			tile_map.set_cell(0, cell, 0, TILE_COORD_WATER)
+			tile_map.call_deferred("set_cell", 0, cell, 0, TILE_COORD_WATER)
