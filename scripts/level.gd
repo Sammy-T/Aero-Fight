@@ -61,8 +61,8 @@ func _check_section_load(next_direction: Vector2i) -> void:
 
 
 func _load_map(offset: Vector2i = Vector2i.ZERO) -> void:
-	var grass_cells: Array[Vector2i] = []
-	var dirt_cells: Array[Vector2i] = []
+	var grass_cells: PackedVector2Array = []
+	var dirt_cells: PackedVector2Array = []
 	
 	var noise_range: Vector2 = Vector2()
 	
