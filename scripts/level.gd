@@ -27,8 +27,7 @@ func _ready() -> void:
 	
 	semaphore = Semaphore.new()
 	thread = Thread.new()
-	var err: Error = thread.start(_process_load_map, Thread.PRIORITY_NORMAL)
-	print(err)
+	var _err: Error = thread.start(_process_load_map, Thread.PRIORITY_NORMAL)
 	
 	_threaded_load_map()
 
@@ -99,17 +98,15 @@ func _process_load_map() -> void:
 		# Set and connect the terrain tiles
 		tile_map.call_deferred("set_cells_terrain_connect", 0, grass_cells, 0, 0)
 		tile_map.call_deferred("set_cells_terrain_connect", 0, dirt_cells, 0, 2)
-		
-		# The terrain tiles I'm using don't work well with single tiles
-		# so remove any islands
-		_proc_remove_island_cells(grass_cells, TILE_COORD_ISLAND)
-		_proc_remove_island_cells(dirt_cells, TILE_COORD_ISLAND2)
 
 
 func _proc_append_or_set_cell(x_pos: int, y_pos: int,\
 			grass_cells: PackedVector2Array, dirt_cells: PackedVector2Array) -> void:
+	# Create 2x2 clusters of the same noise position sample based on the cell position
+	var noise_pos: Vector2 = (Vector2(x_pos, y_pos) / 2).floor()
+	var noise_strength: float = map_noise.get_noise_2d(noise_pos.x, noise_pos.y)
+	
 	var cell_coord: Vector2i = Vector2i(x_pos, y_pos)
-	var noise_strength: float = map_noise.get_noise_2d(x_pos, y_pos)
 	
 	if noise_strength >= 0.2:
 		grass_cells.append(cell_coord)
