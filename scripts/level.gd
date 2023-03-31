@@ -39,43 +39,12 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(_delta: float) -> void:
-#	var section_start_pos: Vector2 = tile_map.map_to_local(map_section * MAP_SECTION_SIZE)
-#	var section_end_pos: Vector2 = tile_map.map_to_local(\
-#			(map_section + Vector2i.ONE) * MAP_SECTION_SIZE)
-#
-#	var load_buffer: int = 50 #500
-#
-#	# Check whether the player has entered the load buffer
-#	if player.position.x >= section_end_pos.x - load_buffer:
-#		_check_section_load(Vector2i.RIGHT)
-#	elif player.position.x <= section_start_pos.x + load_buffer:
-#		_check_section_load(Vector2i.LEFT)
-#
-#	# Update the currently occupied map section
-#	if player.position.x >= section_end_pos.x:
-#		map_section.x += 1
-#		print("section %s" % map_section)
-#	elif player.position.x <= section_start_pos.x:
-#		map_section.x -= 1
-#		print("section %s" % map_section)
-
-
-#func _check_section_load(next_direction: Vector2i) -> void:
-#	var next_section: Vector2i = map_section + next_direction
-#	var next_load_end: Vector2i = next_section * MAP_SECTION_SIZE
-#
-#	var next_load_source: int = tile_map.get_cell_source_id(0, next_load_end)
-#
-#	# If the source of the checked tile doesn't exist load the next section
-#	if next_load_source == -1:
-#		print("load next")
-#		_trigger_load_map(next_section)
-
-
-#func _trigger_section_load(offset: Vector2i = Vector2i.ZERO) -> void:
-#	section_offset = offset
-#	semaphore.post()
+func _process(_delta: float) -> void:
+	var section: Vector2i = tile_map.local_to_map(player.position) / MAP_SECTION_SIZE
+	
+	if current_section != section:
+		current_section = section
+		print("curr section ", current_section)
 
 
 func _threaded_load_section() -> void:
