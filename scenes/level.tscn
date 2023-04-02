@@ -472,6 +472,20 @@ sources/1 = SubResource("TileSetAtlasSource_f7w3d")
 script = ExtResource("1_rkt2c")
 map_noise = SubResource("FastNoiseLite_j3dcp")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DebugUI" type="VBoxContainer" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CurrSection" type="Label" parent="CanvasLayer/DebugUI"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LoadedSections" type="Label" parent="CanvasLayer/DebugUI"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="TileMap" type="TileMap" parent="."]
 unique_name_in_owner = true
 tile_set = SubResource("TileSet_3l6d4")

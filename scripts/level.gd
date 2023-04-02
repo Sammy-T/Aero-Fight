@@ -48,19 +48,50 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	var section: Vector2i = tile_map.local_to_map(player.position) / MAP_SECTION_SIZE
+	var player_map_pos: Vector2i = tile_map.local_to_map(player.position)
+	var section: Vector2i = player_map_pos / MAP_SECTION_SIZE
+	
+	# Offset the loading deadzone and shifted loading area when the player transitions
+	# to a negative x or y position.
+	if player_map_pos.x < 0:
+		section.x -= 1
+	
+	if player_map_pos.y < 0:
+		section.y -= 1
 	
 	if current_section != section:
 		current_section = section
 		print("curr section ", current_section)
+		
+		_update_sections()
 	
-	_update_sections()
+	## TODO: TEMP
+	%CurrSection.text = "Section: %s\nraw: %s" % [current_section, \
+			tile_map.local_to_map(player.position)]
+	##
 
 
 # Updates which sections we want to load/unload
 func _update_sections() -> void:
 	var process_map_update: bool = false
 	var wanted_sections: Array[Vector2i] = []
+	
+	mutex.lock() # Prevent simultaneous access to variables accessed by multiple threads
+	
+	## TODO: TEMP
+	var debug_str: String = ""
+	loaded_sections.sort()
+	for i in loaded_sections.size():
+		if i % 3 == 0:
+			debug_str += "\n"
+		
+		var s: Vector2i = loaded_sections[i]
+		if s == current_section:
+			debug_str += "[%s] " % s
+		else:
+			debug_str += "%s " % s
+	%LoadedSections.text = debug_str
+	##
 	
 	# Determine which sections are wanted based on the current section position
 	for x_offset in range(-1, 2):
@@ -72,9 +103,8 @@ func _update_sections() -> void:
 				process_map_update = true
 	
 	if !process_map_update:
+		mutex.unlock()
 		return
-	
-	mutex.lock() # Prevent simultaneous access to variables accessed by multiple threads
 	
 	# Check which sections to add
 	for wanted_section in wanted_sections:
