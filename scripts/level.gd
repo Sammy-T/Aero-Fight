@@ -16,6 +16,7 @@ var loaded_sections: Array[Vector2i] = []
 var section_offset: Vector2i = Vector2i.ZERO
 var thread: Thread
 var semaphore: Semaphore
+var mutex: Mutex
 
 @onready var tile_map: TileMap = %TileMap
 
@@ -28,16 +29,21 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	player.position = section_end_pos * 0.5 + section_end_pos
 	
+	mutex = Mutex.new()
 	semaphore = Semaphore.new()
 	thread = Thread.new()
-	var _err: Error = thread.start(_threaded_load_section, Thread.PRIORITY_NORMAL)
+	var _err: Error = thread.start(_threaded_load_map, Thread.PRIORITY_NORMAL)
+	
+	mutex.lock() # Prevent simultaneous access to variables accessed by multiple threads
 	
 	# Create the initial 3x3 grid
 	for x in 3:
 		for y in 3:
 			pending_sections.append(Vector2i(x, y))
 	
-	semaphore.post() # Trigger section processing
+	mutex.unlock()
+	
+	semaphore.post() # Trigger map processing
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,12 +53,13 @@ func _process(_delta: float) -> void:
 	if current_section != section:
 		current_section = section
 		print("curr section ", current_section)
-		
-		_update_sections()
+	
+	_update_sections()
 
 
 # Updates which sections we want to load/unload
 func _update_sections() -> void:
+	var process_map_update: bool = false
 	var wanted_sections: Array[Vector2i] = []
 	
 	# Determine which sections are wanted based on the current section position
@@ -60,27 +67,43 @@ func _update_sections() -> void:
 		for y_offset in range(-1, 2):
 			var wanted_section: Vector2i = current_section + Vector2i(x_offset, y_offset)
 			wanted_sections.append(wanted_section)
+			
+			if !loaded_sections.has(wanted_section):
+				process_map_update = true
+	
+	if !process_map_update:
+		return
+	
+	mutex.lock() # Prevent simultaneous access to variables accessed by multiple threads
 	
 	# Check which sections to add
 	for wanted_section in wanted_sections:
 		if !loaded_sections.has(wanted_section):
 			pending_sections.append(wanted_section)
 	
-	## TODO: Clear unneeded sections
-#	# Check which sections to remove
-#	for loaded_section in loaded_sections:
-#		if !wanted_sections.has(loaded_section):
-#			pending_unload_sections.append(loaded_section)
+	# Check which sections to remove
+	for loaded_section in loaded_sections:
+		if !wanted_sections.has(loaded_section):
+			pending_unload_sections.append(loaded_section)
 	
-	semaphore.post() # Trigger section processing
+	mutex.unlock()
+	
+	semaphore.post() # Trigger map processing
 
 
-func _threaded_load_section() -> void:
+func _threaded_load_map() -> void:
 	while true:
 		semaphore.wait()
 		
+		mutex.lock() # Prevent simultaneous access to variables accessed by multiple threads
+		
 		while pending_sections.size() > 0:
 			_load_section()
+		
+		while pending_unload_sections.size() > 0:
+			_remove_section()
+		
+		mutex.unlock()
 
 
 func _load_section() -> void:
@@ -128,3 +151,24 @@ func _append_or_set_cell(x_pos: int, y_pos: int,\
 		dirt_cells.append(cell_coord)
 	else:
 		tile_map.call_deferred("set_cell", 0, cell_coord, 0, TILE_COORD_WATER)
+
+
+func _remove_section() -> void:
+	var section: Vector2i = pending_unload_sections.pop_front()
+	
+	var half_section: int = int(MAP_SECTION_SIZE / 2.0)
+	
+	for x in half_section:
+		for y in half_section:
+			var x_pos: int = x + section.x * MAP_SECTION_SIZE
+			var y_pos: int = y + section.y * MAP_SECTION_SIZE
+			
+			var x2_pos: int = (section.x + 1) * MAP_SECTION_SIZE - x - 1
+			var y2_pos: int = (section.y + 1) * MAP_SECTION_SIZE - y - 1
+			
+			tile_map.call_deferred("erase_cell", 0, Vector2i(x_pos, y_pos))
+			tile_map.call_deferred("erase_cell", 0, Vector2i(x2_pos, y_pos))
+			tile_map.call_deferred("erase_cell", 0, Vector2i(x_pos, y2_pos))
+			tile_map.call_deferred("erase_cell", 0, Vector2i(x2_pos, y2_pos))
+	
+	loaded_sections.erase(section)
