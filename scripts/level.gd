@@ -11,6 +11,7 @@ const TILE_COORD_ISLAND2: Vector2i = Vector2i(10, 5)
 var player: Node2D
 var current_section: Vector2i = Vector2i.ONE
 var pending_sections: Array[Vector2i] = []
+var pending_unload_sections: Array[Vector2i] = []
 var loaded_sections: Array[Vector2i] = []
 var section_offset: Vector2i = Vector2i.ZERO
 var thread: Thread
@@ -31,11 +32,12 @@ func _ready() -> void:
 	thread = Thread.new()
 	var _err: Error = thread.start(_threaded_load_section, Thread.PRIORITY_NORMAL)
 	
+	# Create the initial 3x3 grid
 	for x in 3:
 		for y in 3:
 			pending_sections.append(Vector2i(x, y))
 	
-	semaphore.post()
+	semaphore.post() # Trigger section processing
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,6 +47,32 @@ func _process(_delta: float) -> void:
 	if current_section != section:
 		current_section = section
 		print("curr section ", current_section)
+		
+		_update_sections()
+
+
+# Updates which sections we want to load/unload
+func _update_sections() -> void:
+	var wanted_sections: Array[Vector2i] = []
+	
+	# Determine which sections are wanted based on the current section position
+	for x_offset in range(-1, 2):
+		for y_offset in range(-1, 2):
+			var wanted_section: Vector2i = current_section + Vector2i(x_offset, y_offset)
+			wanted_sections.append(wanted_section)
+	
+	# Check which sections to add
+	for wanted_section in wanted_sections:
+		if !loaded_sections.has(wanted_section):
+			pending_sections.append(wanted_section)
+	
+	## TODO: Clear unneeded sections
+#	# Check which sections to remove
+#	for loaded_section in loaded_sections:
+#		if !wanted_sections.has(loaded_section):
+#			pending_unload_sections.append(loaded_section)
+	
+	semaphore.post() # Trigger section processing
 
 
 func _threaded_load_section() -> void:
