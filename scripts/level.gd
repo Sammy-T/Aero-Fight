@@ -16,7 +16,10 @@ var loaded_sections: Array[Vector2i] = []
 var section_offset: Vector2i = Vector2i.ZERO
 var thread: Thread
 var semaphore: Semaphore
-var mutex: Mutex
+var mutex_tilemap: Mutex
+var mutex_loaded_sections: Mutex
+var mutex_pending_sections: Mutex
+var mutex_pending_unload_sections: Mutex
 
 @onready var tile_map: TileMap = %TileMap
 
@@ -29,19 +32,23 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	player.position = section_end_pos * 0.5 + section_end_pos
 	
-	mutex = Mutex.new()
+	mutex_tilemap = Mutex.new()
+	mutex_loaded_sections = Mutex.new()
+	mutex_pending_sections = Mutex.new()
+	mutex_pending_unload_sections = Mutex.new()
+	
 	semaphore = Semaphore.new()
 	thread = Thread.new()
 	var _err: Error = thread.start(_threaded_load_map, Thread.PRIORITY_NORMAL)
 	
-	mutex.lock() # Prevent simultaneous access to variables accessed by multiple threads
+	mutex_pending_sections.lock() # Prevent simultaneous access to variables accessed by multiple threads
 	
 	# Create the initial 3x3 grid
 	for x in 3:
 		for y in 3:
 			pending_sections.append(Vector2i(x, y))
 	
-	mutex.unlock()
+	mutex_pending_sections.unlock()
 	
 	semaphore.post() # Trigger map processing
 
@@ -76,7 +83,7 @@ func _update_sections() -> void:
 	var process_map_update: bool = false
 	var wanted_sections: Array[Vector2i] = []
 	
-	mutex.lock() # Prevent simultaneous access to variables accessed by multiple threads
+	mutex_loaded_sections.lock() # Prevent simultaneous access to variables accessed by multiple threads
 	
 	## TODO: TEMP
 	var debug_str: String = ""
@@ -103,20 +110,26 @@ func _update_sections() -> void:
 				process_map_update = true
 	
 	if !process_map_update:
-		mutex.unlock()
+		mutex_loaded_sections.unlock()
 		return
+	
+	mutex_pending_sections.lock()
 	
 	# Check which sections to add
 	for wanted_section in wanted_sections:
 		if !loaded_sections.has(wanted_section):
 			pending_sections.append(wanted_section)
 	
+	mutex_pending_sections.unlock()
+	mutex_pending_unload_sections.lock()
+	
 	# Check which sections to remove
 	for loaded_section in loaded_sections:
 		if !wanted_sections.has(loaded_section):
 			pending_unload_sections.append(loaded_section)
 	
-	mutex.unlock()
+	mutex_pending_unload_sections.unlock()
+	mutex_loaded_sections.unlock()
 	
 	semaphore.post() # Trigger map processing
 
@@ -125,15 +138,20 @@ func _threaded_load_map() -> void:
 	while true:
 		semaphore.wait()
 		
-		mutex.lock() # Prevent simultaneous access to variables accessed by multiple threads
+		mutex_tilemap.lock()
+		mutex_pending_sections.lock() # Prevent simultaneous access to variables accessed by multiple threads
 		
 		while pending_sections.size() > 0:
 			_load_section()
 		
+		mutex_pending_sections.unlock()
+		mutex_pending_unload_sections.lock()
+		
 		while pending_unload_sections.size() > 0:
 			_remove_section()
 		
-		mutex.unlock()
+		mutex_pending_unload_sections.unlock()
+		mutex_tilemap.unlock()
 
 
 func _load_section() -> void:
