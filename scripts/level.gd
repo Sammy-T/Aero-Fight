@@ -105,20 +105,16 @@ func _update_sections() -> void:
 
 
 func _load_map() -> void:
-	for _i in pending_sections.size():
+	while pending_sections.size() > 0:
 		_load_section()
 	
-	for _i in pending_unload_sections.size():
+	while pending_unload_sections.size() > 0:
 		_remove_section()
 
 
 func _load_section() -> void:
 	var section: Vector2i = pending_sections.pop_back()
 	print("loading section ", section)
-	
-	if section == null:
-		printerr("no section to load")
-		return
 	
 	var grass_cells: PackedVector2Array = []
 	var dirt_cells: PackedVector2Array = []
@@ -140,8 +136,8 @@ func _load_section() -> void:
 			_append_or_set_cell(x2_pos, y2_pos, grass_cells, dirt_cells)
 	
 	# Set and connect the terrain tiles
-	tile_map.call_deferred("set_cells_terrain_connect", 0, grass_cells, 0, 0)
-	tile_map.call_deferred("set_cells_terrain_connect", 0, dirt_cells, 0, 2)
+	tile_map.set_cells_terrain_connect(0, grass_cells, 0, 0)
+	tile_map.set_cells_terrain_connect(0, dirt_cells, 0, 2)
 	
 	print("loaded section ", section)
 	loaded_sections.append(section)
@@ -160,15 +156,11 @@ func _append_or_set_cell(x_pos: int, y_pos: int,\
 	elif noise_strength <= -0.5:
 		dirt_cells.append(cell_coord)
 	else:
-		tile_map.call_deferred("set_cell", 0, cell_coord, 0, TILE_COORD_WATER)
+		tile_map.set_cell(0, cell_coord, 0, TILE_COORD_WATER)
 
 
 func _remove_section() -> void:
 	var section: Vector2i = pending_unload_sections.pop_back()
-	
-	if section == null:
-		printerr("no section to remove")
-		return
 	
 	var half_section: int = int(MAP_SECTION_SIZE / 2.0)
 	
@@ -180,9 +172,9 @@ func _remove_section() -> void:
 			var x2_pos: int = (section.x + 1) * MAP_SECTION_SIZE - x - 1
 			var y2_pos: int = (section.y + 1) * MAP_SECTION_SIZE - y - 1
 			
-			tile_map.call_deferred("erase_cell", 0, Vector2i(x_pos, y_pos))
-			tile_map.call_deferred("erase_cell", 0, Vector2i(x2_pos, y_pos))
-			tile_map.call_deferred("erase_cell", 0, Vector2i(x_pos, y2_pos))
-			tile_map.call_deferred("erase_cell", 0, Vector2i(x2_pos, y2_pos))
+			tile_map.erase_cell(0, Vector2i(x_pos, y_pos))
+			tile_map.erase_cell(0, Vector2i(x2_pos, y_pos))
+			tile_map.erase_cell(0, Vector2i(x_pos, y2_pos))
+			tile_map.erase_cell(0, Vector2i(x2_pos, y2_pos))
 	
 	loaded_sections.erase(section)
