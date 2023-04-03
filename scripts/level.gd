@@ -14,10 +14,6 @@ var pending_sections: Array[Vector2i] = []
 var pending_unload_sections: Array[Vector2i] = []
 var loaded_sections: Array[Vector2i] = []
 var section_offset: Vector2i = Vector2i.ZERO
-var mutex_tilemap: Mutex
-var mutex_loaded_sections: Mutex
-var mutex_pending_sections: Mutex
-var mutex_pending_unload_sections: Mutex
 
 @onready var tile_map: TileMap = %TileMap
 
@@ -30,21 +26,12 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	player.position = section_end_pos * 0.5 + section_end_pos
 	
-	mutex_tilemap = Mutex.new()
-	mutex_loaded_sections = Mutex.new()
-	mutex_pending_sections = Mutex.new()
-	mutex_pending_unload_sections = Mutex.new()
-	
-	mutex_pending_sections.lock() # Prevent simultaneous access to variables accessed by multiple threads
-	
 	# Create the initial 3x3 grid
 	for x in 3:
 		for y in 3:
 			pending_sections.append(Vector2i(x, y))
 	
-	mutex_pending_sections.unlock()
-	
-	_threaded_load_map()
+	_load_map()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -77,8 +64,6 @@ func _update_sections() -> void:
 	var process_map_update: bool = false
 	var wanted_sections: Array[Vector2i] = []
 	
-	mutex_loaded_sections.lock() # Prevent simultaneous access to variables accessed by multiple threads
-	
 	## TODO: TEMP
 	var debug_str: String = ""
 	loaded_sections.sort()
@@ -104,55 +89,36 @@ func _update_sections() -> void:
 				process_map_update = true
 	
 	if !process_map_update:
-		mutex_loaded_sections.unlock()
 		return
-	
-	mutex_pending_sections.lock()
 	
 	# Check which sections to add
 	for wanted_section in wanted_sections:
 		if !loaded_sections.has(wanted_section):
 			pending_sections.append(wanted_section)
 	
-	mutex_pending_sections.unlock()
-	mutex_pending_unload_sections.lock()
-	
 	# Check which sections to remove
 	for loaded_section in loaded_sections:
 		if !wanted_sections.has(loaded_section):
 			pending_unload_sections.append(loaded_section)
 	
-	mutex_pending_unload_sections.unlock()
-	mutex_loaded_sections.unlock()
-	
-	_threaded_load_map()
+	_load_map()
 
 
-func _threaded_load_map() -> void:
-	mutex_pending_sections.lock()
+func _load_map() -> void:
 	for _i in pending_sections.size():
-		WorkerThreadPool.add_task(_load_section, true, "Load Section")
-	mutex_pending_sections.unlock()
+		_load_section()
 	
-	mutex_pending_unload_sections.lock()
 	for _i in pending_unload_sections.size():
-		WorkerThreadPool.add_task(_remove_section, false, "Remove Section")
-	mutex_pending_unload_sections.unlock()
+		_remove_section()
 
 
 func _load_section() -> void:
-	mutex_pending_sections.lock()
-	
 	var section: Vector2i = pending_sections.pop_back()
 	print("loading section ", section)
-	
-	mutex_pending_sections.unlock()
 	
 	if section == null:
 		printerr("no section to load")
 		return
-	
-	mutex_tilemap.lock()
 	
 	var grass_cells: PackedVector2Array = []
 	var dirt_cells: PackedVector2Array = []
@@ -177,13 +143,8 @@ func _load_section() -> void:
 	tile_map.call_deferred("set_cells_terrain_connect", 0, grass_cells, 0, 0)
 	tile_map.call_deferred("set_cells_terrain_connect", 0, dirt_cells, 0, 2)
 	
-	mutex_tilemap.unlock()
-	mutex_loaded_sections.lock()
-	
 	print("loaded section ", section)
 	loaded_sections.append(section)
-	
-	mutex_loaded_sections.unlock()
 
 
 func _append_or_set_cell(x_pos: int, y_pos: int,\
@@ -203,17 +164,11 @@ func _append_or_set_cell(x_pos: int, y_pos: int,\
 
 
 func _remove_section() -> void:
-	mutex_pending_unload_sections.lock()
-	
 	var section: Vector2i = pending_unload_sections.pop_back()
-	
-	mutex_pending_unload_sections.unlock()
 	
 	if section == null:
 		printerr("no section to remove")
 		return
-	
-	mutex_tilemap.lock()
 	
 	var half_section: int = int(MAP_SECTION_SIZE / 2.0)
 	
@@ -230,9 +185,4 @@ func _remove_section() -> void:
 			tile_map.call_deferred("erase_cell", 0, Vector2i(x_pos, y2_pos))
 			tile_map.call_deferred("erase_cell", 0, Vector2i(x2_pos, y2_pos))
 	
-	mutex_tilemap.unlock()
-	mutex_loaded_sections.lock()
-	
 	loaded_sections.erase(section)
-	
-	mutex_loaded_sections.unlock()
