@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const MAP_SECTION_SIZE: int = 8
+const MAP_SECTION_SIZE: int = 16
 const TILE_COORD_WATER: Vector2i = Vector2i(6, 3)
 const TILE_COORD_ISLAND: Vector2i = Vector2i(4, 5)
 const TILE_COORD_ISLAND2: Vector2i = Vector2i(10, 5)
@@ -14,8 +14,6 @@ var pending_sections: Array[Vector2i] = []
 var pending_unload_sections: Array[Vector2i] = []
 var loaded_sections: Array[Vector2i] = []
 var section_offset: Vector2i = Vector2i.ZERO
-var thread: Thread
-var semaphore: Semaphore
 var mutex_tilemap: Mutex
 var mutex_loaded_sections: Mutex
 var mutex_pending_sections: Mutex
@@ -37,10 +35,6 @@ func _ready() -> void:
 	mutex_pending_sections = Mutex.new()
 	mutex_pending_unload_sections = Mutex.new()
 	
-	semaphore = Semaphore.new()
-	thread = Thread.new()
-	var _err: Error = thread.start(_threaded_load_map, Thread.PRIORITY_NORMAL)
-	
 	mutex_pending_sections.lock() # Prevent simultaneous access to variables accessed by multiple threads
 	
 	# Create the initial 3x3 grid
@@ -50,7 +44,7 @@ func _ready() -> void:
 	
 	mutex_pending_sections.unlock()
 	
-	semaphore.post() # Trigger map processing
+	_threaded_load_map()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -131,32 +125,34 @@ func _update_sections() -> void:
 	mutex_pending_unload_sections.unlock()
 	mutex_loaded_sections.unlock()
 	
-	semaphore.post() # Trigger map processing
+	_threaded_load_map()
 
 
 func _threaded_load_map() -> void:
-	while true:
-		semaphore.wait()
-		
-		mutex_tilemap.lock()
-		mutex_pending_sections.lock() # Prevent simultaneous access to variables accessed by multiple threads
-		
-		while pending_sections.size() > 0:
-			_load_section()
-		
-		mutex_pending_sections.unlock()
-		mutex_pending_unload_sections.lock()
-		
-		while pending_unload_sections.size() > 0:
-			_remove_section()
-		
-		mutex_pending_unload_sections.unlock()
-		mutex_tilemap.unlock()
+	mutex_pending_sections.lock()
+	for _i in pending_sections.size():
+		WorkerThreadPool.add_task(_load_section, true, "Load Section")
+	mutex_pending_sections.unlock()
+	
+	mutex_pending_unload_sections.lock()
+	for _i in pending_unload_sections.size():
+		WorkerThreadPool.add_task(_remove_section, false, "Remove Section")
+	mutex_pending_unload_sections.unlock()
 
 
 func _load_section() -> void:
-	var section: Vector2i = pending_sections.pop_front()
+	mutex_pending_sections.lock()
+	
+	var section: Vector2i = pending_sections.pop_back()
 	print("loading section ", section)
+	
+	mutex_pending_sections.unlock()
+	
+	if section == null:
+		printerr("no section to load")
+		return
+	
+	mutex_tilemap.lock()
 	
 	var grass_cells: PackedVector2Array = []
 	var dirt_cells: PackedVector2Array = []
@@ -181,8 +177,13 @@ func _load_section() -> void:
 	tile_map.call_deferred("set_cells_terrain_connect", 0, grass_cells, 0, 0)
 	tile_map.call_deferred("set_cells_terrain_connect", 0, dirt_cells, 0, 2)
 	
+	mutex_tilemap.unlock()
+	mutex_loaded_sections.lock()
+	
 	print("loaded section ", section)
 	loaded_sections.append(section)
+	
+	mutex_loaded_sections.unlock()
 
 
 func _append_or_set_cell(x_pos: int, y_pos: int,\
@@ -202,7 +203,17 @@ func _append_or_set_cell(x_pos: int, y_pos: int,\
 
 
 func _remove_section() -> void:
-	var section: Vector2i = pending_unload_sections.pop_front()
+	mutex_pending_unload_sections.lock()
+	
+	var section: Vector2i = pending_unload_sections.pop_back()
+	
+	mutex_pending_unload_sections.unlock()
+	
+	if section == null:
+		printerr("no section to remove")
+		return
+	
+	mutex_tilemap.lock()
 	
 	var half_section: int = int(MAP_SECTION_SIZE / 2.0)
 	
@@ -219,4 +230,9 @@ func _remove_section() -> void:
 			tile_map.call_deferred("erase_cell", 0, Vector2i(x_pos, y2_pos))
 			tile_map.call_deferred("erase_cell", 0, Vector2i(x2_pos, y2_pos))
 	
+	mutex_tilemap.unlock()
+	mutex_loaded_sections.lock()
+	
 	loaded_sections.erase(section)
+	
+	mutex_loaded_sections.unlock()
