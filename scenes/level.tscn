@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://vqn12ddepg07"]
+[gd_scene load_steps=10 format=3 uid="uid://vqn12ddepg07"]
 
 [ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="1_qib1k"]
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
@@ -7,6 +7,10 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_j3dcp"]
 frequency = 0.02
+
+[sub_resource type="LabelSettings" id="LabelSettings_byoym"]
+outline_size = 10
+outline_color = Color(0.137255, 0.137255, 0.137255, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xf7lh"]
 resource_name = "Environment"
@@ -481,10 +485,12 @@ offset_bottom = 40.0
 [node name="CurrSection" type="Label" parent="CanvasLayer/DebugUI"]
 unique_name_in_owner = true
 layout_mode = 2
+label_settings = SubResource("LabelSettings_byoym")
 
 [node name="LoadedSections" type="Label" parent="CanvasLayer/DebugUI"]
 unique_name_in_owner = true
 layout_mode = 2
+label_settings = SubResource("LabelSettings_byoym")
 
 [node name="TileMap" type="TileMap" parent="."]
 unique_name_in_owner = true
