@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const MAP_SECTION_SIZE: int = 16
+const MAP_SECTION_SIZE: int = 10
 const TILE_COORD_WATER: Vector2i = Vector2i(6, 3)
 const TILE_COORD_ISLAND: Vector2i = Vector2i(4, 5)
 const TILE_COORD_ISLAND2: Vector2i = Vector2i(10, 5)
