@@ -10,7 +10,11 @@ const SPEED: int = 250
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+#func _process(delta: float) -> void:
+#	pass
+
+
+func _physics_process(delta: float) -> void:
 	var input_dir: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
 	position += input_dir * SPEED * delta
