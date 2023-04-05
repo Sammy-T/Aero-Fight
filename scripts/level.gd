@@ -1,11 +1,9 @@
 extends Node2D
 
 
-const MAP_SECTION_SIZE: int = 10
-const MAP_LOAD_GRID_SIZE: Vector2i = Vector2i(3, 3)
+const MAP_SECTION_SIZE: int = 6
+const MAP_LOAD_GRID_SIZE: Vector2i = Vector2i(9, 9)
 const TILE_COORD_WATER: Vector2i = Vector2i(6, 3)
-const TILE_COORD_ISLAND: Vector2i = Vector2i(4, 5)
-const TILE_COORD_ISLAND2: Vector2i = Vector2i(10, 5)
 
 @export var map_noise: Noise
 
