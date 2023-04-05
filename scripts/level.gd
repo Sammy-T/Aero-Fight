@@ -30,8 +30,6 @@ func _ready() -> void:
 	for x in 3:
 		for y in 3:
 			pending_sections.append(Vector2i(x, y))
-	
-	_load_map()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,6 +50,8 @@ func _process(_delta: float) -> void:
 		print("curr section ", current_section)
 		
 		_update_sections()
+	
+	_load_from_map_queue()
 	
 	## TODO: TEMP
 	%CurrSection.text = "Section: %s\nraw: %s" % [current_section, \
@@ -91,6 +91,8 @@ func _update_sections() -> void:
 	if !process_map_update:
 		return
 	
+	pending_sections.clear()
+	
 	# Check which sections to add
 	for wanted_section in wanted_sections:
 		if !loaded_sections.has(wanted_section):
@@ -100,15 +102,13 @@ func _update_sections() -> void:
 	for loaded_section in loaded_sections:
 		if !wanted_sections.has(loaded_section):
 			pending_unload_sections.append(loaded_section)
-	
-	_load_map()
 
 
-func _load_map() -> void:
-	while pending_sections.size() > 0:
+func _load_from_map_queue() -> void:
+	if pending_sections.size() > 0:
 		_load_section()
 	
-	while pending_unload_sections.size() > 0:
+	if pending_unload_sections.size() > 0:
 		_remove_section()
 
 
@@ -136,8 +136,8 @@ func _load_section() -> void:
 			_append_or_set_cell(x2_pos, y2_pos, grass_cells, dirt_cells)
 	
 	# Set and connect the terrain tiles
-	tile_map.set_cells_terrain_connect(0, grass_cells, 0, 0)
-	tile_map.set_cells_terrain_connect(0, dirt_cells, 0, 2)
+	tile_map.call_deferred("set_cells_terrain_connect", 0, grass_cells, 0, 0)
+	tile_map.call_deferred("set_cells_terrain_connect", 0, dirt_cells, 0, 2)
 	
 	print("loaded section ", section)
 	loaded_sections.append(section)
@@ -156,7 +156,7 @@ func _append_or_set_cell(x_pos: int, y_pos: int,\
 	elif noise_strength <= -0.5:
 		dirt_cells.append(cell_coord)
 	else:
-		tile_map.set_cell(0, cell_coord, 0, TILE_COORD_WATER)
+		tile_map.call_deferred("set_cell", 0, cell_coord, 0, TILE_COORD_WATER)
 
 
 func _remove_section() -> void:
@@ -172,9 +172,9 @@ func _remove_section() -> void:
 			var x2_pos: int = (section.x + 1) * MAP_SECTION_SIZE - x - 1
 			var y2_pos: int = (section.y + 1) * MAP_SECTION_SIZE - y - 1
 			
-			tile_map.erase_cell(0, Vector2i(x_pos, y_pos))
-			tile_map.erase_cell(0, Vector2i(x2_pos, y_pos))
-			tile_map.erase_cell(0, Vector2i(x_pos, y2_pos))
-			tile_map.erase_cell(0, Vector2i(x2_pos, y2_pos))
+			tile_map.call_deferred("erase_cell", 0, Vector2i(x_pos, y_pos))
+			tile_map.call_deferred("erase_cell", 0, Vector2i(x2_pos, y_pos))
+			tile_map.call_deferred("erase_cell", 0, Vector2i(x_pos, y2_pos))
+			tile_map.call_deferred("erase_cell", 0, Vector2i(x2_pos, y2_pos))
 	
 	loaded_sections.erase(section)
