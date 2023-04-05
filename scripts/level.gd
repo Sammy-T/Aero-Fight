@@ -2,6 +2,7 @@ extends Node2D
 
 
 const MAP_SECTION_SIZE: int = 10
+const MAP_LOAD_GRID_SIZE: Vector2i = Vector2i(3, 3)
 const TILE_COORD_WATER: Vector2i = Vector2i(6, 3)
 const TILE_COORD_ISLAND: Vector2i = Vector2i(4, 5)
 const TILE_COORD_ISLAND2: Vector2i = Vector2i(10, 5)
@@ -20,15 +21,16 @@ var section_offset: Vector2i = Vector2i.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var section_end_pos: Vector2 = tile_map.map_to_local(Vector2i.ONE * MAP_SECTION_SIZE)
+	var start_pos_map: Vector2i = MAP_SECTION_SIZE * MAP_LOAD_GRID_SIZE / 2
+	var start_pos: Vector2 = tile_map.map_to_local(start_pos_map)
 	
-	# Place the player at the center of the map's load area
+	# Place the player at the center of the map's load grid
 	player = get_tree().get_first_node_in_group("player")
-	player.position = section_end_pos * 0.5 + section_end_pos
+	player.position = start_pos
 	
-	# Create the initial 3x3 grid
-	for x in 3:
-		for y in 3:
+	# Create the initial grid
+	for x in MAP_LOAD_GRID_SIZE.x:
+		for y in MAP_LOAD_GRID_SIZE.y:
 			pending_sections.append(Vector2i(x, y))
 
 
@@ -68,7 +70,7 @@ func _update_sections() -> void:
 	var debug_str: String = ""
 	loaded_sections.sort()
 	for i in loaded_sections.size():
-		if i % 3 == 0:
+		if i % MAP_LOAD_GRID_SIZE.x == 0:
 			debug_str += "\n"
 		
 		var s: Vector2i = loaded_sections[i]
@@ -79,9 +81,11 @@ func _update_sections() -> void:
 	%LoadedSections.text = debug_str
 	##
 	
+	var offset_range: Vector2i = MAP_LOAD_GRID_SIZE / 2
+	
 	# Determine which sections are wanted based on the current section position
-	for x_offset in range(-1, 2):
-		for y_offset in range(-1, 2):
+	for x_offset in range(-offset_range.x, offset_range.x + 1):
+		for y_offset in range(-offset_range.y, offset_range.y + 1):
 			var wanted_section: Vector2i = current_section + Vector2i(x_offset, y_offset)
 			wanted_sections.append(wanted_section)
 			
