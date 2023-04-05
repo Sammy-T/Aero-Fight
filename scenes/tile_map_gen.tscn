@@ -479,6 +479,7 @@ map_noise = SubResource("FastNoiseLite_velus")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="DebugUI" type="VBoxContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
 offset_right = 40.0
 offset_bottom = 50.0
 
@@ -489,5 +490,6 @@ label_settings = SubResource("LabelSettings_byoym")
 
 [node name="LoadedSections" type="Label" parent="CanvasLayer/DebugUI"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 label_settings = SubResource("LabelSettings_byoym")

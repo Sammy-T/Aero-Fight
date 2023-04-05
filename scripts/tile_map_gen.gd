@@ -7,7 +7,7 @@ const TILE_COORD_WATER: Vector2i = Vector2i(6, 3)
 
 @export var map_noise: Noise
 
-var player: Node2D
+var tracking_target: Node2D
 var current_section: Vector2i = Vector2i.ONE
 var pending_sections: Array[Vector2i] = []
 var pending_unload_sections: Array[Vector2i] = []
@@ -17,13 +17,6 @@ var section_offset: Vector2i = Vector2i.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var start_pos_map: Vector2i = MAP_SECTION_SIZE * MAP_LOAD_GRID_SIZE / 2
-	var start_pos: Vector2 = map_to_local(start_pos_map)
-	
-	# Place the player at the center of the map's load grid
-	player = get_tree().get_first_node_in_group("player")
-	player.position = start_pos
-	
 	# Create the initial grid
 	for x in MAP_LOAD_GRID_SIZE.x:
 		for y in MAP_LOAD_GRID_SIZE.y:
@@ -32,15 +25,16 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	var player_map_pos: Vector2i = local_to_map(player.position)
-	var section: Vector2i = player_map_pos / MAP_SECTION_SIZE
+	var target_map_pos: Vector2i = local_to_map(tracking_target.position)\
+			if tracking_target else Vector2i.ZERO
+	var section: Vector2i = target_map_pos / MAP_SECTION_SIZE
 	
-	# Offset the loading deadzone and shifted loading area when the player transitions
+	# Offset the loading deadzone and shifted loading area when the tracking_target transitions
 	# to a negative x or y position.
-	if player_map_pos.x < 0:
+	if target_map_pos.x < 0:
 		section.x -= 1
 	
-	if player_map_pos.y < 0:
+	if target_map_pos.y < 0:
 		section.y -= 1
 	
 	if current_section != section:
@@ -50,11 +44,12 @@ func _process(_delta: float) -> void:
 		_update_sections()
 	
 	_load_from_map_queue()
-	
-	## TODO: TEMP
-	%CurrSection.text = "Section: %s\nraw: %s" % [current_section, \
-			local_to_map(player.position)]
-	##
+	_update_debug_curr_section()
+
+
+func get_starting_pos() -> Vector2:
+	var start_pos_map: Vector2i = MAP_SECTION_SIZE * MAP_LOAD_GRID_SIZE / 2
+	return map_to_local(start_pos_map)
 
 
 # Updates which sections we want to load/unload
@@ -62,20 +57,7 @@ func _update_sections() -> void:
 	var process_map_update: bool = false
 	var wanted_sections: Array[Vector2i] = []
 	
-	## TODO: TEMP
-	var debug_str: String = ""
-	loaded_sections.sort()
-	for i in loaded_sections.size():
-		if i % MAP_LOAD_GRID_SIZE.x == 0:
-			debug_str += "\n"
-		
-		var s: Vector2i = loaded_sections[i]
-		if s == current_section:
-			debug_str += "[%s] " % s
-		else:
-			debug_str += "%s " % s
-	%LoadedSections.text = debug_str
-	##
+	_update_debug_loaded_sections()
 	
 	var offset_range: Vector2i = MAP_LOAD_GRID_SIZE / 2
 	
@@ -178,3 +160,31 @@ func _remove_section() -> void:
 			call_deferred("erase_cell", 0, Vector2i(x2_pos, y2_pos))
 	
 	loaded_sections.erase(section)
+
+
+func _update_debug_curr_section() -> void:
+	if !%DebugUI.visible || !%CurrSection.visible:
+		return
+	
+	%CurrSection.text = "Section: %s\nraw: %s" % [current_section, \
+			local_to_map(tracking_target.position) if tracking_target else Vector2i.ZERO]
+
+
+func _update_debug_loaded_sections() -> void:
+	if !%DebugUI.visible || !%LoadedSections.visible:
+		return
+	
+	var debug_str: String = ""
+	loaded_sections.sort()
+	
+	for i in loaded_sections.size():
+		if i % MAP_LOAD_GRID_SIZE.x == 0:
+			debug_str += "\n"
+		
+		var s: Vector2i = loaded_sections[i]
+		if s == current_section:
+			debug_str += "[%s] " % s
+		else:
+			debug_str += "%s " % s
+	
+	%LoadedSections.text = debug_str
