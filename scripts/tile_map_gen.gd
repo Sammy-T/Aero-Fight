@@ -12,7 +12,6 @@ var current_section: Vector2i = Vector2i.ONE
 var pending_sections: Array[Vector2i] = []
 var pending_unload_sections: Array[Vector2i] = []
 var loaded_sections: Array[Vector2i] = []
-var section_offset: Vector2i = Vector2i.ZERO
 
 
 # Called when the node enters the scene tree for the first time.
@@ -21,6 +20,8 @@ func _ready() -> void:
 	for x in MAP_LOAD_GRID_SIZE.x:
 		for y in MAP_LOAD_GRID_SIZE.y:
 			pending_sections.append(Vector2i(x, y))
+
+## TODO: Load another layer
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -41,19 +42,20 @@ func _process(_delta: float) -> void:
 		current_section = section
 		print("curr section ", current_section)
 		
-		_update_sections()
+		_update_queues()
 	
 	_load_from_map_queue()
 	_update_debug_curr_section()
 
 
+# A helper to get the center position of the initial grid
 func get_starting_pos() -> Vector2:
 	var start_pos_map: Vector2i = MAP_SECTION_SIZE * MAP_LOAD_GRID_SIZE / 2
 	return map_to_local(start_pos_map)
 
 
 # Updates which sections we want to load/unload
-func _update_sections() -> void:
+func _update_queues() -> void:
 	var process_map_update: bool = false
 	var wanted_sections: Array[Vector2i] = []
 	
