@@ -3,6 +3,8 @@ extends Node2D
 
 const SPEED: int = 250
 
+var desired_rot: float = 0
+
 
 # Called when the node enters the scene tree for the first time.
 #func _ready() -> void:
@@ -15,6 +17,10 @@ const SPEED: int = 250
 
 
 func _physics_process(delta: float) -> void:
-	var input_dir: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var rotation_dir: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")\
+			.rotated(PI / 2)
 	
-	position += input_dir * SPEED * delta
+	if rotation_dir.length() > 0:
+		rotation = lerp_angle(rotation, rotation_dir.angle(), delta * 5)
+	
+	position += -transform.y * SPEED * delta

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://vqn12ddepg07"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
-[ext_resource type="PackedScene" uid="uid://we2rho41b1dg" path="res://scenes/tile_map_gen.tscn" id="2_lk7gm"]
+[ext_resource type="PackedScene" path="res://scenes/tile_map_gen.tscn" id="2_lk7gm"]
 [ext_resource type="PackedScene" uid="uid://cxaevyowm52pm" path="res://scenes/player.tscn" id="4_s6q5f"]
 
 [node name="Level" type="Node2D"]
