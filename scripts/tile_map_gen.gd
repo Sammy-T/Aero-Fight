@@ -48,8 +48,6 @@ func _process(_delta: float) -> void:
 	
 	if current_section != section:
 		current_section = section
-		print("curr section ", current_section)
-		
 		_update_queues()
 	
 	_load_from_map_queue()
@@ -106,7 +104,6 @@ func _load_from_map_queue() -> void:
 
 func _load_section() -> void:
 	var section: Vector2i = pending_sections.pop_back()
-	print("loading section ", section)
 	
 	var grass_cells: PackedVector2Array = []
 	var dirt_cells: PackedVector2Array = []
@@ -131,7 +128,6 @@ func _load_section() -> void:
 	call_deferred("set_cells_terrain_connect", Layer.ENV, grass_cells, 0, Terrain.GRASS)
 	call_deferred("set_cells_terrain_connect", Layer.ENV, dirt_cells, 0, Terrain.DIRT)
 	
-	print("loaded section ", section)
 	loaded_sections.append(section)
 
 

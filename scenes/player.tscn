@@ -1,12 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxaevyowm52pm"]
+[gd_scene load_steps=4 format=3 uid="uid://cxaevyowm52pm"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_53uw7"]
 [ext_resource type="Texture2D" uid="uid://bxoo8hq5bbyvq" path="res://assets/kenney_pixel-shmup/Ships/ship_0000.png" id="2_ecdra"]
 
-[node name="Player" type="Node2D" groups=["player"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_dtlpc"]
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_53uw7")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_ecdra")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dtlpc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
