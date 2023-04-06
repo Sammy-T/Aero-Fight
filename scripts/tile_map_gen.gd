@@ -135,7 +135,7 @@ func _append_or_set_cell(x_pos: int, y_pos: int,\
 	
 	var cell_coord: Vector2i = Vector2i(x_pos, y_pos)
 	
-	if noise_strength >= 0.2:
+	if noise_strength >= 0.3:
 		grass_cells.append(cell_coord)
 	elif noise_strength <= -0.5:
 		dirt_cells.append(cell_coord)
