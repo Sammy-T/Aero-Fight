@@ -1,7 +1,34 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxaevyowm52pm"]
+[gd_scene load_steps=9 format=3 uid="uid://cxaevyowm52pm"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_53uw7"]
 [ext_resource type="Texture2D" uid="uid://bxoo8hq5bbyvq" path="res://assets/kenney_pixel-shmup/Ships/ship_0000.png" id="2_ecdra"]
+
+[sub_resource type="Gradient" id="Gradient_ck2sm"]
+colors = PackedColorArray(1, 1, 1, 0.411765, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y7qbu"]
+gradient = SubResource("Gradient_ck2sm")
+width = 16
+
+[sub_resource type="Curve" id="Curve_y1dbg"]
+max_value = 3.0
+_data = [Vector2(0, 2.03636), 0.0, 0.0, 0, 0, Vector2(1, 0.681818), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7gvq4"]
+width = 32
+curve = SubResource("Curve_y1dbg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tqwmh"]
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 94.74
+initial_velocity_max = 94.74
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_7gvq4")
+color_ramp = SubResource("GradientTexture1D_y7qbu")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtlpc"]
 
@@ -18,6 +45,24 @@ self_modulate = Color(0, 0, 0, 0.380392)
 position = Vector2(-16, 18)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_ecdra")
+
+[node name="AirStream" type="GPUParticles2D" parent="."]
+position = Vector2(-13, 3)
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_tqwmh")
+lifetime = 0.2
+trail_enabled = true
+trail_sections = 3
+trail_section_subdivisions = 2
+
+[node name="AirStream2" type="GPUParticles2D" parent="."]
+position = Vector2(13, 3)
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_tqwmh")
+lifetime = 0.2
+trail_enabled = true
+trail_sections = 3
+trail_section_subdivisions = 2
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_ecdra")
