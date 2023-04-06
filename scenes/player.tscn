@@ -6,6 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtlpc"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+motion_mode = 1
 script = ExtResource("1_53uw7")
 
 [node name="ShadowHolder" type="Node2D" parent="."]
