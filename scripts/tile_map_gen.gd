@@ -3,7 +3,16 @@ extends TileMap
 
 const MAP_SECTION_SIZE: int = 6
 const MAP_LOAD_GRID_SIZE: Vector2i = Vector2i(9, 9)
+
+enum Layer {ENV, SURFACE}
+enum Terrain {GRASS, DIRT = 2}
+
 const TILE_COORD_WATER: Vector2i = Vector2i(6, 3)
+const TILE_COORD_GRASS_BLADE: Vector2i = Vector2i(0, 3)
+const TILE_COORD_TREE: Vector2i = Vector2i(0, 4)
+const TILE_COORD_TREES: Vector2i = Vector2i(0, 5)
+const TILE_COORD_BUILDING: Vector2i = Vector2i(0, 6)
+const TILE_COORD_BUILDING_2: Vector2i = Vector2i(0, 7)
 
 @export var map_noise: Noise
 
@@ -12,6 +21,7 @@ var current_section: Vector2i = Vector2i.ONE
 var pending_sections: Array[Vector2i] = []
 var pending_unload_sections: Array[Vector2i] = []
 var loaded_sections: Array[Vector2i] = []
+var surface_cells: Dictionary = {}
 
 
 # Called when the node enters the scene tree for the first time.
@@ -20,8 +30,6 @@ func _ready() -> void:
 	for x in MAP_LOAD_GRID_SIZE.x:
 		for y in MAP_LOAD_GRID_SIZE.y:
 			pending_sections.append(Vector2i(x, y))
-
-## TODO: Load another layer
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -114,20 +122,20 @@ func _load_section() -> void:
 			var x2_pos: int = (section.x + 1) * MAP_SECTION_SIZE - x - 1
 			var y2_pos: int = (section.y + 1) * MAP_SECTION_SIZE - y - 1
 				
-			_append_or_set_cell(x_pos, y_pos, grass_cells, dirt_cells)
-			_append_or_set_cell(x2_pos, y_pos, grass_cells, dirt_cells)
-			_append_or_set_cell(x_pos, y2_pos, grass_cells, dirt_cells)
-			_append_or_set_cell(x2_pos, y2_pos, grass_cells, dirt_cells)
+			_append_or_set_cell(section, x_pos, y_pos, grass_cells, dirt_cells)
+			_append_or_set_cell(section, x2_pos, y_pos, grass_cells, dirt_cells)
+			_append_or_set_cell(section, x_pos, y2_pos, grass_cells, dirt_cells)
+			_append_or_set_cell(section, x2_pos, y2_pos, grass_cells, dirt_cells)
 	
 	# Set and connect the terrain tiles
-	call_deferred("set_cells_terrain_connect", 0, grass_cells, 0, 0)
-	call_deferred("set_cells_terrain_connect", 0, dirt_cells, 0, 2)
+	call_deferred("set_cells_terrain_connect", Layer.ENV, grass_cells, 0, Terrain.GRASS)
+	call_deferred("set_cells_terrain_connect", Layer.ENV, dirt_cells, 0, Terrain.DIRT)
 	
 	print("loaded section ", section)
 	loaded_sections.append(section)
 
 
-func _append_or_set_cell(x_pos: int, y_pos: int,\
+func _append_or_set_cell(section: Vector2i, x_pos: int, y_pos: int,\
 			grass_cells: PackedVector2Array, dirt_cells: PackedVector2Array) -> void:
 	# Create 2x2 clusters of the same noise position sample based on the cell position
 	var noise_pos: Vector2 = (Vector2(x_pos, y_pos) / 2).floor()
@@ -135,12 +143,46 @@ func _append_or_set_cell(x_pos: int, y_pos: int,\
 	
 	var cell_coord: Vector2i = Vector2i(x_pos, y_pos)
 	
+	_set_surface_cell(section, cell_coord)
+	
 	if noise_strength >= 0.3:
 		grass_cells.append(cell_coord)
 	elif noise_strength <= -0.5:
 		dirt_cells.append(cell_coord)
 	else:
-		call_deferred("set_cell", 0, cell_coord, 0, TILE_COORD_WATER)
+		call_deferred("set_cell", Layer.ENV, cell_coord, 0, TILE_COORD_WATER)
+
+
+# Places cells on the map's 'surface' layer
+func _set_surface_cell(section: Vector2i, cell_coord: Vector2i) -> void:
+	# Scale the noise sample position so it matches up with the rest of the map
+	var noise_pos: Vector2 = cell_coord / 2.0
+	var noise_strength: float = map_noise.get_noise_2d(noise_pos.x, noise_pos.y)
+	
+	var surface_tile: Vector2i
+	
+	# Round the noise strength and determine which tile we want to place
+	match snappedf(noise_strength, 0.001):
+		0.46:
+			surface_tile = TILE_COORD_GRASS_BLADE
+		0.41, 0.42, 0.43:
+			surface_tile = TILE_COORD_TREE
+		0.44, 0.45, 0.55:
+			surface_tile = TILE_COORD_TREES
+		0.6:
+			surface_tile = TILE_COORD_BUILDING
+		0.7:
+			surface_tile = TILE_COORD_BUILDING_2
+		_:
+			return
+	
+	call_deferred("set_cell", Layer.SURFACE, cell_coord, 0, surface_tile)
+	
+	# Store the surface cell's coordinates so it can be more easily deleted later
+	if !surface_cells.has(section):
+		surface_cells[section] = PackedVector2Array([cell_coord])
+	else:
+		surface_cells[section].append(cell_coord)
 
 
 func _remove_section() -> void:
@@ -156,10 +198,16 @@ func _remove_section() -> void:
 			var x2_pos: int = (section.x + 1) * MAP_SECTION_SIZE - x - 1
 			var y2_pos: int = (section.y + 1) * MAP_SECTION_SIZE - y - 1
 			
-			call_deferred("erase_cell", 0, Vector2i(x_pos, y_pos))
-			call_deferred("erase_cell", 0, Vector2i(x2_pos, y_pos))
-			call_deferred("erase_cell", 0, Vector2i(x_pos, y2_pos))
-			call_deferred("erase_cell", 0, Vector2i(x2_pos, y2_pos))
+			call_deferred("erase_cell", Layer.ENV, Vector2i(x_pos, y_pos))
+			call_deferred("erase_cell", Layer.ENV, Vector2i(x2_pos, y_pos))
+			call_deferred("erase_cell", Layer.ENV, Vector2i(x_pos, y2_pos))
+			call_deferred("erase_cell", Layer.ENV, Vector2i(x2_pos, y2_pos))
+	
+	if surface_cells.has(section):
+		for cell in surface_cells[section]:
+			call_deferred("erase_cell", Layer.SURFACE, cell)
+		
+		surface_cells.erase(section)
 	
 	loaded_sections.erase(section)
 

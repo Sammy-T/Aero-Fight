@@ -465,6 +465,7 @@ sources/0 = SubResource("TileSetAtlasSource_xf7lh")
 sources/1 = SubResource("TileSetAtlasSource_f7w3d")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_velus"]
+frequency = 0.03
 
 [sub_resource type="LabelSettings" id="LabelSettings_byoym"]
 outline_size = 10
@@ -473,6 +474,14 @@ outline_color = Color(0.137255, 0.137255, 0.137255, 1)
 [node name="TileMapGen" type="TileMap"]
 tile_set = SubResource("TileSet_3l6d4")
 format = 2
+layer_0/name = "Environment"
+layer_1/name = "Surface"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
 script = ExtResource("3_bw0ur")
 map_noise = SubResource("FastNoiseLite_velus")
 
