@@ -34,8 +34,10 @@ func _physics_process(delta: float) -> void:
 		speed = move_toward(speed, MAX_SPEED / 2, DECELERATION)
 	
 	velocity = -transform.y * speed # Apply forward movement
-	
 	move_and_slide()
+	
+	%ShadowHolder.rotation = -rotation
+	%Shadow.rotation = rotation
 
 
 # A helper to determine if two rotations (in rads) are approximately equal

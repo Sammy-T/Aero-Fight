@@ -8,6 +8,16 @@
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_53uw7")
 
+[node name="ShadowHolder" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Shadow" type="Sprite2D" parent="ShadowHolder"]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0.380392)
+position = Vector2(-16, 18)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_ecdra")
+
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_ecdra")
 
@@ -15,3 +25,4 @@ texture = ExtResource("2_ecdra")
 shape = SubResource("CircleShape2D_dtlpc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.25, 1.25)
