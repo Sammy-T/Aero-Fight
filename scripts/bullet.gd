@@ -2,6 +2,7 @@ extends Area2D
 
 
 const SPEED: float = 200
+const DAMAGE: int = -1
 
 var velocity: Vector2
 
@@ -24,3 +25,8 @@ func _process(delta: float) -> void:
 
 func _on_life_timer_timeout() -> void:
 	queue_free()
+
+
+func _on_body_entered(body: Node2D) -> void:
+	body.update_health(DAMAGE)
+	%AnimationPlayer.play("impact")

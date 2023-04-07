@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 const Bullet: PackedScene = preload("res://scenes/bullet.tscn")
 
-const MAX_SPEED: float = 200
+const MAX_SPEED: float = 175
 const MAX_ROT_SPEED: float = 5
 const ACCELERATION: float = 5
 const DECELERATION: float = 1
