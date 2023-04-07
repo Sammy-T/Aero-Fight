@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxaevyowm52pm"]
+[gd_scene load_steps=13 format=3 uid="uid://cxaevyowm52pm"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_53uw7"]
 [ext_resource type="Texture2D" uid="uid://dk0is1og1bykj" path="res://assets/kenney_pixel-shmup/Ships/ship_0009.png" id="2_jcm6v"]
+[ext_resource type="Animation" uid="uid://bkhkprtrj1e3g" path="res://res/anim/impact.res" id="3_d7bg4"]
+[ext_resource type="Animation" uid="uid://b3s2jhap22vrt" path="res://res/anim/explode.res" id="4_yu2rl"]
 
 [sub_resource type="Gradient" id="Gradient_ck2sm"]
 colors = PackedColorArray(1, 1, 1, 0.411765, 1, 1, 1, 0)
@@ -31,6 +33,100 @@ scale_curve = SubResource("CurveTexture_7gvq4")
 color_ramp = SubResource("GradientTexture1D_y7qbu")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtlpc"]
+
+[sub_resource type="Animation" id="Animation_rwvb4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_jcm6v")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ShadowHolder:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AirStream:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AirStream2:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite:self_modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CollisionShape2D:disabled")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_onj4a"]
+_data = {
+"RESET": SubResource("Animation_rwvb4"),
+"explode": ExtResource("4_yu2rl"),
+"impact": ExtResource("3_d7bg4")
+}
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 8
@@ -77,6 +173,7 @@ unique_name_in_owner = true
 position = Vector2(7, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 shape = SubResource("CircleShape2D_dtlpc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -85,5 +182,11 @@ zoom = Vector2(1.5, 1.5)
 [node name="FireTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_onj4a")
+}
 
 [connection signal="timeout" from="FireTimer" to="." method="_fire_bullets"]

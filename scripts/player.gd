@@ -1,14 +1,16 @@
 extends CharacterBody2D
 
 
-const Bullet: PackedScene = preload("res://scenes/bullet.tscn")
+const Bullet: PackedScene = preload("res://scenes/projectiles/bullet.tscn")
 
 const MAX_SPEED: float = 175
 const MAX_ROT_SPEED: float = 5
 const ACCELERATION: float = 5
 const DECELERATION: float = 1
+const MAX_HEALTH: int = 6
 
 var speed: float = MAX_SPEED / 2
+var health: int = MAX_HEALTH
 var tile_map: TileMap
 
 @onready var shadow_holder: Node2D = %ShadowHolder
@@ -66,6 +68,24 @@ func _fire_bullets() -> void:
 	
 	tile_map.add_child(bullet)
 	tile_map.add_child(bullet_2)
+
+
+func update_health(delta: int) -> void:
+	if health == 0:
+		return # Ignore damage received while already exploding
+	
+	if delta < 0:
+		%AnimationPlayer.play("impact") # Play the impact animation if the enemy is taking damage
+	
+	health = clamp(health + delta, 0, MAX_HEALTH)
+	print("player hit! hp: %s" % health)
+	
+	if health == 0:
+		%AnimationPlayer.play("explode")
+
+
+func die() -> void:
+	%CollisionShape2D.disabled = true
 
 
 # A helper to determine if two rotations (in rads) are approximately equal

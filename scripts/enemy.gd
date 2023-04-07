@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const Bullet: PackedScene = preload("res://scenes/bullet.tscn")
+const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn")
 
 const MAX_SPEED: float = 100
 const MAX_ROT_SPEED: float = 1
@@ -33,15 +33,22 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	var desired_dir: Vector2 = (player.position - position).rotated(PI / 2)
+	# Follow the player
+	var desired_dir: Vector2 = (player.position - position).rotated(PI / 2)\
+			if player.health > 0 else Vector2.ZERO
 	
 	if desired_dir.length() > 0:
 		rotation = lerp_angle(rotation, desired_dir.angle(), MAX_ROT_SPEED * delta)
 		
-		# If there's input while the player is already rotated
-		# in the desired direction, apply acceleration.
+		# If the enemy is already rotated in the desired direction, apply acceleration.
 		if _is_rot_equal_approx(rotation, desired_dir.angle()):
 			speed = move_toward(speed, MAX_SPEED, ACCELERATION)
+			
+			# Player is in sight begin attacking
+			if fire_timer.is_stopped():
+				fire_timer.start()
+		elif !fire_timer.is_stopped():
+			fire_timer.stop()
 	else:
 		speed = move_toward(speed, MAX_SPEED / 2, DECELERATION)
 	
@@ -53,6 +60,9 @@ func _physics_process(delta: float) -> void:
 
 
 func _fire_bullets() -> void:
+	if player.health == 0:
+		fire_timer.stop()
+	
 	var bullet: Area2D = Bullet.instantiate()
 	bullet.init_bullet(gun.global_position, rotation, speed)
 	
