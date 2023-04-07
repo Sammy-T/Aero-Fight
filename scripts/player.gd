@@ -82,10 +82,7 @@ func update_health(delta: int) -> void:
 	
 	if health == 0:
 		%AnimationPlayer.play("explode")
-
-
-func die() -> void:
-	%CollisionShape2D.disabled = true
+		speed = 0
 
 
 # A helper to determine if two rotations (in rads) are approximately equal
