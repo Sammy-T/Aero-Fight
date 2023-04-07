@@ -1,11 +1,33 @@
-[gd_scene load_steps=4 format=3 uid="uid://vqn12ddepg07"]
+[gd_scene load_steps=5 format=3 uid="uid://vqn12ddepg07"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
 [ext_resource type="PackedScene" uid="uid://we2rho41b1dg" path="res://scenes/tile_map_gen.tscn" id="2_lk7gm"]
 [ext_resource type="PackedScene" uid="uid://cxaevyowm52pm" path="res://scenes/player.tscn" id="4_s6q5f"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_qpr47"]
+outline_size = 8
+outline_color = Color(0.403922, 0.203922, 0.113725, 1)
+
 [node name="Level" type="Node2D"]
 script = ExtResource("1_rkt2c")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Speed" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -43.0
+offset_right = 50.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Player Speed"
+label_settings = SubResource("LabelSettings_qpr47")
 
 [node name="TileMapGen" parent="." instance=ExtResource("2_lk7gm")]
 unique_name_in_owner = true
