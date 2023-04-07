@@ -7,10 +7,10 @@ const MAX_SPEED: float = 175
 const MAX_ROT_SPEED: float = 5
 const ACCELERATION: float = 5
 const DECELERATION: float = 1
-const MAX_HEALTH: int = 6
+const MAX_HEALTH: float = 6
 
 var speed: float = MAX_SPEED / 2
-var health: int = MAX_HEALTH
+var health: float = MAX_HEALTH
 var tile_map: TileMap
 
 @onready var shadow_holder: Node2D = %ShadowHolder
@@ -70,7 +70,7 @@ func _fire_bullets() -> void:
 	tile_map.add_child(bullet_2)
 
 
-func update_health(delta: int) -> void:
+func update_health(delta: float) -> void:
 	if health == 0:
 		return # Ignore damage received while already exploding
 	
@@ -82,6 +82,10 @@ func update_health(delta: int) -> void:
 	
 	if health == 0:
 		%AnimationPlayer.play("explode")
+		
+		# Delay setting the speed to zero so it isn't altered again 
+		# before the animation stops physics process
+		await get_tree().create_timer(0.25).timeout
 		speed = 0
 
 

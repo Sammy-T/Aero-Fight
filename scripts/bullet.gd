@@ -2,7 +2,7 @@ extends Area2D
 
 
 const SPEED: float = 200
-const DAMAGE: int = -1
+const DAMAGE: float = -1
 
 var velocity: Vector2
 

@@ -5,6 +5,7 @@ var player: Node2D
 
 @onready var tile_map: TileMap = %TileMapGen
 @onready var speed_display: Label = %Speed
+@onready var health_display: Label = %Health
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,3 +20,4 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	speed_display.text = "Speed: %s" % player.speed
+	health_display.text = "Health: %3d%%" % (player.health / player.MAX_HEALTH * 100)

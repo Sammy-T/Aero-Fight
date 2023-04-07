@@ -7,10 +7,10 @@ const MAX_SPEED: float = 100
 const MAX_ROT_SPEED: float = 1
 const ACCELERATION: float = 2
 const DECELERATION: float = 1
-const MAX_HEALTH: int = 4
+const MAX_HEALTH: float = 4
 
 var speed: float = MAX_SPEED / 2
-var health: int = MAX_HEALTH
+var health: float = MAX_HEALTH
 var player: CharacterBody2D
 var tile_map: TileMap
 
@@ -74,7 +74,7 @@ func _fire_bullets() -> void:
 	tile_map.add_child(bullet_2)
 
 
-func update_health(delta: int) -> void:
+func update_health(delta: float) -> void:
 	if health == 0:
 		return # Ignore damage received while already exploding
 	
