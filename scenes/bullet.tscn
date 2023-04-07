@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnuumorhe6p5m"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_2huj5"]
+[ext_resource type="Texture2D" uid="uid://dbe6sch6fl0tc" path="res://assets/kenney_pixel-shmup/Tiles/tile_0000.png" id="1_xvvho"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ty1y3"]
+size = Vector2(14, 14)
+
+[node name="Bullet" type="Area2D"]
+input_pickable = false
+script = ExtResource("1_2huj5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ty1y3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_xvvho")
+
+[node name="LifeTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="LifeTimer" to="." method="_on_life_timer_timeout"]

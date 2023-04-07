@@ -471,7 +471,7 @@ frequency = 0.03
 outline_size = 10
 outline_color = Color(0.137255, 0.137255, 0.137255, 1)
 
-[node name="TileMapGen" type="TileMap"]
+[node name="TileMapGen" type="TileMap" groups=["map"]]
 tile_set = SubResource("TileSet_3l6d4")
 format = 2
 layer_0/name = "Environment"

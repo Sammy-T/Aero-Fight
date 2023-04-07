@@ -67,9 +67,22 @@ trail_section_subdivisions = 2
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_jcm6v")
 
+[node name="Gun" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-7, -8)
+
+[node name="Gun2" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(7, -8)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_dtlpc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.5, 1.5)
+
+[node name="FireTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+
+[connection signal="timeout" from="FireTimer" to="." method="_fire_bullets"]
