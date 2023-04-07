@@ -46,6 +46,7 @@ func _physics_process(delta: float) -> void:
 			
 			# Player is in sight begin attacking
 			if fire_timer.is_stopped():
+				_fire_bullets()
 				fire_timer.start()
 		elif !fire_timer.is_stopped():
 			fire_timer.stop()
