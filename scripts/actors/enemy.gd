@@ -11,7 +11,7 @@ const MAX_HEALTH: float = 4
 
 var speed: float = MAX_SPEED / 2
 var health: float = MAX_HEALTH
-var player: CharacterBody2D
+var player: Node2D
 var tile_map: TileMap
 
 @onready var shadow_holder: Node2D = %ShadowHolder

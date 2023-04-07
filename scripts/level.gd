@@ -4,6 +4,7 @@ extends Node2D
 var player: Node2D
 
 @onready var tile_map: TileMap = %TileMapGen
+@onready var enemy_spawner: Node2D = %EnemySpawner
 @onready var speed_display: Label = %Speed
 @onready var health_display: Label = %Health
 
@@ -15,6 +16,8 @@ func _ready() -> void:
 	player.position = tile_map.get_starting_pos()
 	
 	tile_map.tracking_target = player
+	
+	enemy_spawner.start_spawner(3)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

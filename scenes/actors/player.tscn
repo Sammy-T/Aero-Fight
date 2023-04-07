@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://cxaevyowm52pm"]
+[gd_scene load_steps=13 format=3 uid="uid://bsbtrwk8vrcl2"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_53uw7"]
+[ext_resource type="Script" path="res://scripts/actors/player.gd" id="1_3eg61"]
 [ext_resource type="Texture2D" uid="uid://dk0is1og1bykj" path="res://assets/kenney_pixel-shmup/Ships/ship_0009.png" id="2_jcm6v"]
 [ext_resource type="Animation" uid="uid://bkhkprtrj1e3g" path="res://res/anim/impact.res" id="3_d7bg4"]
 [ext_resource type="Animation" uid="uid://b3s2jhap22vrt" path="res://res/anim/explode.res" id="4_yu2rl"]
@@ -131,7 +131,7 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 8
 motion_mode = 1
-script = ExtResource("1_53uw7")
+script = ExtResource("1_3eg61")
 
 [node name="ShadowHolder" type="Node2D" parent="."]
 unique_name_in_owner = true

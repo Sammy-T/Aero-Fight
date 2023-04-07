@@ -5,7 +5,7 @@ const Bullet: PackedScene = preload("res://scenes/projectiles/bullet.tscn")
 
 const MAX_SPEED: float = 175
 const MAX_ROT_SPEED: float = 5
-const ACCELERATION: float = 5
+const ACCELERATION: float = 4
 const DECELERATION: float = 1
 const MAX_HEALTH: float = 6
 
