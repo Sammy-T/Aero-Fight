@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxaevyowm52pm"]
+[gd_scene load_steps=9 format=3 uid="uid://nq1d26xo8s85"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_53uw7"]
-[ext_resource type="Texture2D" uid="uid://dk0is1og1bykj" path="res://assets/kenney_pixel-shmup/Ships/ship_0009.png" id="2_jcm6v"]
+[ext_resource type="Texture2D" uid="uid://0006pj43wfvc" path="res://assets/kenney_pixel-shmup/Ships/ship_0011.png" id="1_e1a8e"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_qleaf"]
 
 [sub_resource type="Gradient" id="Gradient_ck2sm"]
 colors = PackedColorArray(1, 1, 1, 0.411765, 1, 1, 1, 0)
@@ -31,11 +31,13 @@ scale_curve = SubResource("CurveTexture_7gvq4")
 color_ramp = SubResource("GradientTexture1D_y7qbu")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtlpc"]
+radius = 13.0384
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
-collision_mask = 8
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 4
 motion_mode = 1
-script = ExtResource("1_53uw7")
+script = ExtResource("1_qleaf")
 
 [node name="ShadowHolder" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -45,7 +47,7 @@ unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0.380392)
 position = Vector2(-16, 18)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("2_jcm6v")
+texture = ExtResource("1_e1a8e")
 
 [node name="AirStream" type="GPUParticles2D" parent="."]
 position = Vector2(-13, 3)
@@ -66,7 +68,7 @@ trail_sections = 3
 trail_section_subdivisions = 2
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_jcm6v")
+texture = ExtResource("1_e1a8e")
 
 [node name="Gun" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -78,9 +80,6 @@ position = Vector2(7, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dtlpc")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.5, 1.5)
 
 [node name="FireTimer" type="Timer" parent="."]
 unique_name_in_owner = true

@@ -3,12 +3,13 @@ extends CharacterBody2D
 
 const Bullet: PackedScene = preload("res://scenes/bullet.tscn")
 
-const MAX_SPEED: float = 200
-const MAX_ROT_SPEED: float = 5
-const ACCELERATION: float = 5
+const MAX_SPEED: float = 100
+const MAX_ROT_SPEED: float = 1
+const ACCELERATION: float = 2
 const DECELERATION: float = 1
 
 var speed: float = MAX_SPEED / 2
+var player: CharacterBody2D
 var tile_map: TileMap
 
 @onready var shadow_holder: Node2D = %ShadowHolder
@@ -20,6 +21,7 @@ var tile_map: TileMap
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	player = get_tree().get_first_node_in_group("player")
 	tile_map = get_tree().get_first_node_in_group("map")
 
 
@@ -29,8 +31,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	var desired_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")\
-			.rotated(PI / 2)
+	var desired_dir: Vector2 = (player.position - position).rotated(PI / 2)
 	
 	if desired_dir.length() > 0:
 		rotation = lerp_angle(rotation, desired_dir.angle(), MAX_ROT_SPEED * delta)
@@ -49,12 +50,12 @@ func _physics_process(delta: float) -> void:
 	shadow.rotation = rotation
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("fire"):
-		_fire_bullets()
-		fire_timer.start()
-	elif event.is_action_released("fire"):
-		fire_timer.stop()
+#func _unhandled_input(event: InputEvent) -> void:
+#	if event.is_action_pressed("fire"):
+#		_fire_bullets()
+#		fire_timer.start()
+#	elif event.is_action_released("fire"):
+#		fire_timer.stop()
 
 
 func _fire_bullets() -> void:

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://vqn12ddepg07"]
+[gd_scene load_steps=6 format=3 uid="uid://vqn12ddepg07"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
 [ext_resource type="PackedScene" uid="uid://we2rho41b1dg" path="res://scenes/tile_map_gen.tscn" id="2_lk7gm"]
+[ext_resource type="PackedScene" uid="uid://nq1d26xo8s85" path="res://scenes/enemy.tscn" id="4_3aewg"]
 [ext_resource type="PackedScene" uid="uid://cxaevyowm52pm" path="res://scenes/player.tscn" id="4_s6q5f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qpr47"]
@@ -33,3 +34,5 @@ label_settings = SubResource("LabelSettings_qpr47")
 unique_name_in_owner = true
 
 [node name="Player" parent="." instance=ExtResource("4_s6q5f")]
+
+[node name="Enemy" parent="." instance=ExtResource("4_3aewg")]
