@@ -64,6 +64,12 @@ func _fire_bullets() -> void:
 
 
 func update_health(delta: int) -> void:
+	if health == 0:
+		return # Ignore damage received while already exploding
+	
+	if delta < 0:
+		%AnimationPlayer.play("impact") # Play the impact animation if the enemy is taking damage
+	
 	health = clamp(health + delta, 0, MAX_HEALTH)
 	print("hit! hp: %s" % health)
 	
