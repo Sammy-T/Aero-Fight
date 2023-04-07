@@ -52,14 +52,6 @@ func _physics_process(delta: float) -> void:
 	shadow.rotation = rotation
 
 
-#func _unhandled_input(event: InputEvent) -> void:
-#	if event.is_action_pressed("fire"):
-#		_fire_bullets()
-#		fire_timer.start()
-#	elif event.is_action_released("fire"):
-#		fire_timer.stop()
-
-
 func _fire_bullets() -> void:
 	var bullet: Area2D = Bullet.instantiate()
 	bullet.init_bullet(gun.global_position, rotation, speed)
