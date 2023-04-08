@@ -1,6 +1,7 @@
 extends Node2D
 
 
+var wave: int = 1
 var player: Node2D
 
 @onready var tile_map: TileMap = %TileMapGen
@@ -17,10 +18,16 @@ func _ready() -> void:
 	
 	tile_map.tracking_target = player
 	
-	enemy_spawner.start_spawner(3)
+	enemy_spawner.enemies_cleared.connect(_on_enemies_cleared)
+	enemy_spawner.start_spawner(wave + 2)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	speed_display.text = "Speed: %s" % player.speed
 	health_display.text = "Health: %3d%%" % (player.health / player.MAX_HEALTH * 100)
+
+
+func _on_enemies_cleared() -> void:
+	wave += 1
+	enemy_spawner.start_spawner(wave + 2)

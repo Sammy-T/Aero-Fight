@@ -10,6 +10,6 @@ unique_name_in_owner = true
 
 [node name="SpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 30.0
+wait_time = 25.0
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_spawn_enemy"]

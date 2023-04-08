@@ -1,9 +1,12 @@
 extends Node2D
 
 
+signal enemies_cleared
+
 const Enemy: PackedScene = preload("res://scenes/actors/enemy.tscn")
 
 const SPAWN_RADIUS: float = 450
+const INITIAL_DELAY: float = 1
 
 var spawn_limit: int
 var spawned: int
@@ -26,6 +29,12 @@ func _ready() -> void:
 func start_spawner(limit: int) -> void:
 	spawn_limit = limit
 	spawned = 0
+	
+	# Wait the initial delay before spawning the first enemy
+	# and starting the spawn timer
+	await get_tree().create_timer(INITIAL_DELAY).timeout
+	
+	_spawn_enemy()
 	spawn_timer.start()
 
 
@@ -38,6 +47,8 @@ func _spawn_enemy() -> void:
 	# Spawn the enemy
 	var enemy: CharacterBody2D = Enemy.instantiate()
 	enemy.position = spawn_position
+	enemy.tree_exited.connect(_on_enemy_destroyed)
+	
 	enemy_holder.add_child(enemy)
 	
 	spawned += 1 # Increment the spawn count
@@ -46,3 +57,9 @@ func _spawn_enemy() -> void:
 	if spawned == spawn_limit:
 		print("Spawn limit reached (%s/%s)" % [spawned, spawn_limit])
 		spawn_timer.stop()
+
+
+func _on_enemy_destroyed() -> void:
+	if spawned == spawn_limit && enemy_holder.get_child_count() == 0:
+		print("enemies cleared")
+		enemies_cleared.emit()
