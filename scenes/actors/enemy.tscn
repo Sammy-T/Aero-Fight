@@ -239,7 +239,7 @@ _data = {
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 4
+collision_mask = 6
 motion_mode = 1
 script = ExtResource("1_1krns")
 
