@@ -291,6 +291,10 @@ shape = SubResource("CircleShape2D_dtlpc")
 unique_name_in_owner = true
 wait_time = 0.5
 
+[node name="ReactTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
@@ -298,3 +302,4 @@ libraries = {
 }
 
 [connection signal="timeout" from="FireTimer" to="." method="_fire_bullets"]
+[connection signal="timeout" from="ReactTimer" to="." method="_start_firing_with_reaction"]

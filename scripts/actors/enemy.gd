@@ -18,6 +18,7 @@ var tile_map: TileMap
 @onready var shadow: Sprite2D = %Shadow
 @onready var gun: Node2D = %Gun
 @onready var gun_2: Node2D = %Gun2
+@onready var react_timer: Timer = %ReactTimer
 @onready var fire_timer: Timer = %FireTimer
 
 
@@ -42,20 +43,21 @@ func _physics_process(delta: float) -> void:
 		
 		var rot_diff: float = absf(_get_rot_diff(rotation, desired_dir.angle()))
 		
-		# Accelerate when approaching the desired rotation, decelerate otherwise.
+		# Accelerate when approaching the desired rotation, otherwise decelerate.
 		if rot_diff <= PI / 6:
 			speed = move_toward(speed, MAX_SPEED, ACCELERATION)
 		else:
 			speed = move_toward(speed, MAX_SPEED * 0.75, DECELERATION)
 		
-		# If the enemy is already rotated in the desired direction, apply acceleration.
-		if _is_rot_equal_approx(rotation, desired_dir.angle()):
-			# Player is in sight begin attacking
-			if fire_timer.is_stopped():
-				_fire_bullets()
-				fire_timer.start()
-		elif !fire_timer.is_stopped():
-			fire_timer.stop()
+		var player_in_sight: bool = rot_diff <= PI / 10
+		
+		# Start/Stop attacking depending on whether the player is in sight
+		if player_in_sight && react_timer.is_stopped() && fire_timer.is_stopped():
+				var reaction_time: float = randf_range(0.18, 0.35)
+				react_timer.start(reaction_time)
+		elif !player_in_sight && (!react_timer.is_stopped() || !fire_timer.is_stopped()):
+				react_timer.stop()
+				fire_timer.stop()
 	else:
 		speed = move_toward(speed, MAX_SPEED * 0.5, DECELERATION)
 	
@@ -64,6 +66,13 @@ func _physics_process(delta: float) -> void:
 	
 	shadow_holder.rotation = -rotation
 	shadow.rotation = rotation
+
+
+# Triggered via timer to start firing after simulating the initial delay of a reaction time
+func _start_firing_with_reaction() -> void:
+	if fire_timer.is_stopped():
+		_fire_bullets()
+		fire_timer.start()
 
 
 func _fire_bullets() -> void:
