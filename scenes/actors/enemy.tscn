@@ -249,6 +249,8 @@ unique_name_in_owner = true
 [node name="Shadow" type="Sprite2D" parent="ShadowHolder"]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0.380392)
+z_index = -1
+z_as_relative = false
 position = Vector2(-16, 18)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_voc2c")
