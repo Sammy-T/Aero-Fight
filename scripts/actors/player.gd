@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 		if _is_rot_equal_approx(rotation, desired_dir.angle()):
 			speed = move_toward(speed, MAX_SPEED, ACCELERATION)
 	else:
-		speed = move_toward(speed, MAX_SPEED / 2, DECELERATION)
+		speed = move_toward(speed, MAX_SPEED * 0.5, DECELERATION)
 	
 	velocity = -transform.y * speed # Apply forward movement
 	move_and_slide()

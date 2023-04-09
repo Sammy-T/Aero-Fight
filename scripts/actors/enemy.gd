@@ -3,10 +3,10 @@ extends CharacterBody2D
 
 const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn")
 
-const MAX_SPEED: float = 100
+const MAX_SPEED: float = 150
 const MAX_ROT_SPEED: float = 1
-const ACCELERATION: float = 2
-const DECELERATION: float = 1
+const ACCELERATION: float = 0.75
+const DECELERATION: float = 0.5
 const MAX_HEALTH: float = 4
 
 var speed: float = MAX_SPEED / 2
@@ -40,10 +40,16 @@ func _physics_process(delta: float) -> void:
 	if desired_dir.length() > 0:
 		rotation = lerp_angle(rotation, desired_dir.angle(), MAX_ROT_SPEED * delta)
 		
+		var rot_diff: float = absf(_get_rot_diff(rotation, desired_dir.angle()))
+		
+		# Accelerate when approaching the desired rotation, decelerate otherwise.
+		if rot_diff <= PI / 6:
+			speed = move_toward(speed, MAX_SPEED, ACCELERATION)
+		else:
+			speed = move_toward(speed, MAX_SPEED * 0.75, DECELERATION)
+		
 		# If the enemy is already rotated in the desired direction, apply acceleration.
 		if _is_rot_equal_approx(rotation, desired_dir.angle()):
-			speed = move_toward(speed, MAX_SPEED, ACCELERATION)
-			
 			# Player is in sight begin attacking
 			if fire_timer.is_stopped():
 				_fire_bullets()
@@ -51,7 +57,7 @@ func _physics_process(delta: float) -> void:
 		elif !fire_timer.is_stopped():
 			fire_timer.stop()
 	else:
-		speed = move_toward(speed, MAX_SPEED / 2, DECELERATION)
+		speed = move_toward(speed, MAX_SPEED * 0.5, DECELERATION)
 	
 	velocity = -transform.y * speed # Apply forward movement
 	move_and_slide()
@@ -88,9 +94,14 @@ func update_health(delta: float) -> void:
 		%AnimationPlayer.play("explode")
 
 
-# A helper to determine if two rotations (in rads) are approximately equal
-func _is_rot_equal_approx(rot_1: float, rot_2: float) -> bool:
+# A helper to get the difference between two rotations
+func _get_rot_diff(rot_1: float, rot_2: float) -> float:
 	var comp_rot: float = wrapf(rot_1, -PI + 0.01, PI)
 	var comp_rot_2: float = wrapf(rot_2, -PI + 0.01, PI)
 	
-	return absf(comp_rot - comp_rot_2) <= 0.1
+	return comp_rot - comp_rot_2
+
+
+# A helper to determine if two rotations (in rads) are approximately equal
+func _is_rot_equal_approx(rot_1: float, rot_2: float) -> bool:
+	return absf(_get_rot_diff(rot_1, rot_2)) <= 0.1
