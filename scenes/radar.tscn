@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsut0wc84slxn"]
+
+[ext_resource type="Shader" path="res://res/radar.gdshader" id="1_hfqcw"]
+[ext_resource type="Texture2D" uid="uid://sg7pmipq5sfe" path="res://icon.svg" id="2_towal"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nhhnr"]
+shader = ExtResource("1_hfqcw")
+shader_parameter/base_color = Color(0.133333, 0.278431, 0.266667, 0.839216)
+shader_parameter/line_color = Color(0, 0.686275, 0.0627451, 1)
+
+[node name="Radar" type="Sprite2D"]
+material = SubResource("ShaderMaterial_nhhnr")
+texture = ExtResource("2_towal")
