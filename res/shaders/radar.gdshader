@@ -37,7 +37,7 @@ void fragment() {
 	color.rgb = mix(base_color.rgb, line_color, color.r);
 	
 	// Mix the color's alpha to mask out the circle shape
-	float circle_shape = circle(UV - 0.5, 1.0, 0.05);
+	float circle_shape = circle(UV - 0.5, 0.9, 0.05);
 	color.a = mix(0, base_color.a, 1.0 - circle_shape);
 	
 	COLOR = color;

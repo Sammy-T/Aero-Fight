@@ -9,16 +9,16 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nhhnr"]
 shader = ExtResource("1_jiyej")
-shader_parameter/base_color = Color(0.133333, 0.278431, 0.266667, 0.839216)
+shader_parameter/base_color = Color(0.133333, 0.235294, 0.278431, 0.262745)
 shader_parameter/line_color = Color(0, 0.686275, 0.0627451, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q2b62"]
 shader = ExtResource("3_7ckg2")
-shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/base_color = Color(1, 1, 1, 0.827451)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_en55d"]
 shader = ExtResource("5_3nojq")
-shader_parameter/base_color = Color(1, 0.388235, 0.0117647, 1)
+shader_parameter/base_color = Color(1, 0.388235, 0.0117647, 0.827451)
 
 [node name="Radar" type="MarginContainer" groups=["radar"]]
 offset_right = 138.0
