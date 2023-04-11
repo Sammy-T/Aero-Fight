@@ -26,7 +26,7 @@ void fragment() {
 	// Add the circles together
 	color.rgb += circle_1 + circle_2 + circle_3;
 	
-	float line_width = 0.0035;
+	float line_width = 0.004;
 	float line_v = 1.0 - step(line_width, abs(UV.x - 0.5));
 	float line_h = 1.0 - step(line_width, abs(UV.y - 0.5));
 	

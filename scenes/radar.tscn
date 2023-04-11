@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqv1te87uk0ua"]
+[gd_scene load_steps=10 format=3 uid="uid://bqv1te87uk0ua"]
 
 [ext_resource type="Shader" path="res://res/shaders/radar.gdshader" id="1_jiyej"]
+[ext_resource type="Script" path="res://scripts/radar.gd" id="1_q2xuu"]
 [ext_resource type="Texture2D" uid="uid://sg7pmipq5sfe" path="res://icon.svg" id="2_towal"]
 [ext_resource type="Shader" path="res://res/shaders/poi.gdshader" id="3_7ckg2"]
 [ext_resource type="Texture2D" uid="uid://dt0bg2wiow333" path="res://assets/kenney_pixel-shmup/Tiles/tile_0009.png" id="4_yt1xy"]
@@ -20,30 +21,34 @@ shader = ExtResource("5_3nojq")
 shader_parameter/base_color = Color(1, 0.388235, 0.0117647, 1)
 
 [node name="Radar" type="MarginContainer"]
-offset_right = 128.0
-offset_bottom = 128.0
+offset_right = 138.0
+offset_bottom = 138.0
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
+script = ExtResource("1_q2xuu")
 
 [node name="RadarBg" type="TextureRect" parent="."]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_nhhnr")
 layout_mode = 2
 texture = ExtResource("2_towal")
 
-[node name="Markers" type="Node2D" parent="."]
+[node name="MarkerHolder" type="Node2D" parent="."]
+unique_name_in_owner = true
 
 [node name="Templates" type="Node2D" parent="."]
 position = Vector2(-20, 15)
 
 [node name="Interest" type="Sprite2D" parent="Templates"]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_q2b62")
 texture = ExtResource("4_yt1xy")
 
 [node name="Warning" type="Sprite2D" parent="Templates"]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_en55d")
 position = Vector2(0, 22)
 rotation = 0.785398
-scale = Vector2(1, 1)
 texture = ExtResource("4_yt1xy")
