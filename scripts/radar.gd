@@ -2,7 +2,7 @@ extends MarginContainer
 
 
 var radar_scale: Vector2
-var zoom: float = 2.5
+var zoom: float = 1.25
 var radar_center_pos: Vector2
 var radar_radius: float
 var player: Node2D
@@ -29,7 +29,7 @@ func _ready() -> void:
 	
 	radar_scale = radar_bg_size / get_viewport_rect().size * zoom
 	radar_center_pos = radar_bg_size * 0.5 + child_offset
-	radar_radius = radar_bg_size.x
+	radar_radius = radar_bg_size.x * 0.5
 	
 	$Templates.hide()
 	

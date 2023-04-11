@@ -20,7 +20,7 @@ shader_parameter/base_color = Color(1, 1, 1, 1)
 shader = ExtResource("5_3nojq")
 shader_parameter/base_color = Color(1, 0.388235, 0.0117647, 1)
 
-[node name="Radar" type="MarginContainer"]
+[node name="Radar" type="MarginContainer" groups=["radar"]]
 offset_right = 138.0
 offset_bottom = 138.0
 theme_override_constants/margin_left = 5

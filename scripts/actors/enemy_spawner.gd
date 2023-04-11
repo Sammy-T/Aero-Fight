@@ -11,6 +11,7 @@ const INITIAL_DELAY: float = 1
 var spawn_limit: int
 var spawned: int
 var player: Node2D
+var radar: Control
 
 @onready var enemy_holder = %EnemyHolder
 @onready var spawn_timer = %SpawnTimer
@@ -19,6 +20,7 @@ var player: Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
+	radar = get_tree().get_first_node_in_group("radar")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -50,6 +52,9 @@ func _spawn_enemy() -> void:
 	enemy.tree_exited.connect(_on_enemy_destroyed)
 	
 	enemy_holder.add_child(enemy)
+	
+	if radar:
+		radar.add_marker(enemy)
 	
 	spawned += 1 # Increment the spawn count
 	

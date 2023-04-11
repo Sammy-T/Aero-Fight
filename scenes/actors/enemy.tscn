@@ -237,7 +237,7 @@ _data = {
 "impact": SubResource("Animation_ok5rf")
 }
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" groups=["marked_warning"]]
 collision_layer = 2
 collision_mask = 6
 motion_mode = 1
