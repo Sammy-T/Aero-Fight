@@ -28,7 +28,7 @@ func _ready() -> void:
 #	pass
 
 
-func start_spawner(limit: int) -> void:
+func start_spawner(limit: int, interval: float) -> void:
 	spawn_limit = limit
 	spawned = 0
 	
@@ -37,7 +37,7 @@ func start_spawner(limit: int) -> void:
 	await get_tree().create_timer(INITIAL_DELAY).timeout
 	
 	_spawn_enemy()
-	spawn_timer.start()
+	spawn_timer.start(interval)
 
 
 func _spawn_enemy() -> void:

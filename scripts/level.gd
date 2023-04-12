@@ -8,6 +8,7 @@ var player: Node2D
 @onready var enemy_spawner: Node2D = %EnemySpawner
 @onready var speed_display: Label = %Speed
 @onready var health_display: Label = %Health
+@onready var wave_display: Label = %Wave
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,7 +20,7 @@ func _ready() -> void:
 	tile_map.tracking_target = player
 	
 	enemy_spawner.enemies_cleared.connect(_on_enemies_cleared)
-	enemy_spawner.start_spawner(wave + 2)
+	enemy_spawner.start_spawner(wave + 2, 15)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -30,4 +31,10 @@ func _process(_delta: float) -> void:
 
 func _on_enemies_cleared() -> void:
 	wave += 1
-	enemy_spawner.start_spawner(wave + 2)
+	
+	var spawn_limit: int = wave + 2
+	var spawn_interval: float = maxf(5, 15 - wave * 2)
+	
+	enemy_spawner.start_spawner(spawn_limit, spawn_interval)
+	
+	wave_display.text = "Wave %s" % wave
