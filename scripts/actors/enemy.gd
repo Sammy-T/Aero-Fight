@@ -103,7 +103,6 @@ func update_health(delta: float) -> void:
 		%AnimationPlayer.play("impact") # Play the impact animation if the enemy is taking damage
 	
 	health = clamp(health + delta, 0, max_health)
-	print("%s hit %s/%s" % [self, health, max_health])
 	
 	if health == 0:
 		%AnimationPlayer.play("explode")

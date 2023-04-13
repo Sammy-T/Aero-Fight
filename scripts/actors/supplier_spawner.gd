@@ -43,5 +43,5 @@ func spawn_supplier() -> void:
 
 
 func _on_supplier_destroyed() -> void:
-	var delay: float = randf_range(5, 15)
+	var delay: float = randf_range(15, 30)
 	spawn_timer.start(delay)
