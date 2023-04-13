@@ -54,7 +54,7 @@ func _spawn_enemy() -> void:
 	enemy_holder.add_child(enemy)
 	
 	if radar:
-		radar.add_marker(enemy)
+		radar.add_marker(enemy) # Mark the enemy on the radar
 	
 	spawned += 1 # Increment the spawn count
 	

@@ -3,14 +3,14 @@ extends CharacterBody2D
 
 const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn")
 
-const MAX_SPEED: float = 150
-const MAX_ROT_SPEED: float = 1
-const ACCELERATION: float = 0.75
-const DECELERATION: float = 0.5
-const MAX_HEALTH: float = 4
+@export var max_speed: float = 150
+@export var max_rot_speed: float = 1
+@export var acceleration: float = 0.75
+@export var deceleration: float = 0.5
+@export var max_health: float = 4
 
-var speed: float = MAX_SPEED / 2
-var health: float = MAX_HEALTH
+var speed: float = max_speed / 2
+var health: float = max_health
 var player: Node2D
 var tile_map: TileMap
 
@@ -39,15 +39,15 @@ func _physics_process(delta: float) -> void:
 			if player.health > 0 else Vector2.ZERO
 	
 	if desired_dir.length() > 0:
-		rotation = lerp_angle(rotation, desired_dir.angle(), MAX_ROT_SPEED * delta)
+		rotation = lerp_angle(rotation, desired_dir.angle(), max_rot_speed * delta)
 		
 		var rot_diff: float = absf(_get_rot_diff(rotation, desired_dir.angle()))
 		
 		# Accelerate when approaching the desired rotation, otherwise decelerate.
 		if rot_diff <= PI / 6:
-			speed = move_toward(speed, MAX_SPEED, ACCELERATION)
+			speed = move_toward(speed, max_speed, acceleration)
 		else:
-			speed = move_toward(speed, MAX_SPEED * 0.75, DECELERATION)
+			speed = move_toward(speed, max_speed * 0.75, deceleration)
 		
 		var player_in_sight: bool = rot_diff <= PI / 10
 		
@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 				react_timer.stop()
 				fire_timer.stop()
 	else:
-		speed = move_toward(speed, MAX_SPEED * 0.5, DECELERATION)
+		speed = move_toward(speed, max_speed * 0.5, deceleration)
 	
 	velocity = -transform.y * speed # Apply forward movement
 	move_and_slide()
@@ -96,7 +96,7 @@ func update_health(delta: float) -> void:
 	if delta < 0:
 		%AnimationPlayer.play("impact") # Play the impact animation if the enemy is taking damage
 	
-	health = clamp(health + delta, 0, MAX_HEALTH)
+	health = clamp(health + delta, 0, max_health)
 	
 	if health == 0:
 		%AnimationPlayer.play("explode")
