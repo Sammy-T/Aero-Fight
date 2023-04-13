@@ -9,6 +9,10 @@ const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn"
 @export var deceleration: float = 0.5
 @export var max_health: float = 4
 
+var gun: Node2D
+var gun_2: Node2D
+var react_timer: Timer
+var fire_timer: Timer
 var player: Node2D
 var tile_map: TileMap
 
@@ -17,14 +21,15 @@ var tile_map: TileMap
 
 @onready var shadow_holder: Node2D = %ShadowHolder
 @onready var shadow: Sprite2D = %Shadow
-@onready var gun: Node2D = %Gun
-@onready var gun_2: Node2D = %Gun2
-@onready var react_timer: Timer = %ReactTimer
-@onready var fire_timer: Timer = %FireTimer
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	gun = %Gun
+	gun_2 = %Gun2
+	react_timer = %ReactTimer
+	fire_timer = %FireTimer
+	
 	player = get_tree().get_first_node_in_group("player")
 	tile_map = get_tree().get_first_node_in_group("map")
 

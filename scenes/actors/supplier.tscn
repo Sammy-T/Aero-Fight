@@ -278,24 +278,8 @@ trail_section_subdivisions = 2
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_esnyf")
 
-[node name="Gun" type="Node2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(-7, -8)
-
-[node name="Gun2" type="Node2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(7, -8)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dtlpc")
-
-[node name="FireTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 0.5
-
-[node name="ReactTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-one_shot = true
 
 [node name="LifeTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -309,6 +293,4 @@ libraries = {
 "": SubResource("AnimationLibrary_wfxvn")
 }
 
-[connection signal="timeout" from="FireTimer" to="." method="_fire_bullets"]
-[connection signal="timeout" from="ReactTimer" to="." method="_start_firing_with_reaction"]
 [connection signal="timeout" from="LifeTimer" to="." method="_on_life_timer_timeout"]
