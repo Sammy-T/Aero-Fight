@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dr6ctrurvsr6q"]
+
+[ext_resource type="Script" path="res://scripts/actors/supplier_spawner.gd" id="1_8ir36"]
+
+[node name="SupplierSpawner" type="Node2D"]
+script = ExtResource("1_8ir36")
+
+[node name="SupplierHolder" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="SpawnTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="spawn_supplier"]

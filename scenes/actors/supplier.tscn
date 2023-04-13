@@ -237,7 +237,7 @@ _data = {
 "impact": SubResource("Animation_ok5rf")
 }
 
-[node name="Supplier" type="CharacterBody2D" groups=["marked_warning"]]
+[node name="Supplier" type="CharacterBody2D" groups=["marked_interest"]]
 collision_layer = 16
 collision_mask = 4
 motion_mode = 1
@@ -297,6 +297,12 @@ wait_time = 0.5
 unique_name_in_owner = true
 one_shot = true
 
+[node name="LifeTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 30.0
+one_shot = true
+autostart = true
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
@@ -305,3 +311,4 @@ libraries = {
 
 [connection signal="timeout" from="FireTimer" to="." method="_fire_bullets"]
 [connection signal="timeout" from="ReactTimer" to="." method="_start_firing_with_reaction"]
+[connection signal="timeout" from="LifeTimer" to="." method="_on_life_timer_timeout"]

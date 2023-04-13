@@ -20,7 +20,8 @@ func _ready() -> void:
 	tile_map.tracking_target = player
 	
 	enemy_spawner.enemies_cleared.connect(_on_enemies_cleared)
-	enemy_spawner.start_spawner(wave + 2, 15)
+	
+	start_wave()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,12 +30,15 @@ func _process(_delta: float) -> void:
 	health_display.text = "Health: %3d%%" % (player.health / player.MAX_HEALTH * 100)
 
 
-func _on_enemies_cleared() -> void:
-	wave += 1
-	
+func start_wave() -> void:
 	var spawn_limit: int = wave + 2
-	var spawn_interval: float = maxf(5, 15 - wave * 2)
+	var spawn_interval: float = maxf(5, 15 - (wave - 1) * 2)
 	
 	enemy_spawner.start_spawner(spawn_limit, spawn_interval)
 	
 	wave_display.text = "Wave %s" % wave
+
+
+func _on_enemies_cleared() -> void:
+	wave += 1
+	start_wave()

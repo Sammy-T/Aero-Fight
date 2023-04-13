@@ -6,7 +6,7 @@ signal enemies_cleared
 const Enemy: PackedScene = preload("res://scenes/actors/enemy.tscn")
 
 const SPAWN_RADIUS: float = 450
-const INITIAL_DELAY: float = 1
+const INITIAL_DELAY: float = 3
 
 var spawn_limit: int
 var spawned: int

@@ -9,10 +9,11 @@ const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn"
 @export var deceleration: float = 0.5
 @export var max_health: float = 4
 
-var speed: float = max_speed / 2
-var health: float = max_health
 var player: Node2D
 var tile_map: TileMap
+
+@onready var speed: float = max_speed / 2
+@onready var health: float = max_health
 
 @onready var shadow_holder: Node2D = %ShadowHolder
 @onready var shadow: Sprite2D = %Shadow
@@ -97,6 +98,7 @@ func update_health(delta: float) -> void:
 		%AnimationPlayer.play("impact") # Play the impact animation if the enemy is taking damage
 	
 	health = clamp(health + delta, 0, max_health)
+	print("%s hit %s/%s" % [self, health, max_health])
 	
 	if health == 0:
 		%AnimationPlayer.play("explode")
