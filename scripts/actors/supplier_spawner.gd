@@ -2,6 +2,7 @@ extends Node2D
 
 
 const Supplier: PackedScene = preload("res://scenes/actors/supplier.tscn")
+const Health: PackedScene = preload("res://scenes/health.tscn")
 
 const SPAWN_RADIUS: float = 900
 
@@ -32,7 +33,7 @@ func spawn_supplier() -> void:
 	# Spawn the supplier
 	var supplier: CharacterBody2D = Supplier.instantiate()
 	supplier.position = spawn_position
-	supplier.tree_exited.connect(_on_supplier_destroyed)
+	supplier.supplier_destroyed.connect(_on_supplier_destroyed)
 	
 	supplier_holder.add_child(supplier)
 	
@@ -40,6 +41,15 @@ func spawn_supplier() -> void:
 		radar.add_marker(supplier) # Mark the supplier on the radar
 
 
-func _on_supplier_destroyed() -> void:
+func _on_supplier_destroyed(health: float, last_pos: Vector2) -> void:
 	var delay: float = randf_range(15, 30)
 	spawn_timer.start(delay)
+	
+	# If it was destroyed by the player, spawn a health pickup
+	if health == 0:
+		await get_tree().create_timer(0.15).timeout
+		
+		var health_pickup: Area2D = Health.instantiate()
+		health_pickup.position = last_pos
+		
+		supplier_holder.add_child(health_pickup)

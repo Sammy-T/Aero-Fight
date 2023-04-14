@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://c8xa0vawpe7o3"]
+
+[ext_resource type="Texture2D" uid="uid://dved4q3clfqwc" path="res://assets/kenney_pixel-shmup/Tiles/tile_0024.png" id="1_3rkii"]
+[ext_resource type="Script" path="res://scripts/health.gd" id="1_tfu72"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m7c7c"]
+radius = 12.0
+
+[sub_resource type="Animation" id="Animation_5223f"]
+resource_name = "wave"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_yc75k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_so8fo"]
+_data = {
+"RESET": SubResource("Animation_yc75k"),
+"wave": SubResource("Animation_5223f")
+}
+
+[node name="Health" type="Area2D"]
+collision_layer = 0
+input_pickable = false
+script = ExtResource("1_tfu72")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_m7c7c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3rkii")
+
+[node name="LifeTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "wave"
+libraries = {
+"": SubResource("AnimationLibrary_so8fo")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="LifeTimer" to="." method="_on_life_timer_timeout"]

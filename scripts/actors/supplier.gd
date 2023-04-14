@@ -1,9 +1,13 @@
 extends "res://scripts/actors/enemy.gd"
 
 
+signal supplier_destroyed(health: float, last_position: Vector2)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rotation = randf_range(-PI, PI)
+	tree_exited.connect(_on_tree_exited)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,3 +32,7 @@ func _on_life_timer_timeout() -> void:
 	
 	await get_tree().create_timer(tween_loops * 2).timeout
 	queue_free()
+
+
+func _on_tree_exited() -> void:
+	supplier_destroyed.emit(health, position)
