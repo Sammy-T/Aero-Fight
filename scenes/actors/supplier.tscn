@@ -276,13 +276,13 @@ trail_sections = 3
 trail_section_subdivisions = 2
 
 [node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 texture = ExtResource("2_esnyf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dtlpc")
 
 [node name="LifeTimer" type="Timer" parent="."]
-unique_name_in_owner = true
 wait_time = 30.0
 one_shot = true
 autostart = true

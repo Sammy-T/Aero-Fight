@@ -1,8 +1,6 @@
 extends Node2D
 
 
-signal supplier_destroyed
-
 const Supplier: PackedScene = preload("res://scenes/actors/supplier.tscn")
 
 const SPAWN_RADIUS: float = 900
