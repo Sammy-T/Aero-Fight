@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://d8a6ohr3to8t"]
+[gd_scene load_steps=20 format=3 uid="uid://d8a6ohr3to8t"]
 
 [ext_resource type="Script" path="res://scripts/actors/supplier.gd" id="1_r76qt"]
 [ext_resource type="Texture2D" uid="uid://eenyco8j62th" path="res://assets/kenney_pixel-shmup/Ships/ship_0002.png" id="2_esnyf"]
+[ext_resource type="Texture2D" uid="uid://c0c767lu0np3f" path="res://assets/bubbles.png" id="3_xj5v7"]
 [ext_resource type="Texture2D" uid="uid://clgrijx5fnkwv" path="res://assets/kenney_pixel-shmup/Tiles/tile_0005.png" id="4_mts4k"]
 
 [sub_resource type="Gradient" id="Gradient_ck2sm"]
@@ -30,6 +31,39 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 scale_curve = SubResource("CurveTexture_7gvq4")
 color_ramp = SubResource("GradientTexture1D_y7qbu")
+
+[sub_resource type="Gradient" id="Gradient_1qqpn"]
+offsets = PackedFloat32Array(0.377778, 0.8, 1)
+colors = PackedColorArray(0.621524, 0.621524, 0.621524, 0.933333, 0.226708, 0.226707, 0.226708, 0.692641, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uwqp0"]
+gradient = SubResource("Gradient_1qqpn")
+width = 12
+
+[sub_resource type="Curve" id="Curve_h5gjm"]
+_data = [Vector2(0, 0.727273), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_k1468"]
+width = 32
+curve = SubResource("Curve_h5gjm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1rfo0"]
+lifetime_randomness = 0.07
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 31.74
+initial_velocity_max = 63.16
+angular_velocity_min = -45.47
+angular_velocity_max = 75.79
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_max = 12.63
+angle_min = -363.8
+angle_max = 378.9
+scale_curve = SubResource("CurveTexture_k1468")
+color_ramp = SubResource("GradientTexture1D_uwqp0")
+attractor_interaction_enabled = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtlpc"]
 radius = 13.0384
@@ -119,6 +153,18 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Smoke:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_tghtt"]
@@ -212,6 +258,18 @@ tracks/6/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Smoke:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_ok5rf"]
 resource_name = "impact"
@@ -274,6 +332,13 @@ lifetime = 0.2
 trail_enabled = true
 trail_sections = 3
 trail_section_subdivisions = 2
+
+[node name="Smoke" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_1rfo0")
+texture = ExtResource("3_xj5v7")
+lifetime = 0.25
 
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true

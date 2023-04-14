@@ -21,6 +21,7 @@ var tile_map: TileMap
 
 @onready var shadow_holder: Node2D = %ShadowHolder
 @onready var shadow: Sprite2D = %Shadow
+@onready var particles_smoke: GPUParticles2D = %Smoke
 
 
 # Called when the node enters the scene tree for the first time.
@@ -104,8 +105,20 @@ func update_health(delta: float) -> void:
 	
 	health = clamp(health + delta, 0, max_health)
 	
+	var low_health: float = max_health * 0.5
+	
+	if health <= low_health && !particles_smoke.emitting:
+		particles_smoke.emitting = true
+	elif health > low_health && particles_smoke.emitting:
+		particles_smoke.emitting = false
+	
 	if health == 0:
 		%AnimationPlayer.play("explode")
+		
+		# Stop firing (check if the node exists first 
+		# since the Supplier extends from this script)
+		if fire_timer:
+			fire_timer.stop()
 
 
 # A helper to get the difference between two rotations

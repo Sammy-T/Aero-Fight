@@ -37,7 +37,7 @@ color_ramp = SubResource("GradientTexture1D_y7qbu")
 offsets = PackedFloat32Array(0.377778, 0.8, 1)
 colors = PackedColorArray(0.621524, 0.621524, 0.621524, 0.933333, 0.226708, 0.226707, 0.226708, 0.692641, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_xs2q8"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m2m2j"]
 gradient = SubResource("Gradient_3ldnx")
 width = 12
 
@@ -45,7 +45,7 @@ width = 12
 _data = [Vector2(0, 0.727273), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_bxryd"]
+[sub_resource type="CurveTexture" id="CurveTexture_c8f41"]
 width = 32
 curve = SubResource("Curve_w3ifp")
 
@@ -62,8 +62,8 @@ orbit_velocity_max = 0.0
 damping_max = 12.63
 angle_min = -363.8
 angle_max = 378.9
-scale_curve = SubResource("CurveTexture_bxryd")
-color_ramp = SubResource("GradientTexture1D_xs2q8")
+scale_curve = SubResource("CurveTexture_c8f41")
+color_ramp = SubResource("GradientTexture1D_m2m2j")
 attractor_interaction_enabled = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtlpc"]
