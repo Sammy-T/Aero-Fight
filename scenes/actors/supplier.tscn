@@ -283,7 +283,7 @@ texture = ExtResource("2_esnyf")
 shape = SubResource("CircleShape2D_dtlpc")
 
 [node name="LifeTimer" type="Timer" parent="."]
-wait_time = 30.0
+wait_time = 50.0
 one_shot = true
 autostart = true
 
