@@ -5,3 +5,4 @@
 [node name="EnemyBullet" instance=ExtResource("1_ltyqe")]
 collision_layer = 8
 collision_mask = 1
+monitorable = false

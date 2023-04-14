@@ -47,8 +47,6 @@ func _on_supplier_destroyed(health: float, last_pos: Vector2) -> void:
 	
 	# If it was destroyed by the player, spawn a health pickup
 	if health == 0:
-		await get_tree().create_timer(0.15).timeout
-		
 		var health_pickup: Area2D = Health.instantiate()
 		health_pickup.position = last_pos
 		
