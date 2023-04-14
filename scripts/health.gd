@@ -16,8 +16,15 @@ const HEALING: float = 1
 
 func _on_body_entered(body: Node2D) -> void:
 	body.update_health(HEALING)
-	queue_free()
+	%AnimationPlayer.play("pop")
 
 
 func _on_life_timer_timeout() -> void:
+	# Flash the sprite opacity before freeing
+	var tween_loops: int = 4
+	var tween: Tween = create_tween().set_loops(tween_loops)
+	tween.tween_property(%Sprite2D, "self_modulate", Color(1, 1, 1, 0.9), 1)
+	tween.tween_property(%Sprite2D, "self_modulate", Color(1, 1, 1, 0.2), 1)
+	
+	await get_tree().create_timer(tween_loops * 2).timeout
 	queue_free()
