@@ -4,6 +4,8 @@ extends Node2D
 const Supplier: PackedScene = preload("res://scenes/actors/supplier.tscn")
 const Health: PackedScene = preload("res://scenes/health.tscn")
 
+const SPAWN_DELAY_MIN: float = 20
+const SPAWN_DELAY_MAX: float = 45
 const SPAWN_RADIUS: float = 900
 
 var player: Node2D
@@ -42,7 +44,7 @@ func spawn_supplier() -> void:
 
 
 func _on_supplier_destroyed(health: float, last_pos: Vector2) -> void:
-	var delay: float = randf_range(15, 30)
+	var delay: float = randf_range(SPAWN_DELAY_MIN, SPAWN_DELAY_MAX)
 	spawn_timer.start(delay)
 	
 	# If it was destroyed by the player, spawn a health pickup
@@ -51,3 +53,6 @@ func _on_supplier_destroyed(health: float, last_pos: Vector2) -> void:
 		health_pickup.position = last_pos
 		
 		supplier_holder.add_child(health_pickup)
+		
+		if radar:
+			radar.add_marker(health_pickup)

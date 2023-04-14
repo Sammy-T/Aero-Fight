@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqv1te87uk0ua"]
+[gd_scene load_steps=11 format=3 uid="uid://bqv1te87uk0ua"]
 
 [ext_resource type="Shader" path="res://res/shaders/radar.gdshader" id="1_jiyej"]
 [ext_resource type="Script" path="res://scripts/radar.gd" id="1_q2xuu"]
@@ -15,6 +15,10 @@ shader_parameter/line_color = Color(0, 0.686275, 0.0627451, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q2b62"]
 shader = ExtResource("3_7ckg2")
 shader_parameter/base_color = Color(0, 1, 0.14902, 0.827451)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aupuo"]
+shader = ExtResource("3_7ckg2")
+shader_parameter/base_color = Color(1, 1, 1, 0.827451)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_en55d"]
 shader = ExtResource("5_3nojq")
@@ -46,9 +50,15 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_q2b62")
 texture = ExtResource("4_yt1xy")
 
+[node name="Interest2" type="Sprite2D" parent="Templates"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_aupuo")
+position = Vector2(0, 22)
+texture = ExtResource("4_yt1xy")
+
 [node name="Warning" type="Sprite2D" parent="Templates"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_en55d")
-position = Vector2(0, 22)
+position = Vector2(0, 46)
 rotation = 0.785398
 texture = ExtResource("4_yt1xy")

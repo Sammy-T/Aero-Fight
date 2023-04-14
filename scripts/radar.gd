@@ -12,6 +12,7 @@ var markers: Dictionary = {}
 @onready var marker_holder: Node2D = %MarkerHolder
 @onready var marker_types: Dictionary = {
 		"marked_interest": %Interest,
+		"marked_interest_2": %Interest2,
 		"marked_warning": %Warning
 }
 
