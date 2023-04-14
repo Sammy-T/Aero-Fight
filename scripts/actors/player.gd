@@ -17,6 +17,7 @@ var tile_map: TileMap
 @onready var shadow: Sprite2D = %Shadow
 @onready var gun: Node2D = %Gun
 @onready var gun_2: Node2D = %Gun2
+@onready var particles_smoke: GPUParticles2D = %Smoke
 @onready var fire_timer: Timer = %FireTimer
 
 
@@ -72,12 +73,19 @@ func _fire_bullets() -> void:
 
 func update_health(delta: float) -> void:
 	if health == 0:
-		return # Ignore damage received while already exploding
+		return # Ignore changes received while already dead/exploding
 	
 	if delta < 0:
 		%AnimationPlayer.play("impact") # Play the impact animation if the enemy is taking damage
 	
 	health = clamp(health + delta, 0, MAX_HEALTH)
+	
+	var low_health: float = MAX_HEALTH * 0.5
+	
+	if health <= low_health && !particles_smoke.emitting:
+		particles_smoke.emitting = true
+	elif health > low_health && particles_smoke.emitting:
+		particles_smoke.emitting = false
 	
 	if health == 0:
 		%AnimationPlayer.play("explode")
