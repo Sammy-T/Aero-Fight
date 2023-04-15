@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 		
 		# If there's input while the player is already rotated
 		# in the desired direction, apply acceleration.
-		if _is_rot_equal_approx(rotation, desired_dir.angle()):
+		if Util.is_rot_equal_approx(rotation, desired_dir.angle()):
 			speed = move_toward(speed, MAX_SPEED, ACCELERATION)
 	else:
 		speed = move_toward(speed, MAX_SPEED * 0.5, DECELERATION)
@@ -94,11 +94,3 @@ func update_health(delta: float) -> void:
 		# before the animation stops physics process
 		await get_tree().create_timer(0.25).timeout
 		speed = 0
-
-
-# A helper to determine if two rotations (in rads) are approximately equal
-func _is_rot_equal_approx(rot_1: float, rot_2: float) -> bool:
-	var comp_rot: float = wrapf(rot_1, -PI + 0.01, PI)
-	var comp_rot_2: float = wrapf(rot_2, -PI + 0.01, PI)
-	
-	return absf(comp_rot - comp_rot_2) <= 0.1
