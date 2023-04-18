@@ -115,7 +115,10 @@ func update_health(delta: float) -> void:
 	if health == 0:
 		%AnimationPlayer.play("explode")
 		
-		# Stop firing (check if the node exists first 
+		# Stop firing (check if the nodes exist first 
 		# since the Supplier extends from this script)
+		if react_timer:
+			react_timer.stop()
+		
 		if fire_timer:
 			fire_timer.stop()
