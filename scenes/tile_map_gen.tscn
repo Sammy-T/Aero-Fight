@@ -1,24 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://we2rho41b1dg"]
+[gd_scene load_steps=10 format=3 uid="uid://we2rho41b1dg"]
 
-[ext_resource type="Shader" path="res://res/shaders/water.gdshader" id="1_evi16"]
+[ext_resource type="Material" uid="uid://lr248p57yetp" path="res://res/materials/water_mat.tres" id="1_8okr0"]
 [ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="1_lkddg"]
 [ext_resource type="Texture2D" uid="uid://lwxv0dtn6gej" path="res://assets/shmup_ext.png" id="2_umou2"]
 [ext_resource type="Script" path="res://scripts/tile_map_gen.gd" id="3_bw0ur"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_ep3xv"]
-fractal_octaves = 2
-fractal_gain = 0.15
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b4crd"]
-seamless = true
-noise = SubResource("FastNoiseLite_ep3xv")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iqtlg"]
-shader = ExtResource("1_evi16")
-shader_parameter/wave_color = Color(0.541176, 1, 1, 1)
-shader_parameter/scroll = Vector2(0.03, 0.03)
-shader_parameter/scroll_2 = Vector2(0.06, 0.06)
-shader_parameter/noise = SubResource("NoiseTexture2D_b4crd")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xf7lh"]
 resource_name = "Environment"
@@ -101,7 +86,7 @@ texture = ExtResource("1_lkddg")
 5:3/0/terrains_peering_bit/top_side = 0
 5:3/0/terrains_peering_bit/top_right_corner = 0
 6:3/0 = 0
-6:3/0/material = SubResource("ShaderMaterial_iqtlg")
+6:3/0/material = ExtResource("1_8okr0")
 7:3/0 = 0
 7:3/0/terrain_set = 0
 7:3/0/terrain = 2
