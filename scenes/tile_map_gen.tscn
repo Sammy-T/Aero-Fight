@@ -5,19 +5,20 @@
 [ext_resource type="Texture2D" uid="uid://lwxv0dtn6gej" path="res://assets/shmup_ext.png" id="2_umou2"]
 [ext_resource type="Script" path="res://scripts/tile_map_gen.gd" id="3_bw0ur"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_lhbyx"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ep3xv"]
+fractal_octaves = 2
+fractal_gain = 0.15
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qpv14"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b4crd"]
 seamless = true
-noise = SubResource("FastNoiseLite_lhbyx")
+noise = SubResource("FastNoiseLite_ep3xv")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iqtlg"]
 shader = ExtResource("1_evi16")
-shader_parameter/wave_color = Color(0.403922, 1, 0.996078, 1)
+shader_parameter/wave_color = Color(0.541176, 1, 1, 1)
 shader_parameter/scroll = Vector2(0.03, 0.03)
 shader_parameter/scroll_2 = Vector2(0.06, 0.06)
-shader_parameter/tile_size = Vector2(16, 16)
-shader_parameter/noise = SubResource("NoiseTexture2D_qpv14")
+shader_parameter/noise = SubResource("NoiseTexture2D_b4crd")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xf7lh"]
 resource_name = "Environment"
