@@ -43,7 +43,12 @@ func _process(_delta: float) -> void:
 		var relative_pos: Vector2 = ((node.position - player.position) * radar_scale)\
 				.limit_length(radar_radius)
 		
-		markers[node].position = relative_pos + radar_center_pos
+		var marker = markers[node]
+		
+		marker.position = relative_pos + radar_center_pos
+		
+		if !marker.visible:
+			marker.visible = true
 
 
 func add_marker(node: Node2D) -> void:
@@ -53,6 +58,7 @@ func add_marker(node: Node2D) -> void:
 	for group in marker_types:
 		if node.is_in_group(group):
 			marker = marker_types[group].duplicate()
+			marker.visible = false
 			break
 	
 	# Add the marker and store a mapping to its related node
