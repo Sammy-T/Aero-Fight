@@ -4,10 +4,13 @@ extends Node2D
 signal enemies_cleared
 
 const Enemy: PackedScene = preload("res://scenes/actors/enemy.tscn")
+const EnemyVariant: PackedScene = preload("res://scenes/actors/enemy_variant.tscn")
 
+const MAX_DIFFICULTY: int = 9
 const SPAWN_RADIUS: float = 450
 const INITIAL_DELAY: float = 10
 
+var enemy_difficulty: int = 0
 var spawn_limit: int
 var spawned: int
 var player: Node2D
@@ -28,7 +31,8 @@ func _ready() -> void:
 #	pass
 
 
-func start_spawner(limit: int, interval: float) -> void:
+func start_spawner(difficulty: int, limit: int, interval: float) -> void:
+	enemy_difficulty = mini(difficulty, MAX_DIFFICULTY)
 	spawn_limit = limit
 	spawned = 0
 	
@@ -37,17 +41,27 @@ func start_spawner(limit: int, interval: float) -> void:
 	await get_tree().create_timer(INITIAL_DELAY).timeout
 	
 	_spawn_enemy()
-	spawn_timer.start(interval)
+	spawn_timer.start(maxf(interval, 5))
 
 
 func _spawn_enemy() -> void:
+	var enemy: CharacterBody2D
+	var spawn_value: int
+	var spawn_type: int = randi_range(0, enemy_difficulty)
+	
+	if spawn_type >= 3:
+		enemy = EnemyVariant.instantiate()
+		spawn_value = 2
+	else:
+		enemy = Enemy.instantiate()
+		spawn_value = 1
+	
 	# Find a random direction to spawn in
 	var angle: float = randf_range(-PI, PI)
 	var offset: Vector2 = Vector2.from_angle(angle) * SPAWN_RADIUS
 	var spawn_position: Vector2 = player.position + offset
 	
 	# Spawn the enemy
-	var enemy: CharacterBody2D = Enemy.instantiate()
 	enemy.position = spawn_position
 	enemy.tree_exited.connect(_on_enemy_destroyed)
 	
@@ -56,15 +70,15 @@ func _spawn_enemy() -> void:
 	if radar:
 		radar.add_marker(enemy) # Mark the enemy on the radar
 	
-	spawned += 1 # Increment the spawn count
+	spawned += spawn_value # Increment the spawn count
 	
 	# Stop spawning when the limit is reached
-	if spawned == spawn_limit:
+	if spawned >= spawn_limit:
 		print("Spawn limit reached (%s/%s)" % [spawned, spawn_limit])
 		spawn_timer.stop()
 
 
 func _on_enemy_destroyed() -> void:
-	if spawned == spawn_limit && enemy_holder.get_child_count() == 0:
+	if spawned >= spawn_limit && enemy_holder.get_child_count() == 0:
 		print("enemies cleared")
 		enemies_cleared.emit()
