@@ -3,7 +3,6 @@
 [ext_resource type="Shader" path="res://res/shaders/water.gdshader" id="1_o21iy"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ep3xv"]
-noise_type = 4
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_l678j"]
 seamless = true
@@ -11,7 +10,7 @@ noise = SubResource("FastNoiseLite_ep3xv")
 
 [resource]
 shader = ExtResource("1_o21iy")
-shader_parameter/wave_color = Color(0.713726, 0.960784, 0.937255, 1)
+shader_parameter/wave_color = Color(1, 1, 1, 1)
 shader_parameter/scroll = Vector2(0.1, 0.2)
-shader_parameter/scroll_2 = Vector2(0.3, 0.4)
+shader_parameter/scroll_2 = Vector2(-0.15, 0.05)
 shader_parameter/noise = SubResource("NoiseTexture2D_l678j")
