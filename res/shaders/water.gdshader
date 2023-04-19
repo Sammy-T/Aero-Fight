@@ -26,11 +26,13 @@ void fragment() {
 	vec4 noise_color = texture(noise, noise_uv + scroll * motion);
 	vec4 noise_color_2 = texture(noise, noise_uv + noise_2_offset + scroll_2 * motion.yx);
 	
-	vec4 noise_combined = noise_color * noise_color_2;
+	// Combine the noise strength and limit its range
+	float noise_strength = noise_color.r * noise_color_2.r;
+	noise_strength = smoothstep(0.25, 0.75, noise_strength);
 	
-	// Use the combined noise value to interpolate between
+	// Use the noise strength to interpolate between
 	// the base texture's color and the wave color
-	pixel_color = mix(pixel_color, wave_color, noise_combined.r);
+	pixel_color = mix(pixel_color, wave_color, noise_strength);
 	
 	COLOR = pixel_color;
 }
