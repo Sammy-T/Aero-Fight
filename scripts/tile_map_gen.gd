@@ -141,7 +141,7 @@ func _append_or_set_cell(section: Vector2i, x_pos: int, y_pos: int,\
 	
 	_set_surface_cell(section, cell_coord)
 	
-	if noise_strength >= 0.3:
+	if noise_strength >= 0.1:
 		grass_cells.append(cell_coord)
 	elif noise_strength <= -0.5:
 		dirt_cells.append(cell_coord)
@@ -165,9 +165,9 @@ func _set_surface_cell(section: Vector2i, cell_coord: Vector2i) -> void:
 			surface_tile = TILE_COORD_TREE
 		0.44, 0.45, 0.55:
 			surface_tile = TILE_COORD_TREES
-		0.6:
+		0.3, 0.6:
 			surface_tile = TILE_COORD_BUILDING
-		0.7:
+		0.5, 0.7:
 			surface_tile = TILE_COORD_BUILDING_2
 		_:
 			return
