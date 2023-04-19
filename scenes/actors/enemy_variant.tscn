@@ -1,0 +1,375 @@
+[gd_scene load_steps=20 format=3 uid="uid://bn2g1ihwkwl4"]
+
+[ext_resource type="Script" path="res://scripts/actors/enemy.gd" id="1_gcsew"]
+[ext_resource type="Texture2D" uid="uid://c71cs8ny0un0c" path="res://assets/kenney_pixel-shmup/Ships/ship_0004.png" id="2_m7ddx"]
+[ext_resource type="Texture2D" uid="uid://c0c767lu0np3f" path="res://assets/bubbles.png" id="3_lm264"]
+[ext_resource type="Texture2D" uid="uid://clgrijx5fnkwv" path="res://assets/kenney_pixel-shmup/Tiles/tile_0005.png" id="4_7a2to"]
+
+[sub_resource type="Gradient" id="Gradient_ck2sm"]
+colors = PackedColorArray(1, 1, 1, 0.411765, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y7qbu"]
+gradient = SubResource("Gradient_ck2sm")
+width = 16
+
+[sub_resource type="Curve" id="Curve_y1dbg"]
+max_value = 3.0
+_data = [Vector2(0, 2.03636), 0.0, 0.0, 0, 0, Vector2(1, 0.681818), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7gvq4"]
+width = 32
+curve = SubResource("Curve_y1dbg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tqwmh"]
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 94.74
+initial_velocity_max = 94.74
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_7gvq4")
+color_ramp = SubResource("GradientTexture1D_y7qbu")
+
+[sub_resource type="Gradient" id="Gradient_whtek"]
+offsets = PackedFloat32Array(0.377778, 0.8, 1)
+colors = PackedColorArray(0.621524, 0.621524, 0.621524, 0.933333, 0.226708, 0.226707, 0.226708, 0.692641, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xs2q8"]
+gradient = SubResource("Gradient_whtek")
+width = 12
+
+[sub_resource type="Curve" id="Curve_ajnj2"]
+_data = [Vector2(0, 0.727273), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_bxryd"]
+width = 32
+curve = SubResource("Curve_ajnj2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hbgu1"]
+lifetime_randomness = 0.07
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 31.74
+initial_velocity_max = 63.16
+angular_velocity_min = -45.47
+angular_velocity_max = 75.79
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_max = 12.63
+angle_min = -363.8
+angle_max = 378.9
+scale_curve = SubResource("CurveTexture_bxryd")
+color_ramp = SubResource("GradientTexture1D_xs2q8")
+attractor_interaction_enabled = false
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dtlpc"]
+radius = 13.0384
+
+[sub_resource type="Animation" id="Animation_2biqf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShadowHolder:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_m7ddx")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AirStream:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AirStream2:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprite:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Smoke:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_tghtt"]
+resource_name = "explode"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShadowHolder:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_7a2to")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 1),
+"transitions": PackedFloat32Array(1, 0.5, 2),
+"update": 0,
+"values": [Vector2(0.75, 0.75), Vector2(2, 2), Vector2(0.5, 0.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.407843, 0.407843, 0.407843, 0.705882)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [false],
+"method": &"set_physics_process"
+}, {
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AirStream:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AirStream2:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Smoke:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ok5rf"]
+resource_name = "impact"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(5, 0), Vector2(-5, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wfxvn"]
+_data = {
+"RESET": SubResource("Animation_2biqf"),
+"explode": SubResource("Animation_tghtt"),
+"impact": SubResource("Animation_ok5rf")
+}
+
+[node name="Enemy" type="CharacterBody2D" groups=["marked_warning"]]
+collision_layer = 2
+collision_mask = 6
+motion_mode = 1
+script = ExtResource("1_gcsew")
+max_speed = 155.0
+max_rot_speed = 1.25
+acceleration = 1.0
+deceleration = 0.75
+max_health = 6.0
+
+[node name="ShadowHolder" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Shadow" type="Sprite2D" parent="ShadowHolder"]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0.380392)
+z_index = -1
+z_as_relative = false
+position = Vector2(-16, 18)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_m7ddx")
+
+[node name="AirStream" type="GPUParticles2D" parent="."]
+position = Vector2(-13, 3)
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_tqwmh")
+lifetime = 0.2
+trail_enabled = true
+trail_sections = 3
+trail_section_subdivisions = 2
+
+[node name="AirStream2" type="GPUParticles2D" parent="."]
+position = Vector2(13, 3)
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_tqwmh")
+lifetime = 0.2
+trail_enabled = true
+trail_sections = 3
+trail_section_subdivisions = 2
+
+[node name="Smoke" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_hbgu1")
+texture = ExtResource("3_lm264")
+lifetime = 0.25
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_m7ddx")
+
+[node name="Gun" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-7, -8)
+
+[node name="Gun2" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(7, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dtlpc")
+
+[node name="FireTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+
+[node name="ReactTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_wfxvn")
+}
+
+[connection signal="timeout" from="FireTimer" to="." method="_fire_bullets"]
+[connection signal="timeout" from="ReactTimer" to="." method="_start_firing_with_reaction"]

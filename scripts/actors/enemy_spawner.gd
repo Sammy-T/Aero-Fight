@@ -4,6 +4,7 @@ extends Node2D
 signal enemies_cleared
 
 const Enemy: PackedScene = preload("res://scenes/actors/enemy.tscn")
+const EnemyVariant: PackedScene = preload("res://scenes/actors/enemy_variant.tscn")
 
 const SPAWN_RADIUS: float = 450
 const INITIAL_DELAY: float = 10
@@ -47,7 +48,7 @@ func _spawn_enemy() -> void:
 	var spawn_position: Vector2 = player.position + offset
 	
 	# Spawn the enemy
-	var enemy: CharacterBody2D = Enemy.instantiate()
+	var enemy: CharacterBody2D = EnemyVariant.instantiate()
 	enemy.position = spawn_position
 	enemy.tree_exited.connect(_on_enemy_destroyed)
 	
