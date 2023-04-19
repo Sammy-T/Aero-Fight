@@ -31,10 +31,13 @@ func _process(_delta: float) -> void:
 
 
 func start_wave() -> void:
-	var spawn_limit: int = wave + 2
-	var spawn_interval: float = maxf(5, 15 - (wave - 1) * 2)
+	var difficulty: int = wave
+	var spawn_limit: int = wave + 1
+	var spawn_interval: float = maxf(5, 25 - wave * 2)
+	print("Wave %s Difficulty %s Limit %s Interval %s" %\
+			[wave, difficulty, spawn_limit, spawn_interval])
 	
-	enemy_spawner.start_spawner(spawn_limit, spawn_interval)
+	enemy_spawner.start_spawner(difficulty, spawn_limit, spawn_interval)
 	
 	wave_display.text = "Wave %s" % wave
 
