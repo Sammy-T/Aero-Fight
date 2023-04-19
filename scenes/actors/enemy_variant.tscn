@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://bn2g1ihwkwl4"]
 
 [ext_resource type="Script" path="res://scripts/actors/enemy.gd" id="1_gcsew"]
-[ext_resource type="Texture2D" uid="uid://c71cs8ny0un0c" path="res://assets/kenney_pixel-shmup/Ships/ship_0004.png" id="2_m7ddx"]
+[ext_resource type="Texture2D" uid="uid://be06yas7i2tno" path="res://assets/kenney_pixel-shmup/Ships/ship_0007.png" id="2_6juup"]
 [ext_resource type="Texture2D" uid="uid://c0c767lu0np3f" path="res://assets/bubbles.png" id="3_lm264"]
 [ext_resource type="Texture2D" uid="uid://clgrijx5fnkwv" path="res://assets/kenney_pixel-shmup/Tiles/tile_0005.png" id="4_7a2to"]
 
@@ -92,7 +92,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_m7ddx")]
+"values": [ExtResource("2_6juup")]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -316,7 +316,7 @@ z_index = -1
 z_as_relative = false
 position = Vector2(-16, 18)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("2_m7ddx")
+texture = ExtResource("2_6juup")
 
 [node name="AirStream" type="GPUParticles2D" parent="."]
 position = Vector2(-13, 3)
@@ -344,7 +344,7 @@ texture = ExtResource("3_lm264")
 lifetime = 0.25
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_m7ddx")
+texture = ExtResource("2_6juup")
 
 [node name="Gun" type="Node2D" parent="."]
 unique_name_in_owner = true
