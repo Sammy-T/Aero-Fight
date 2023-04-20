@@ -8,39 +8,37 @@
 [ext_resource type="PackedScene" uid="uid://dr6ctrurvsr6q" path="res://scenes/actors/supplier_spawner.tscn" id="5_s467w"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qpr47"]
+font_size = 18
 outline_size = 8
-outline_color = Color(0.403922, 0.203922, 0.113725, 1)
+outline_color = Color(0.270588, 0.266667, 0.247059, 1)
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_rkt2c")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Speed" type="Label" parent="CanvasLayer"]
-unique_name_in_owner = true
-anchors_preset = 7
-anchor_left = 0.5
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -50.0
-offset_top = -43.0
-offset_right = 50.0
-offset_bottom = -17.0
+offset_top = -26.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Speed" type="Label" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 text = "Player Speed"
 label_settings = SubResource("LabelSettings_qpr47")
 
-[node name="Health" type="Label" parent="CanvasLayer"]
+[node name="Health" type="Label" parent="CanvasLayer/MarginContainer"]
 unique_name_in_owner = true
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -44.0
-offset_right = 104.0
-offset_bottom = -18.0
-grow_vertical = 0
+layout_mode = 2
+size_flags_horizontal = 4
 text = "Player Health"
 label_settings = SubResource("LabelSettings_qpr47")
 

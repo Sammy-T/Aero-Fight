@@ -26,7 +26,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	speed_display.text = "Speed: %s" % player.speed
+	speed_display.text = "%03d km/h" % player.speed
 	health_display.text = "Health: %3d%%" % (player.health / player.MAX_HEALTH * 100)
 
 
