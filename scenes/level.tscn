@@ -72,6 +72,7 @@ grow_vertical = 0
 
 [node name="TileMapGen" parent="." instance=ExtResource("2_lk7gm")]
 unique_name_in_owner = true
+random_seed = true
 
 [node name="EnemySpawner" parent="." instance=ExtResource("3_06013")]
 unique_name_in_owner = true

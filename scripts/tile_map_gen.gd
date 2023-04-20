@@ -15,6 +15,7 @@ const TILE_COORD_BUILDING: Vector2i = Vector2i(0, 6)
 const TILE_COORD_BUILDING_2: Vector2i = Vector2i(0, 7)
 
 @export var map_noise: Noise
+@export var random_seed: bool = false
 
 var tracking_target: Node2D
 var current_section: Vector2i = Vector2i.ONE
@@ -26,6 +27,9 @@ var surface_cells: Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if random_seed:
+		map_noise.seed = randi()
+	
 	# Create the initial grid
 	for x in MAP_LOAD_GRID_SIZE.x:
 		for y in MAP_LOAD_GRID_SIZE.y:
