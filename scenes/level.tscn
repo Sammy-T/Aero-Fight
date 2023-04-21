@@ -19,10 +19,19 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" groups=["level"]]
 script = ExtResource("1_rkt2c")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Score" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 17.0
+offset_top = 12.0
+offset_right = 80.0
+offset_bottom = 41.0
+text = "000"
+label_settings = SubResource("LabelSettings_qpr47")
 
 [node name="Wave" type="Label" parent="CanvasLayer"]
 unique_name_in_owner = true

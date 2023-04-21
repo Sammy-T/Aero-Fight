@@ -305,6 +305,7 @@ max_rot_speed = 1.5
 acceleration = 1.0
 deceleration = 0.75
 max_health = 6.0
+points = 200
 
 [node name="ShadowHolder" type="Node2D" parent="."]
 unique_name_in_owner = true

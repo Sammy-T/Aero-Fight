@@ -6,6 +6,8 @@ signal supplier_destroyed(health: float, last_position: Vector2)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	level = get_tree().get_first_node_in_group("level")
+	
 	rotation = randf_range(-PI, PI)
 	tree_exited.connect(_on_tree_exited)
 

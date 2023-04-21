@@ -8,6 +8,7 @@ const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn"
 @export var acceleration: float = 0.75
 @export var deceleration: float = 0.5
 @export var max_health: float = 4
+@export var points: int = 100
 
 var gun: Node2D
 var gun_2: Node2D
@@ -15,6 +16,7 @@ var react_timer: Timer
 var fire_timer: Timer
 var player: Node2D
 var tile_map: TileMap
+var level: Node2D
 
 @onready var speed: float = max_speed / 2
 @onready var health: float = max_health
@@ -33,6 +35,7 @@ func _ready() -> void:
 	
 	player = get_tree().get_first_node_in_group("player")
 	tile_map = get_tree().get_first_node_in_group("map")
+	level = get_tree().get_first_node_in_group("level")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -122,3 +125,6 @@ func update_health(delta: float) -> void:
 		
 		if fire_timer:
 			fire_timer.stop()
+		
+		if level:
+			level.update_score(points)

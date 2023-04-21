@@ -302,6 +302,7 @@ motion_mode = 1
 script = ExtResource("1_r76qt")
 max_speed = 80.0
 max_health = 10.0
+points = 500
 
 [node name="ShadowHolder" type="Node2D" parent="."]
 unique_name_in_owner = true

@@ -2,6 +2,7 @@ extends Node2D
 
 
 var wave: int = 1
+var score: int = 0
 var player: Node2D
 
 @onready var tile_map: TileMap = %TileMapGen
@@ -9,6 +10,7 @@ var player: Node2D
 @onready var speed_display: Label = %Speed
 @onready var health_display: ProgressBar = %Health
 @onready var wave_display: Label = %Wave
+@onready var score_display: Label = %Score
 
 
 # Called when the node enters the scene tree for the first time.
@@ -40,6 +42,11 @@ func start_wave() -> void:
 	enemy_spawner.start_spawner(difficulty, spawn_limit, spawn_interval)
 	
 	wave_display.text = "Wave %s" % wave
+
+
+func update_score(points: int) -> void:
+	score += points
+	score_display.text = "%03d" % score
 
 
 func _on_player_health_changed(health: float, max_health: float) -> void:
