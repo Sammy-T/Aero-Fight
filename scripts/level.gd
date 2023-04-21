@@ -7,7 +7,7 @@ var player: Node2D
 @onready var tile_map: TileMap = %TileMapGen
 @onready var enemy_spawner: Node2D = %EnemySpawner
 @onready var speed_display: Label = %Speed
-@onready var health_display: Label = %Health
+@onready var health_display: ProgressBar = %Health
 @onready var wave_display: Label = %Wave
 
 
@@ -16,6 +16,7 @@ func _ready() -> void:
 	# Place the player at the center of the map's load grid
 	player = get_tree().get_first_node_in_group("player")
 	player.position = tile_map.get_starting_pos()
+	player.health_changed.connect(_on_player_health_changed)
 	
 	tile_map.tracking_target = player
 	
@@ -27,7 +28,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	speed_display.text = "%03d km/h" % player.speed
-	health_display.text = "Health: %3d%%" % (player.health / player.MAX_HEALTH * 100)
 
 
 func start_wave() -> void:
@@ -40,6 +40,10 @@ func start_wave() -> void:
 	enemy_spawner.start_spawner(difficulty, spawn_limit, spawn_interval)
 	
 	wave_display.text = "Wave %s" % wave
+
+
+func _on_player_health_changed(health: float, max_health: float) -> void:
+	health_display.value = health / max_health * 100
 
 
 func _on_enemies_cleared() -> void:
