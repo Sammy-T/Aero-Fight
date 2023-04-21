@@ -56,8 +56,8 @@ func _spawn_enemy() -> void:
 		enemy = Enemy.instantiate()
 		spawn_value = 1
 	
-	# Find a random direction to spawn in
-	var angle: float = randf_range(-PI, PI)
+	# Find a random direction to spawn in (+/- 90deg from player's backward direction)
+	var angle: float = player.rotation + PI / 2 + randf_range(-PI / 2, PI / 2)
 	var offset: Vector2 = Vector2.from_angle(angle) * SPAWN_RADIUS
 	var spawn_position: Vector2 = player.position + offset
 	
