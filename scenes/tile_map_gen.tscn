@@ -493,6 +493,7 @@ map_noise = SubResource("FastNoiseLite_velus")
 
 [node name="DebugUI" type="VBoxContainer" parent="CanvasLayer"]
 unique_name_in_owner = true
+visible = false
 offset_right = 40.0
 offset_bottom = 50.0
 

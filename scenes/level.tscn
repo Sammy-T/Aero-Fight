@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://t3itvrlvx6hv"]
+[gd_scene load_steps=9 format=3 uid="uid://t3itvrlvx6hv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
 [ext_resource type="PackedScene" uid="uid://we2rho41b1dg" path="res://scenes/tile_map_gen.tscn" id="2_lk7gm"]
@@ -8,54 +8,64 @@
 [ext_resource type="PackedScene" uid="uid://dr6ctrurvsr6q" path="res://scenes/actors/supplier_spawner.tscn" id="5_s467w"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qpr47"]
+font_size = 18
 outline_size = 8
-outline_color = Color(0.403922, 0.203922, 0.113725, 1)
+outline_color = Color(0.270588, 0.266667, 0.247059, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7kvu8"]
+bg_color = Color(0.94902, 0.266667, 0.266667, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_rkt2c")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="Wave" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -78.0
+offset_top = 12.0
+offset_right = -15.0
+offset_bottom = 41.0
+grow_horizontal = 0
+text = "Wave 1"
+label_settings = SubResource("LabelSettings_qpr47")
+
 [node name="Speed" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = -45.0
+offset_right = 127.0
+offset_bottom = -16.0
+grow_vertical = 0
+text = "Player Speed"
+label_settings = SubResource("LabelSettings_qpr47")
+
+[node name="Health" type="ProgressBar" parent="CanvasLayer"]
 unique_name_in_owner = true
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -50.0
-offset_top = -43.0
-offset_right = 50.0
-offset_bottom = -17.0
+offset_left = -131.0
+offset_top = -36.0
+offset_right = 131.0
+offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Player Speed"
-label_settings = SubResource("LabelSettings_qpr47")
-
-[node name="Health" type="Label" parent="CanvasLayer"]
-unique_name_in_owner = true
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -44.0
-offset_right = 104.0
-offset_bottom = -18.0
-grow_vertical = 0
-text = "Player Health"
-label_settings = SubResource("LabelSettings_qpr47")
-
-[node name="Wave" type="Label" parent="CanvasLayer"]
-unique_name_in_owner = true
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -58.0
-offset_top = 12.0
-offset_right = -15.0
-offset_bottom = 38.0
-grow_horizontal = 0
-text = "Wave 1"
-label_settings = SubResource("LabelSettings_qpr47")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7kvu8")
+value = 100.0
+show_percentage = false
 
 [node name="Radar" parent="CanvasLayer" instance=ExtResource("2_lor54")]
 anchors_preset = 3

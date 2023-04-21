@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 
+signal health_changed(health: float, max_health: float)
+
 const Bullet: PackedScene = preload("res://scenes/projectiles/bullet.tscn")
 
 const MAX_SPEED: float = 175
@@ -79,6 +81,7 @@ func update_health(delta: float) -> void:
 		%AnimationPlayer.play("impact") # Play the impact animation if the enemy is taking damage
 	
 	health = clamp(health + delta, 0, MAX_HEALTH)
+	health_changed.emit(health, MAX_HEALTH)
 	
 	var low_health: float = MAX_HEALTH * 0.5
 	
