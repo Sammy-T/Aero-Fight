@@ -86,6 +86,11 @@ func _start_firing_with_reaction() -> void:
 
 
 func _fire_bullets() -> void:
+	if health == 0:
+		react_timer.stop()
+		fire_timer.stop()
+		return
+	
 	if player.health == 0:
 		fire_timer.stop()
 	
@@ -117,14 +122,6 @@ func update_health(delta: float) -> void:
 	
 	if health == 0:
 		%AnimationPlayer.play("explode")
-		
-		# Stop firing (check if the nodes exist first 
-		# since the Supplier extends from this script)
-		if react_timer:
-			react_timer.stop()
-		
-		if fire_timer:
-			fire_timer.stop()
 		
 		if level:
 			level.update_score(points)
