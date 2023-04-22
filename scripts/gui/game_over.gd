@@ -1,6 +1,9 @@
 extends VBoxContainer
 
 
+const MAIN_MENU: String = "res://scenes/gui/main_menu.tscn"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	%Restart.grab_focus()
@@ -20,4 +23,4 @@ func _on_restart_pressed() -> void:
 
 
 func _on_main_menu_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().change_scene_to_file(MAIN_MENU)

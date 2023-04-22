@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbajgrafpykx6"]
+
+[ext_resource type="Theme" uid="uid://cuqa1hr2l6pq1" path="res://res/theme.tres" id="1_npj8k"]
+[ext_resource type="Script" path="res://scripts/gui/main_menu.gd" id="2_qpx0f"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jistv"]
+font_size = 32
+outline_size = 6
+outline_color = Color(0.425136, 0.206567, 1.01075e-06, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_npj8k")
+script = ExtResource("2_qpx0f")
+
+[node name="Menu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -39.5
+offset_top = -30.5
+offset_right = 39.5
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Menu"]
+layout_mode = 2
+text = "Aero Fight"
+label_settings = SubResource("LabelSettings_jistv")
+
+[node name="Play" type="Button" parent="Menu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play"
+
+[node name="Credits" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -125.0
+offset_top = -56.0
+offset_right = 125.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Credits"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Credits/VBoxContainer"]
+layout_mode = 2
+text = "A game by Sammy T"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Credits/VBoxContainer"]
+layout_mode = 2
+text = "Art assets by Kenney - kenney.nl"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Menu/Play" to="." method="_on_play_pressed"]

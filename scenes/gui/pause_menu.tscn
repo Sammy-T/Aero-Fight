@@ -1,25 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://br2s2owna8wk2"]
+[gd_scene load_steps=4 format=3 uid="uid://br2s2owna8wk2"]
 
 [ext_resource type="Script" path="res://scripts/gui/pause_menu.gd" id="1_msjxi"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hhap"]
-bg_color = Color(1, 0.52549, 0.0509804, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2bs8"]
-bg_color = Color(0.786133, 0.403231, 5.0056e-06, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="Theme" id="Theme_cnv8n"]
-Button/colors/font_pressed_color = Color(0.270588, 0.270588, 0.270588, 1)
-Button/styles/focus = SubResource("StyleBoxFlat_2hhap")
-Button/styles/pressed = SubResource("StyleBoxFlat_n2bs8")
+[ext_resource type="Theme" uid="uid://cuqa1hr2l6pq1" path="res://res/theme.tres" id="1_u8wsf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_apt7b"]
 font_size = 30
@@ -39,7 +21,7 @@ offset_right = 81.5
 offset_bottom = 83.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_cnv8n")
+theme = ExtResource("1_u8wsf")
 theme_override_constants/separation = 10
 script = ExtResource("1_msjxi")
 
