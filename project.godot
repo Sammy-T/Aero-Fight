@@ -11,9 +11,10 @@ config_version=5
 [application]
 
 config/name="Aero Fight"
+config/description="A 2d mini aerial dogfighting game"
 run/main_scene="res://scenes/gui/main_menu.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/kenney_pixel-shmup/Ships/ship_0009.png"
 
 [display]
 
