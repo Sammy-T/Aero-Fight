@@ -1,6 +1,8 @@
 extends Node2D
 
 
+const GameOver: PackedScene = preload("res://scenes/gui/game_over.tscn")
+
 var wave: int = 1
 var score: int = 0
 var player: Node2D
@@ -51,6 +53,14 @@ func update_score(points: int) -> void:
 
 func _on_player_health_changed(health: float, max_health: float) -> void:
 	health_display.value = health / max_health * 100
+	
+	if health == 0:
+		await get_tree().create_timer(1).timeout
+		
+		var game_over: Control = GameOver.instantiate()
+		game_over.set_score_display(score)
+		
+		%CanvasLayer.add_child(game_over)
 
 
 func _on_enemies_cleared() -> void:

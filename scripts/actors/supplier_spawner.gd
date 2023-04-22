@@ -44,8 +44,9 @@ func spawn_supplier() -> void:
 
 
 func _on_supplier_destroyed(health: float, last_pos: Vector2) -> void:
-	var delay: float = randf_range(SPAWN_DELAY_MIN, SPAWN_DELAY_MAX)
-	spawn_timer.start(delay)
+	if is_instance_valid(spawn_timer): # Reloading the level errors here without checking
+		var delay: float = randf_range(SPAWN_DELAY_MIN, SPAWN_DELAY_MAX)
+		spawn_timer.start(delay)
 	
 	# If it was destroyed by the player, spawn a health pickup
 	if health == 0:

@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://t3itvrlvx6hv"]
+[gd_scene load_steps=9 format=3 uid="uid://bhhwl0mtho0oi"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
 [ext_resource type="PackedScene" uid="uid://we2rho41b1dg" path="res://scenes/tile_map_gen.tscn" id="2_lk7gm"]
-[ext_resource type="PackedScene" uid="uid://bqv1te87uk0ua" path="res://scenes/radar.tscn" id="2_lor54"]
+[ext_resource type="PackedScene" path="res://scenes/gui/radar.tscn" id="2_lor54"]
 [ext_resource type="PackedScene" uid="uid://ddt6krxqw4ftt" path="res://scenes/actors/enemy_spawner.tscn" id="3_06013"]
 [ext_resource type="PackedScene" uid="uid://bsbtrwk8vrcl2" path="res://scenes/actors/player.tscn" id="3_pdjn3"]
 [ext_resource type="PackedScene" uid="uid://dr6ctrurvsr6q" path="res://scenes/actors/supplier_spawner.tscn" id="5_s467w"]
@@ -23,6 +23,7 @@ corner_radius_bottom_left = 6
 script = ExtResource("1_rkt2c")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 
 [node name="Score" type="Label" parent="CanvasLayer"]
 unique_name_in_owner = true
