@@ -1,6 +1,7 @@
 extends Node2D
 
 
+const PauseMenu: PackedScene = preload("res://scenes/gui/pause_menu.tscn")
 const GameOver: PackedScene = preload("res://scenes/gui/game_over.tscn")
 
 var wave: int = 1
@@ -32,6 +33,13 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	speed_display.text = "%03d km/h" % player.speed
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_pause"):
+		var pause_menu: Control = PauseMenu.instantiate()
+		
+		%CanvasLayer.add_child(pause_menu)
 
 
 func start_wave() -> void:
