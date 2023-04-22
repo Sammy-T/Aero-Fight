@@ -44,7 +44,7 @@ func spawn_supplier() -> void:
 
 
 func _on_supplier_destroyed(health: float, last_pos: Vector2) -> void:
-	if is_instance_valid(spawn_timer): # Reloading the level errors here without checking
+	if spawn_timer.is_inside_tree(): # Reloading the level errors here without this check
 		var delay: float = randf_range(SPAWN_DELAY_MIN, SPAWN_DELAY_MAX)
 		spawn_timer.start(delay)
 	
