@@ -55,10 +55,10 @@ func _physics_process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("fire"):
+	if event.is_action_pressed("fire") && fire_timer.is_stopped():
 		_fire_bullets()
 		fire_timer.start()
-	elif event.is_action_released("fire"):
+	elif event.is_action_released("fire") && !fire_timer.is_stopped():
 		fire_timer.stop()
 
 
