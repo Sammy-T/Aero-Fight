@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c8xa0vawpe7o3"]
+[gd_scene load_steps=10 format=3 uid="uid://c8xa0vawpe7o3"]
 
 [ext_resource type="Texture2D" uid="uid://dved4q3clfqwc" path="res://assets/kenney_pixel-shmup/Tiles/tile_0024.png" id="1_3rkii"]
 [ext_resource type="Script" path="res://scripts/health.gd" id="1_tfu72"]
 [ext_resource type="Texture2D" uid="uid://b4lnn2yn8l3cy" path="res://assets/kenney_pixel-shmup/Tiles/tile_0007.png" id="3_y5bfa"]
+[ext_resource type="AudioStream" uid="uid://dj5d0e2ahspp8" path="res://assets/sfx/sfx_pickup.wav" id="4_m00qh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m7c7c"]
 radius = 12.0
@@ -52,6 +53,18 @@ tracks/3/path = NodePath("CollisionShape2D:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Pickup:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -123,6 +136,18 @@ tracks/4/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Pickup:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_5223f"]
 resource_name = "wave"
@@ -171,6 +196,9 @@ autoplay = "wave"
 libraries = {
 "": SubResource("AnimationLibrary_so8fo")
 }
+
+[node name="Pickup" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_m00qh")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="LifeTimer" to="." method="_on_life_timer_timeout"]

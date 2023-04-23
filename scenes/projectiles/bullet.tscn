@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bnuumorhe6p5m"]
+[gd_scene load_steps=9 format=3 uid="uid://bnuumorhe6p5m"]
 
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_2huj5"]
 [ext_resource type="Texture2D" uid="uid://dbe6sch6fl0tc" path="res://assets/kenney_pixel-shmup/Tiles/tile_0000.png" id="1_xvvho"]
 [ext_resource type="Texture2D" uid="uid://pyahtga73ggn" path="res://assets/kenney_pixel-shmup/Tiles/tile_0004.png" id="3_rhjmb"]
+[ext_resource type="AudioStream" uid="uid://2g81e4oo2xlu" path="res://assets/sfx/sfx_fire.wav" id="4_wwp0c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ty1y3"]
 size = Vector2(14, 14)
@@ -126,6 +127,11 @@ texture = ExtResource("1_xvvho")
 [node name="LifeTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="Fire" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wwp0c")
+volume_db = -8.0
+autoplay = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
