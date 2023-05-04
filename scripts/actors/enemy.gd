@@ -45,7 +45,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# Follow the player
-	var desired_dir: Vector2 = (player.position - position).rotated(PI / 2)\
+	var desired_dir: Vector2 = (player.position - position).rotated(PI / 2) \
 			if player.health > 0 else Vector2.ZERO
 	
 	if desired_dir.length() > 0:
@@ -59,7 +59,8 @@ func _physics_process(delta: float) -> void:
 		else:
 			speed = move_toward(speed, max_speed * 0.75, deceleration)
 		
-		var player_in_sight: bool = rot_diff <= PI / 10
+		var player_in_sight: bool = rot_diff <= PI / 10 && \
+				position.distance_to(player.position) <= 300
 		
 		# Start/Stop attacking depending on whether the player is in sight
 		if player_in_sight && react_timer.is_stopped() && fire_timer.is_stopped():
