@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhhwl0mtho0oi"]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
 [ext_resource type="PackedScene" uid="uid://we2rho41b1dg" path="res://scenes/tile_map_gen.tscn" id="2_lk7gm"]
-[ext_resource type="PackedScene" path="res://scenes/gui/radar.tscn" id="2_lor54"]
-[ext_resource type="PackedScene" uid="uid://ddt6krxqw4ftt" path="res://scenes/actors/enemy_spawner.tscn" id="3_06013"]
+[ext_resource type="PackedScene" uid="uid://ds6gva7pdkj70" path="res://scenes/gui/radar.tscn" id="2_lor54"]
+[ext_resource type="PackedScene" path="res://scenes/spawners/enemy_spawner.tscn" id="3_06013"]
 [ext_resource type="PackedScene" uid="uid://bsbtrwk8vrcl2" path="res://scenes/actors/player.tscn" id="3_pdjn3"]
-[ext_resource type="PackedScene" uid="uid://dr6ctrurvsr6q" path="res://scenes/actors/supplier_spawner.tscn" id="5_s467w"]
+[ext_resource type="PackedScene" uid="uid://gpkmnwl70nde" path="res://scenes/actors/hangar.tscn" id="4_ttbt5"]
+[ext_resource type="PackedScene" path="res://scenes/spawners/supplier_spawner.tscn" id="5_s467w"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qpr47"]
 font_size = 18
@@ -93,6 +94,9 @@ grow_vertical = 0
 [node name="TileMapGen" parent="." instance=ExtResource("2_lk7gm")]
 unique_name_in_owner = true
 random_seed = true
+
+[node name="Hangar" parent="TileMapGen" instance=ExtResource("4_ttbt5")]
+position = Vector2(351, 271)
 
 [node name="EnemySpawner" parent="." instance=ExtResource("3_06013")]
 unique_name_in_owner = true

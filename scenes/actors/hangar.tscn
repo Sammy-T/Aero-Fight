@@ -1,8 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://df2anoel4wi6j"]
+[gd_scene load_steps=12 format=3 uid="uid://gpkmnwl70nde"]
 
-[ext_resource type="Script" path="res://scripts/hangar.gd" id="1_65v0u"]
-[ext_resource type="Texture2D" uid="uid://corgs4qvsne8n" path="res://assets/hangar.png" id="1_wbskd"]
-[ext_resource type="Texture2D" uid="uid://c0c767lu0np3f" path="res://assets/bubbles.png" id="3_ppfrl"]
+[ext_resource type="Script" path="res://scripts/actors/hangar.gd" id="1_iaqxx"]
+[ext_resource type="Texture2D" uid="uid://corgs4qvsne8n" path="res://assets/hangar.png" id="2_ulyq5"]
+[ext_resource type="Texture2D" uid="uid://c0c767lu0np3f" path="res://assets/bubbles.png" id="3_bgil0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtm1m"]
 size = Vector2(35, 31.5)
@@ -46,7 +46,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_wbskd")]
+"values": [ExtResource("2_ulyq5")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -95,23 +95,6 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_4ujvn"]
-resource_name = "impact"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:position")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(-4.059, 0), Vector2(4.261, 0), Vector2(-2.019, 0), Vector2(1.834, 0), Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_0i5ps"]
@@ -167,6 +150,23 @@ tracks/3/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_4ujvn"]
+resource_name = "impact"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-4.059, 0), Vector2(4.261, 0), Vector2(-2.019, 0), Vector2(1.834, 0), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uobdm"]
 _data = {
 "RESET": SubResource("Animation_68jac"),
@@ -179,21 +179,21 @@ collision_layer = 2
 collision_mask = 4
 input_pickable = false
 monitoring = false
-script = ExtResource("1_65v0u")
+script = ExtResource("1_iaqxx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 1.75)
 shape = SubResource("RectangleShape2D_mtm1m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_wbskd")
+texture = ExtResource("2_ulyq5")
 
 [node name="Explosion" type="GPUParticles2D" parent="."]
 position = Vector2(0, 9)
 emitting = false
 amount = 20
 process_material = SubResource("ParticleProcessMaterial_eiyia")
-texture = ExtResource("3_ppfrl")
+texture = ExtResource("3_bgil0")
 lifetime = 0.75
 one_shot = true
 explosiveness = 0.95

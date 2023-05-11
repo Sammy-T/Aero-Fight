@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dr6ctrurvsr6q"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://scripts/actors/supplier_spawner.gd" id="1_8ir36"]
+[ext_resource type="Script" path="res://scripts/spawners/supplier_spawner.gd" id="1_8ir36"]
 
 [node name="SupplierSpawner" type="Node2D"]
 script = ExtResource("1_8ir36")
