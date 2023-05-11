@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://df2anoel4wi6j"]
+
+[ext_resource type="Texture2D" uid="uid://corgs4qvsne8n" path="res://assets/hangar.png" id="1_wbskd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mtm1m"]
+size = Vector2(35, 31.5)
+
+[node name="Hangar" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 1.75)
+shape = SubResource("RectangleShape2D_mtm1m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_wbskd")
