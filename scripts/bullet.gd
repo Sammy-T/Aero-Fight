@@ -30,3 +30,8 @@ func _on_life_timer_timeout() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	body.update_health(DAMAGE)
 	%AnimationPlayer.play("impact")
+
+
+func _on_area_entered(area: Area2D) -> void:
+	area.update_health(DAMAGE)
+	%AnimationPlayer.play("impact")

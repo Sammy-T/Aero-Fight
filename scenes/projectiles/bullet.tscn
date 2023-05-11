@@ -139,5 +139,6 @@ libraries = {
 "": SubResource("AnimationLibrary_ijd3e")
 }
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="LifeTimer" to="." method="_on_life_timer_timeout"]
