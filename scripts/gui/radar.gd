@@ -13,7 +13,8 @@ var markers: Dictionary = {}
 @onready var marker_types: Dictionary = {
 		"marked_interest": %Interest,
 		"marked_interest_2": %Interest2,
-		"marked_warning": %Warning
+		"marked_warning": %Warning,
+		"marked_target": %Target
 }
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3 uid="uid://ds6gva7pdkj70"]
 
 [ext_resource type="Shader" path="res://res/shaders/radar.gdshader" id="1_jiyej"]
 [ext_resource type="Script" path="res://scripts/gui/radar.gd" id="1_q2xuu"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://res/shaders/poi.gdshader" id="3_7ckg2"]
 [ext_resource type="Texture2D" uid="uid://dt0bg2wiow333" path="res://assets/kenney_pixel-shmup/Tiles/tile_0009.png" id="4_yt1xy"]
 [ext_resource type="Shader" path="res://res/shaders/warning.gdshader" id="5_3nojq"]
+[ext_resource type="Texture2D" uid="uid://dq08ex7x5gp7v" path="res://assets/kenney_pixel-shmup/Tiles/tile_0027.png" id="7_b0duf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nhhnr"]
 shader = ExtResource("1_jiyej")
@@ -62,3 +63,8 @@ material = SubResource("ShaderMaterial_en55d")
 position = Vector2(0, 46)
 rotation = 0.785398
 texture = ExtResource("4_yt1xy")
+
+[node name="Target" type="Sprite2D" parent="Templates"]
+self_modulate = Color(1, 0.862745, 0.0784314, 1)
+position = Vector2(0, 69)
+texture = ExtResource("7_b0duf")
