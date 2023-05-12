@@ -10,3 +10,8 @@ unique_name_in_owner = true
 
 [node name="SpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

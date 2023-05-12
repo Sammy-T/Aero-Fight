@@ -6,9 +6,10 @@ const Hangar: PackedScene = preload("res://scenes/actors/hangar.tscn")
 var player: Node2D
 var radar: Control
 var tile_map: TileMap
-var queued: bool = true
+var queued: bool = false
 
 @onready var hangar_holder: Node2D = %HangarHolder
+@onready var spawn_timer: Timer = %SpawnTimer
 
 
 # Called when the node enters the scene tree for the first time.
@@ -27,24 +28,28 @@ func _process(_delta: float) -> void:
 func _spawn_hangar() -> void:
 	var spawn_pos: Vector2 = _find_spawn_pos()
 	
-	if spawn_pos == player.position:
-		queued = true
-		return
-	else:
-		queued = false
+	# Determine if the task should be re-queued 
+	# depending on whether a valid position is returned
+	queued = spawn_pos == player.position
 	
+	# Return early if the task is re-queued
+	if queued:
+		return
+	
+	# Spawn the hangar
 	var hangar: Node2D = Hangar.instantiate()
 	hangar.position = spawn_pos
+	hangar.tree_exited.connect(_on_hangar_destroyed)
 	
 	hangar_holder.add_child(hangar)
 	
 	if radar:
-		radar.add_marker(hangar)
+		radar.add_marker(hangar) # Mark the hangar on radar
 
 
 func _find_spawn_pos() -> Vector2:
 	var player_map_pos: Vector2i = tile_map.local_to_map(player.position)
-	var offset: int = 10
+	var offset: int = 50
 	
 	for x in range(-2, 3):
 		for y in range(-2, 3):
@@ -64,6 +69,7 @@ func _find_spawn_pos() -> Vector2:
 func _can_place_hangar(cell_coord: Vector2i) -> bool:
 	var map_noise: Noise = tile_map.map_noise
 	
+	# Check if each neighboring cell is valid
 	for x in range(-1, 2):
 		for y in range(-1, 2):
 			var check_cell: Vector2 = Vector2(cell_coord.x + x, cell_coord.y + y)
@@ -74,3 +80,11 @@ func _can_place_hangar(cell_coord: Vector2i) -> bool:
 				return false
 	
 	return true
+
+
+func _on_spawn_timer_timeout() -> void:
+	queued = true
+
+
+func _on_hangar_destroyed() -> void:
+	spawn_timer.start()
