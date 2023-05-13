@@ -242,6 +242,14 @@ wait_time = 5.0
 one_shot = true
 autostart = true
 
+[node name="ReactTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="FireTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 2.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
@@ -250,3 +258,5 @@ libraries = {
 
 [connection signal="navigation_finished" from="NavigationAgent2D" to="." method="_on_navigation_finished"]
 [connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]
+[connection signal="timeout" from="ReactTimer" to="." method="_start_firing_with_reaction"]
+[connection signal="timeout" from="FireTimer" to="." method="_fire_bullet"]

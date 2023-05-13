@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-#const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn")
+const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn")
 
 const MAX_SPEED: float = 50
 const MAX_ROT_SPEED: float = 1
@@ -15,25 +15,41 @@ var health: float = MAX_HEALTH
 var speed: float = 0
 var player: Node2D
 var level: Node2D
+var tile_map: TileMap
 
 @onready var body: Sprite2D = %Body
 @onready var gun: Sprite2D = %Gun
 @onready var projectile_spawn: Node2D = %ProjectileSpawn
 @onready var nav_agent: NavigationAgent2D = %NavigationAgent2D
 @onready var move_timer: Timer = %MoveTimer
+@onready var react_timer: Timer = %ReactTimer
+@onready var fire_timer: Timer = %FireTimer
 
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	level = get_tree().get_first_node_in_group("level")
+	tile_map = get_tree().get_first_node_in_group("map")
 	
 	_set_random_target()
 
 
 func _physics_process(delta: float) -> void:
-	if player:
-		var aim_angle: float = position.angle_to_point(player.position) - PI / 2
-		gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_ROT_SPEED * delta)
+	var aim_angle: float = position.angle_to_point(player.position) - PI / 2
+	gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_ROT_SPEED * delta)
+	
+	var rot_diff: float = absf(Util.get_rot_diff(gun.rotation, aim_angle))
+	
+	var player_in_sight: bool = rot_diff <= PI / 8 && \
+				position.distance_to(player.position) <= 300
+	
+	# Start/Stop attacking depending on whether the player is in sight
+	if player_in_sight && react_timer.is_stopped() && fire_timer.is_stopped():
+		var reaction_time: float = randf_range(0.4, 0.75)
+		react_timer.start(reaction_time)
+	elif !player_in_sight && (!react_timer.is_stopped() || !fire_timer.is_stopped()):
+		react_timer.stop()
+		fire_timer.stop()
 	
 	if nav_agent.is_navigation_finished():
 		speed = 0
@@ -60,6 +76,30 @@ func _set_random_target() -> void:
 	var target_pos: Vector2 = position + offset
 	
 	set_path_target(target_pos)
+
+
+# Triggered via timer to start firing after simulating the initial delay of a reaction time
+func _start_firing_with_reaction() -> void:
+	if fire_timer.is_stopped():
+		_fire_bullet()
+		fire_timer.start()
+
+
+func _fire_bullet() -> void:
+	if health == 0:
+		react_timer.stop()
+		fire_timer.stop()
+		return
+	
+	if player.health == 0:
+		fire_timer.stop()
+	
+	var bullet: Area2D = Bullet.instantiate()
+	
+	# I don't know why I have to shift the gun rotation 180deg but I do.
+	bullet.init_bullet(projectile_spawn.global_position, gun.rotation - PI, 0)
+	
+	tile_map.add_child(bullet)
 
 
 func _on_move_timer_timeout() -> void:
