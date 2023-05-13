@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://drm0w6botfmna"]
+[gd_scene load_steps=5 format=3 uid="uid://drm0w6botfmna"]
 
+[ext_resource type="Script" path="res://scripts/actors/tank.gd" id="1_p3iii"]
 [ext_resource type="Texture2D" uid="uid://daote56828nhe" path="res://assets/kenney_pixel-shmup/Tiles/tile_0029.png" id="1_w7a80"]
 [ext_resource type="Texture2D" uid="uid://d0ql2vgtmplc4" path="res://assets/kenney_pixel-shmup/Tiles/tile_0030.png" id="2_5gllp"]
 
@@ -8,15 +9,30 @@
 [node name="Tank" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 4
+script = ExtResource("1_p3iii")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_tf1eo")
 
 [node name="Body" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 texture = ExtResource("1_w7a80")
 
 [node name="Gun" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+rotation = -1.5708
 texture = ExtResource("2_5gllp")
 
 [node name="ProjectileSpawn" type="Node2D" parent="Gun"]
+unique_name_in_owner = true
 position = Vector2(0, 9)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+unique_name_in_owner = true
+debug_enabled = true
+
+[node name="MoveTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]
