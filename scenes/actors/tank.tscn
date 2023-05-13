@@ -212,7 +212,7 @@ _data = {
 }
 
 [node name="Tank" type="CharacterBody2D"]
-collision_layer = 2
+collision_layer = 32
 collision_mask = 4
 script = ExtResource("1_p3iii")
 
@@ -235,6 +235,7 @@ position = Vector2(0, 9)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 unique_name_in_owner = true
+debug_enabled = true
 
 [node name="MoveTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -250,6 +251,10 @@ one_shot = true
 unique_name_in_owner = true
 wait_time = 2.0
 
+[node name="DestructTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
@@ -260,3 +265,4 @@ libraries = {
 [connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]
 [connection signal="timeout" from="ReactTimer" to="." method="_start_firing_with_reaction"]
 [connection signal="timeout" from="FireTimer" to="." method="_fire_bullet"]
+[connection signal="timeout" from="DestructTimer" to="." method="_on_destruct_timer_timeout"]

@@ -113,7 +113,7 @@ _data = {
 
 [node name="Bullet" type="Area2D"]
 collision_layer = 4
-collision_mask = 18
+collision_mask = 50
 input_pickable = false
 monitorable = false
 script = ExtResource("1_2huj5")

@@ -1,20 +1,44 @@
 extends Area2D
 
 
+const Tank: PackedScene = preload("res://scenes/actors/tank.tscn")
+
 var max_health: float = 20
 var health: float = max_health
 var points: int = 1000
 var level: Node2D
+var tile_map: TileMap
+var spawn_limit: int = 2
+var spawned: int = 0
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	level = get_tree().get_first_node_in_group("level")
+	tile_map = get_tree().get_first_node_in_group("map")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
+
+
+func _spawn_tank() -> void:
+	if spawned == spawn_limit:
+		return
+	
+	var tank: CharacterBody2D = Tank.instantiate()
+	tank.position = position
+	tank.set_hangar(self)
+	tank.tree_exited.connect(_on_tank_destroyed)
+	
+	tile_map.add_child(tank)
+	
+	spawned += 1
+
+
+func _on_tank_destroyed() -> void:
+	spawned -= 1
 
 
 func update_health(delta: float) -> void:

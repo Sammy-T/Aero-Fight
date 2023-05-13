@@ -8,7 +8,7 @@ const MAX_ROT_SPEED: float = 5
 const MAX_AIM_SPEED: float = 1
 const ACCELERATION: float = 0.5
 const MIN_TARGET_DIST: int = 50
-const MAX_TARGET_DIST: int = 500
+const MAX_TARGET_DIST: int = 200
 const MAX_HEALTH: float = 8
 const POINTS: int = 300
 
@@ -17,6 +17,7 @@ var speed: float = 0
 var player: Node2D
 var level: Node2D
 var tile_map: TileMap
+var hangar: Area2D
 
 @onready var body: Sprite2D = %Body
 @onready var gun: Sprite2D = %Gun
@@ -68,6 +69,11 @@ func _physics_process(delta: float) -> void:
 	body.rotation = lerp_angle(body.rotation, direction.angle(), MAX_ROT_SPEED * delta)
 
 
+func set_hangar(parent_hangar: Area2D) -> void:
+	hangar = parent_hangar
+	hangar.tree_exited.connect(_on_hangar_destroyed)
+
+
 func _set_path_target(target_pos: Vector2) -> void:
 	nav_agent.target_position = target_pos
 
@@ -77,7 +83,8 @@ func _set_random_target() -> void:
 	var angle: float = randf_range(-PI, PI)
 	var offset: Vector2 = Vector2.from_angle(angle) \
 			* randi_range(MIN_TARGET_DIST, MAX_TARGET_DIST)
-	var target_pos: Vector2 = position + offset
+	var target_pos: Vector2 = hangar.position + offset if is_instance_valid(hangar) \
+			else position + offset
 	
 	_set_path_target(target_pos)
 
@@ -112,6 +119,15 @@ func _on_move_timer_timeout() -> void:
 
 func _on_navigation_finished() -> void:
 	move_timer.start()
+
+
+func _on_hangar_destroyed() -> void:
+	var destruct_delay: float = randf_range(5, 10)
+	%DestructTimer.start(destruct_delay)
+
+
+func _on_destruct_timer_timeout() -> void:
+	%AnimationPlayer.play("explode")
 
 
 func update_health(delta: float) -> void:

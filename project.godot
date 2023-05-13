@@ -91,3 +91,4 @@ toggle_pause={
 2d_physics/layer_3="PlayerProjectile"
 2d_physics/layer_4="EnemyProjectile"
 2d_physics/layer_5="Supplier"
+2d_physics/layer_6="Tank"
