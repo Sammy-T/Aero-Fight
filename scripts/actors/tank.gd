@@ -4,7 +4,8 @@ extends CharacterBody2D
 const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn")
 
 const MAX_SPEED: float = 50
-const MAX_ROT_SPEED: float = 1
+const MAX_ROT_SPEED: float = 5
+const MAX_AIM_SPEED: float = 1
 const ACCELERATION: float = 0.5
 const MIN_TARGET_DIST: int = 50
 const MAX_TARGET_DIST: int = 500
@@ -35,8 +36,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# Aim the gun towards the player
 	var aim_angle: float = position.angle_to_point(player.position) - PI / 2
-	gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_ROT_SPEED * delta)
+	gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_AIM_SPEED * delta)
 	
 	var rot_diff: float = absf(Util.get_rot_diff(gun.rotation, aim_angle))
 	
@@ -55,16 +57,18 @@ func _physics_process(delta: float) -> void:
 		speed = 0
 		return
 	
+	# Move in the direction of the target position
 	var direction: Vector2 = nav_agent.get_next_path_position() - position
 	speed = move_toward(speed, MAX_SPEED, ACCELERATION)
 	
 	velocity = direction.normalized() * speed
 	move_and_slide()
 	
-	body.rotation = direction.angle()
+	# Rotate the body in the direction of movement
+	body.rotation = lerp_angle(body.rotation, direction.angle(), MAX_ROT_SPEED * delta)
 
 
-func set_path_target(target_pos: Vector2) -> void:
+func _set_path_target(target_pos: Vector2) -> void:
 	nav_agent.target_position = target_pos
 
 
@@ -75,7 +79,7 @@ func _set_random_target() -> void:
 			* randi_range(MIN_TARGET_DIST, MAX_TARGET_DIST)
 	var target_pos: Vector2 = position + offset
 	
-	set_path_target(target_pos)
+	_set_path_target(target_pos)
 
 
 # Triggered via timer to start firing after simulating the initial delay of a reaction time
@@ -113,14 +117,14 @@ func _on_navigation_finished() -> void:
 func update_health(delta: float) -> void:
 	if health == 0:
 		return
-
+	
 	if delta < 0:
-		%AnimationPlayer.play("impact")
-
+		%AnimationPlayer.play("impact") # Play impact animation when taking damage
+	
 	health = clamp(health + delta, 0, MAX_HEALTH)
-
+	
 	if health == 0:
 		%AnimationPlayer.play("explode")
-
+	
 		if level:
 			level.update_score(POINTS)
