@@ -11,8 +11,10 @@ const MAX_TARGET_DIST: int = 500
 const MAX_HEALTH: float = 8
 const POINTS: int = 300
 
+var health: float = MAX_HEALTH
 var speed: float = 0
 var player: Node2D
+var level: Node2D
 
 @onready var body: Sprite2D = %Body
 @onready var gun: Sprite2D = %Gun
@@ -23,13 +25,15 @@ var player: Node2D
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
+	level = get_tree().get_first_node_in_group("level")
 	
 	_set_random_target()
 
 
 func _physics_process(delta: float) -> void:
-	var aim_angle: float = position.angle_to_point(player.position) - PI / 2
-	gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_ROT_SPEED * delta)
+	if player:
+		var aim_angle: float = position.angle_to_point(player.position) - PI / 2
+		gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_ROT_SPEED * delta)
 	
 	if nav_agent.is_navigation_finished():
 		speed = 0
@@ -64,3 +68,19 @@ func _on_move_timer_timeout() -> void:
 
 func _on_navigation_finished() -> void:
 	move_timer.start()
+
+
+func update_health(delta: float) -> void:
+	if health == 0:
+		return
+
+	if delta < 0:
+		%AnimationPlayer.play("impact")
+
+	health = clamp(health + delta, 0, MAX_HEALTH)
+
+	if health == 0:
+		%AnimationPlayer.play("explode")
+
+		if level:
+			level.update_score(POINTS)
