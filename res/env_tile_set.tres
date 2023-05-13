@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=15 format=3 uid="uid://dj41ablcjbjtk"]
+[gd_resource type="TileSet" load_steps=16 format=3 uid="uid://dj41ablcjbjtk"]
 
 [ext_resource type="Material" uid="uid://lr248p57yetp" path="res://res/materials/water_mat.tres" id="1_qnrch"]
 [ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="2_fhnpm"]
@@ -33,6 +33,11 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8
 vertices = PackedVector2Array(-8, -8, 8, -8, 8, 0.5, -8, 0.5)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 0.5, -8, 0.5)])
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_droil"]
+vertices = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_81lci"]
 vertices = PackedVector2Array(-8, -0.5, 0, -0.5, 0, 8, -8, 8)
@@ -439,6 +444,7 @@ texture = ExtResource("2_fhnpm")
 2:9/0/terrains_peering_bit/top_left_corner = 0
 2:9/0/terrains_peering_bit/top_side = 0
 2:9/0/terrains_peering_bit/top_right_corner = 0
+2:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_droil")
 3:9/0 = 0
 3:9/0/terrain_set = 0
 3:9/0/terrain = 1
