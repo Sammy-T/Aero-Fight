@@ -29,7 +29,6 @@ position = Vector2(0, 9)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 unique_name_in_owner = true
-debug_enabled = true
 
 [node name="MoveTimer" type="Timer" parent="."]
 unique_name_in_owner = true

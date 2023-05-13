@@ -12,6 +12,7 @@ const MAX_HEALTH: float = 8
 const POINTS: int = 300
 
 var speed: float = 0
+var player: Node2D
 
 @onready var body: Sprite2D = %Body
 @onready var gun: Sprite2D = %Gun
@@ -21,10 +22,15 @@ var speed: float = 0
 
 
 func _ready() -> void:
+	player = get_tree().get_first_node_in_group("player")
+	
 	_set_random_target()
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	var aim_angle: float = position.angle_to_point(player.position) - PI / 2
+	gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_ROT_SPEED * delta)
+	
 	if nav_agent.is_navigation_finished():
 		speed = 0
 		return
@@ -36,7 +42,6 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	
 	body.rotation = direction.angle()
-	gun.rotation = direction.angle() - PI / 2 ## TODO: TEMP
 
 
 func set_path_target(target_pos: Vector2) -> void:
