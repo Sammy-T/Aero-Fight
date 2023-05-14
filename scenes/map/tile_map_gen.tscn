@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://we2rho41b1dg"]
+[gd_scene load_steps=5 format=3 uid="uid://dg7iyfm30oh8t"]
 
 [ext_resource type="TileSet" uid="uid://dj41ablcjbjtk" path="res://res/env_tile_set.tres" id="1_xnqwg"]
-[ext_resource type="Script" path="res://scripts/tile_map_gen.gd" id="3_bw0ur"]
+[ext_resource type="Script" path="res://scripts/map/tile_map_gen.gd" id="2_34n2q"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_velus"]
 frequency = 0.03
@@ -23,14 +23,14 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
-script = ExtResource("3_bw0ur")
+script = ExtResource("2_34n2q")
 map_noise = SubResource("FastNoiseLite_velus")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="DebugUI" type="VBoxContainer" parent="CanvasLayer"]
 unique_name_in_owner = true
-visible = false
 offset_right = 40.0
 offset_bottom = 50.0
 

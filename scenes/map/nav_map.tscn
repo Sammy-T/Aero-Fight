@@ -1,9 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://bpc1blku5i1al"]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Material" uid="uid://lr248p57yetp" path="res://res/materials/water_mat.tres" id="1_nrleo"]
 [ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="2_a51wr"]
 [ext_resource type="Texture2D" uid="uid://lwxv0dtn6gej" path="res://assets/shmup_ext.png" id="3_1d8w4"]
-[ext_resource type="Script" path="res://scripts/nav_map.gd" id="4_3d2rn"]
+[ext_resource type="Script" path="res://scripts/map/nav_map.gd" id="4_3d2rn"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_rhiw2"]
 vertices = PackedVector2Array(0, 0, 8, 0, 8, 8, 0, 8)
