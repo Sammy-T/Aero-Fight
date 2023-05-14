@@ -8,7 +8,7 @@ const EnemyVariant: PackedScene = preload("res://scenes/actors/enemy_variant.tsc
 
 const MAX_DIFFICULTY: int = 9
 const SPAWN_RADIUS: float = 450
-const INITIAL_DELAY: float = 10
+const INITIAL_DELAY: float = 30
 
 var enemy_difficulty: int = 0
 var spawn_limit: int
@@ -41,7 +41,7 @@ func start_spawner(difficulty: int, limit: int, interval: float) -> void:
 	await get_tree().create_timer(INITIAL_DELAY).timeout
 	
 	_spawn_enemy()
-	spawn_timer.start(maxf(interval, 5))
+	spawn_timer.start(maxf(interval, 10))
 
 
 func _spawn_enemy() -> void:

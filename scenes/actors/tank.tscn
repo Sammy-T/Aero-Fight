@@ -235,7 +235,6 @@ position = Vector2(0, 9)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 unique_name_in_owner = true
-debug_enabled = true
 
 [node name="MoveTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -249,7 +248,7 @@ one_shot = true
 
 [node name="FireTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 2.0
+wait_time = 3.0
 
 [node name="DestructTimer" type="Timer" parent="."]
 unique_name_in_owner = true

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_rkt2c"]
 [ext_resource type="PackedScene" uid="uid://dg7iyfm30oh8t" path="res://scenes/map/tile_map_gen.tscn" id="2_lk7gm"]
 [ext_resource type="PackedScene" uid="uid://ds6gva7pdkj70" path="res://scenes/gui/radar.tscn" id="2_lor54"]
-[ext_resource type="PackedScene" path="res://scenes/spawners/enemy_spawner.tscn" id="3_06013"]
+[ext_resource type="PackedScene" uid="uid://cxa3oqeodrhgv" path="res://scenes/spawners/enemy_spawner.tscn" id="3_06013"]
 [ext_resource type="PackedScene" uid="uid://bsbtrwk8vrcl2" path="res://scenes/actors/player.tscn" id="3_pdjn3"]
 [ext_resource type="PackedScene" path="res://scenes/spawners/supplier_spawner.tscn" id="5_s467w"]
 [ext_resource type="PackedScene" uid="uid://cn8vagqbldhvk" path="res://scenes/spawners/hangar_spawner.tscn" id="6_8nwad"]

@@ -3,6 +3,8 @@ extends Node2D
 
 const Hangar: PackedScene = preload("res://scenes/actors/hangar.tscn")
 
+const INITIAL_DELAY: float = 5
+
 var player: Node2D
 var radar: Control
 var tile_map: TileMap
@@ -18,6 +20,9 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	radar = get_tree().get_first_node_in_group("radar")
 	tile_map = get_tree().get_first_node_in_group("map")
+	
+	await get_tree().create_timer(INITIAL_DELAY).timeout
+	queued = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

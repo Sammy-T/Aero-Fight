@@ -5,7 +5,7 @@ const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn"
 
 const MAX_SPEED: float = 50
 const MAX_ROT_SPEED: float = 5
-const MAX_AIM_SPEED: float = 1
+const MAX_AIM_SPEED: float = 0.5
 const ACCELERATION: float = 0.5
 const MIN_TARGET_DIST: int = 50
 const MAX_TARGET_DIST: int = 200
@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 		
 		# Start/Stop attacking depending on whether the player is in sight
 		if player_in_sight && react_timer.is_stopped() && fire_timer.is_stopped():
-			var reaction_time: float = randf_range(0.4, 0.75)
+			var reaction_time: float = randf_range(0.5, 1)
 			react_timer.start(reaction_time)
 		elif !player_in_sight && (!react_timer.is_stopped() || !fire_timer.is_stopped()):
 			react_timer.stop()

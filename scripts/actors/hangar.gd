@@ -49,7 +49,6 @@ func update_health(delta: float) -> void:
 		%AnimationPlayer.play("impact")
 	
 	health = clamp(health + delta, 0, max_health)
-	print("hangar hit %s/%s" % [health, max_health])
 	
 	if health == 0:
 		%AnimationPlayer.play("explode")

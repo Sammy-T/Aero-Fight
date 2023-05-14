@@ -208,7 +208,7 @@ libraries = {
 
 [node name="SpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 3.0
+wait_time = 15.0
 autostart = true
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_spawn_tank"]

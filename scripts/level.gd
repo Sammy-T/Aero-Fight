@@ -45,7 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func start_wave() -> void:
 	var difficulty: int = wave
 	var spawn_limit: int = wave + 1
-	var spawn_interval: float = maxf(5, 25 - wave * 2)
+	var spawn_interval: float = maxf(10, 30 - wave)
 	print("Wave %s Difficulty %s Limit %s Interval %s" %\
 			[wave, difficulty, spawn_limit, spawn_interval])
 	
