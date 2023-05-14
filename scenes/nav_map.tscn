@@ -528,7 +528,7 @@ sources/0 = SubResource("TileSetAtlasSource_xf7lh")
 sources/1 = SubResource("TileSetAtlasSource_f7w3d")
 
 [node name="NavMap" type="TileMap"]
-modulate = Color(1, 0.121569, 1, 1)
+visible = false
 tile_set = SubResource("TileSet_1igia")
 format = 2
 script = ExtResource("4_3d2rn")

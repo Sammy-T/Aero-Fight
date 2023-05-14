@@ -1,8 +1,6 @@
 extends TileMap
 
 
-signal nav_map_loaded
-
 const MAP_SECTION_SIZE: int = 6
 const MAP_LOAD_GRID_SIZE: Vector2i = Vector2i(9, 9)
 
@@ -11,7 +9,6 @@ enum Terrain {GRASS, DIRT = 2}
 
 var current_section: Vector2i = Vector2i.ONE
 var pending_sections: Array[Vector2i] = []
-#var pending_unload_sections: Array[Vector2i] = []
 var loaded_sections: Array[Vector2i] = []
 var level_map: TileMap
 var map_noise: Noise
@@ -20,20 +17,11 @@ var map_noise: Noise
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	level_map = get_tree().get_first_node_in_group("map")
-	
-	if level_map:
-		map_noise = level_map.map_noise
-	else:
-		map_noise = FastNoiseLite.new()
-	
-	var target: Node2D = Node2D.new()
-	target.position = Vector2(100, 100)
-	set_target(target)
+	map_noise = level_map.map_noise
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
 	_load_from_map_queue()
 
 
@@ -50,6 +38,8 @@ func set_target(target: Node2D) -> void:
 	
 	if target_map_pos.y < 0:
 		section.y -= 1
+	
+	current_section = section
 	
 	_update_queues()
 
@@ -79,19 +69,11 @@ func _update_queues() -> void:
 	for wanted_section in wanted_sections:
 		if !loaded_sections.has(wanted_section):
 			pending_sections.append(wanted_section)
-	
-	# Check which sections to remove
-#	for loaded_section in loaded_sections:
-#		if !wanted_sections.has(loaded_section):
-#			pending_unload_sections.append(loaded_section)
 
 
 func _load_from_map_queue() -> void:
 	if pending_sections.size() > 0:
 		_load_section()
-	
-#	if pending_unload_sections.size() > 0:
-#		_remove_section()
 
 
 func _load_section() -> void:
@@ -118,9 +100,6 @@ func _load_section() -> void:
 	call_deferred("set_cells_terrain_connect", Layer.ENV, grass_cells, 0, Terrain.GRASS)
 	
 	loaded_sections.append(section)
-	
-	if pending_sections.size() == 0:
-		nav_map_loaded.emit()
 
 
 func _append_cell(x_pos: int, y_pos: int, grass_cells: PackedVector2Array) -> void:

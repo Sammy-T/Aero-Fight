@@ -37,22 +37,23 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	# Aim the gun towards the player
-	var aim_angle: float = position.angle_to_point(player.position) - PI / 2
-	gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_AIM_SPEED * delta)
-	
-	var rot_diff: float = absf(Util.get_rot_diff(gun.rotation, aim_angle))
-	
-	var player_in_sight: bool = rot_diff <= PI / 8 && \
-				position.distance_to(player.position) <= 300
-	
-	# Start/Stop attacking depending on whether the player is in sight
-	if player_in_sight && react_timer.is_stopped() && fire_timer.is_stopped():
-		var reaction_time: float = randf_range(0.4, 0.75)
-		react_timer.start(reaction_time)
-	elif !player_in_sight && (!react_timer.is_stopped() || !fire_timer.is_stopped()):
-		react_timer.stop()
-		fire_timer.stop()
+	if player:
+		# Aim the gun towards the player
+		var aim_angle: float = position.angle_to_point(player.position) - PI / 2
+		gun.rotation = lerp_angle(gun.rotation, aim_angle, MAX_AIM_SPEED * delta)
+		
+		var rot_diff: float = absf(Util.get_rot_diff(gun.rotation, aim_angle))
+		
+		var player_in_sight: bool = rot_diff <= PI / 8 && \
+					position.distance_to(player.position) <= 300
+		
+		# Start/Stop attacking depending on whether the player is in sight
+		if player_in_sight && react_timer.is_stopped() && fire_timer.is_stopped():
+			var reaction_time: float = randf_range(0.4, 0.75)
+			react_timer.start(reaction_time)
+		elif !player_in_sight && (!react_timer.is_stopped() || !fire_timer.is_stopped()):
+			react_timer.stop()
+			fire_timer.stop()
 	
 	if nav_agent.is_navigation_finished():
 		speed = 0

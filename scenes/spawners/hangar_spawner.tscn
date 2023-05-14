@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://mmw2mivqb7kv"]
+[gd_scene load_steps=3 format=3 uid="uid://mmw2mivqb7kv"]
 
 [ext_resource type="Script" path="res://scripts/spawners/hangar_spawner.gd" id="1_4mcji"]
+[ext_resource type="PackedScene" uid="uid://bpc1blku5i1al" path="res://scenes/nav_map.tscn" id="2_6fn1x"]
 
 [node name="HangarSpawner" type="Node2D"]
 script = ExtResource("1_4mcji")
+
+[node name="NavMap" parent="." instance=ExtResource("2_6fn1x")]
+unique_name_in_owner = true
 
 [node name="HangarHolder" type="Node2D" parent="."]
 unique_name_in_owner = true

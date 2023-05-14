@@ -10,6 +10,7 @@ var queued: bool = false
 
 @onready var hangar_holder: Node2D = %HangarHolder
 @onready var spawn_timer: Timer = %SpawnTimer
+@onready var nav_map: TileMap = %NavMap
 
 
 # Called when the node enters the scene tree for the first time.
@@ -45,6 +46,8 @@ func _spawn_hangar() -> void:
 	
 	if radar:
 		radar.add_marker(hangar) # Mark the hangar on radar
+	
+	nav_map.set_target(hangar)
 
 
 func _find_spawn_pos() -> Vector2:
