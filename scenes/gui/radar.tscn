@@ -6,7 +6,7 @@
 [ext_resource type="Shader" path="res://res/shaders/poi.gdshader" id="3_7ckg2"]
 [ext_resource type="Texture2D" uid="uid://dt0bg2wiow333" path="res://assets/kenney_pixel-shmup/Tiles/tile_0009.png" id="4_yt1xy"]
 [ext_resource type="Shader" path="res://res/shaders/warning.gdshader" id="5_3nojq"]
-[ext_resource type="Texture2D" uid="uid://dq08ex7x5gp7v" path="res://assets/kenney_pixel-shmup/Tiles/tile_0027.png" id="7_b0duf"]
+[ext_resource type="Texture2D" uid="uid://h38aqvsycblq" path="res://assets/target.png" id="7_n8k6p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nhhnr"]
 shader = ExtResource("1_jiyej")
@@ -66,5 +66,6 @@ texture = ExtResource("4_yt1xy")
 
 [node name="Target" type="Sprite2D" parent="Templates"]
 unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.827451)
 position = Vector2(0, 69)
-texture = ExtResource("7_b0duf")
+texture = ExtResource("7_n8k6p")
