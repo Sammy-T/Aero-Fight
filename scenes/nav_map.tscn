@@ -1,8 +1,9 @@
-[gd_resource type="TileSet" load_steps=16 format=3 uid="uid://dj41ablcjbjtk"]
+[gd_scene load_steps=18 format=3 uid="uid://bpc1blku5i1al"]
 
-[ext_resource type="Material" uid="uid://lr248p57yetp" path="res://res/materials/water_mat.tres" id="1_qnrch"]
-[ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="2_fhnpm"]
-[ext_resource type="Texture2D" uid="uid://lwxv0dtn6gej" path="res://assets/shmup_ext.png" id="3_oilw4"]
+[ext_resource type="Material" uid="uid://lr248p57yetp" path="res://res/materials/water_mat.tres" id="1_nrleo"]
+[ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="2_a51wr"]
+[ext_resource type="Texture2D" uid="uid://lwxv0dtn6gej" path="res://assets/shmup_ext.png" id="3_1d8w4"]
+[ext_resource type="Script" path="res://scripts/nav_map.gd" id="4_3d2rn"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_rhiw2"]
 vertices = PackedVector2Array(0, 0, 8, 0, 8, 8, 0, 8)
@@ -56,7 +57,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 0, -8, 0, 0, -8
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xf7lh"]
 resource_name = "Environment"
-texture = ExtResource("2_fhnpm")
+texture = ExtResource("2_a51wr")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -138,7 +139,7 @@ texture = ExtResource("2_fhnpm")
 5:3/0/terrains_peering_bit/top_side = 0
 5:3/0/terrains_peering_bit/top_right_corner = 0
 6:3/0 = 0
-6:3/0/material = ExtResource("1_qnrch")
+6:3/0/material = ExtResource("1_nrleo")
 7:3/0 = 0
 7:3/0/terrain_set = 0
 7:3/0/terrain = 2
@@ -475,7 +476,7 @@ texture = ExtResource("2_fhnpm")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f7w3d"]
 resource_name = "Environment_ext"
-texture = ExtResource("3_oilw4")
+texture = ExtResource("3_1d8w4")
 0:0/0 = 0
 0:0/0/terrain_set = 0
 1:0/0 = 0
@@ -514,7 +515,7 @@ texture = ExtResource("3_oilw4")
 4:3/0 = 0
 4:3/0/terrain_set = 0
 
-[resource]
+[sub_resource type="TileSet" id="TileSet_1igia"]
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Grass"
 terrain_set_0/terrain_0/color = Color(0.286275, 0.431373, 0.215686, 1)
@@ -522,5 +523,12 @@ terrain_set_0/terrain_1/name = "Grass Path"
 terrain_set_0/terrain_1/color = Color(0.5, 0.4375, 0.25, 1)
 terrain_set_0/terrain_2/name = "Dirt"
 terrain_set_0/terrain_2/color = Color(0.266667, 0.14902, 0.0392157, 1)
+navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_xf7lh")
 sources/1 = SubResource("TileSetAtlasSource_f7w3d")
+
+[node name="NavMap" type="TileMap"]
+modulate = Color(1, 0.121569, 1, 1)
+tile_set = SubResource("TileSet_1igia")
+format = 2
+script = ExtResource("4_3d2rn")
