@@ -16,6 +16,7 @@ var markers: Dictionary = {}
 		"marked_warning": %Warning,
 		"marked_target": %Target
 }
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 
 # Called when the node enters the scene tree for the first time.
@@ -53,6 +54,8 @@ func _process(_delta: float) -> void:
 
 
 func add_marker(node: Node2D) -> void:
+	animation_player.play("ping")
+	
 	var marker: Sprite2D
 	
 	# Determine which marker to add

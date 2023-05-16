@@ -2,6 +2,7 @@ shader_type canvas_item;
 
 uniform vec4 base_color: source_color = vec4(vec3(0), 1.0);
 uniform vec3 line_color: source_color = vec3(1.0);
+uniform float ping_diameter: hint_range(0.0, 1.0, 0.1) = 1.0;
 
 // https://godotshaders.com/snippet/circle/
 float circle(vec2 position, float radius, float feather) {
@@ -23,8 +24,10 @@ void fragment() {
 	float circle_2 = circle_outline(center, 0.45, 0.04, 0.04);
 	float circle_3 = circle_outline(center, 0.15, 0.02, 0.03);
 	
+	float circle_ping = circle_outline(center, ping_diameter, 0.05, 0.05);
+	
 	// Add the circles together
-	color.rgb += circle_1 + circle_2 + circle_3;
+	color.rgb += circle_1 + circle_2 + circle_3 + circle_ping;
 	
 	float line_width = 0.004;
 	float line_v = 1.0 - step(line_width, abs(UV.x - 0.5));
