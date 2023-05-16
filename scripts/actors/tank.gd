@@ -26,6 +26,8 @@ var hangar: Area2D
 @onready var move_timer: Timer = %MoveTimer
 @onready var react_timer: Timer = %ReactTimer
 @onready var fire_timer: Timer = %FireTimer
+@onready var destruct_timer: Timer = %DestructTimer
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 
 func _ready() -> void:
@@ -125,12 +127,19 @@ func _on_navigation_finished() -> void:
 
 
 func _on_hangar_destroyed() -> void:
+	# This timer likes to throw errors when the root scene changes/restarts
+	# most likely due to connecting to another scenes's 'tree exited' signal
+	# and also being in the process of exiting the scene tree itself.
+	# ..This will have to suffice again.
+	if !destruct_timer.is_inside_tree():
+		return
+	
 	var destruct_delay: float = randf_range(5, 10)
-	%DestructTimer.start(destruct_delay)
+	destruct_timer.start(destruct_delay)
 
 
 func _on_destruct_timer_timeout() -> void:
-	%AnimationPlayer.play("explode")
+	animation_player.play("explode")
 
 
 func update_health(delta: float) -> void:
@@ -138,12 +147,12 @@ func update_health(delta: float) -> void:
 		return
 	
 	if delta < 0:
-		%AnimationPlayer.play("impact") # Play impact animation when taking damage
+		animation_player.play("impact") # Play impact animation when taking damage
 	
 	health = clamp(health + delta, 0, MAX_HEALTH)
 	
 	if health == 0:
-		%AnimationPlayer.play("explode")
+		animation_player.play("explode")
 	
 		if level:
 			level.update_score(POINTS)

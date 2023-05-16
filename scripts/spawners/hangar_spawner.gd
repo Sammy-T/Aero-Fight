@@ -95,4 +95,11 @@ func _on_spawn_timer_timeout() -> void:
 
 
 func _on_hangar_destroyed() -> void:
+	# This timer likes to throw errors when the root scene changes/restarts
+	# most likely due to connecting to a child scenes's 'tree exited' signal
+	# and also being in the process of exiting the scene tree itself.
+	# ..This will have to suffice.
+	if !spawn_timer.is_inside_tree():
+		return
+	
 	spawn_timer.start()
