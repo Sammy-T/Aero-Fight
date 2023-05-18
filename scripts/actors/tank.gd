@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 
 const Bullet: PackedScene = preload("res://scenes/projectiles/enemy_bullet.tscn")
+const PointDisplay: PackedScene = preload("res://scenes/gui/points.tscn")
 
 const MAX_SPEED: float = 50
 const MAX_ROT_SPEED: float = 5
@@ -156,3 +157,10 @@ func update_health(delta: float) -> void:
 	
 		if level:
 			level.update_score(POINTS)
+		
+		if tile_map:
+			var point_display: Control = PointDisplay.instantiate()
+			point_display.position = position
+			point_display.set_points(POINTS)
+			
+			tile_map.add_child(point_display)

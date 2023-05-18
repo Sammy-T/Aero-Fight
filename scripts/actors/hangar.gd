@@ -2,6 +2,7 @@ extends Area2D
 
 
 const Tank: PackedScene = preload("res://scenes/actors/tank.tscn")
+const PointDisplay: PackedScene = preload("res://scenes/gui/points.tscn")
 
 var max_health: float = 20
 var health: float = max_health
@@ -55,3 +56,10 @@ func update_health(delta: float) -> void:
 		
 		if level:
 			level.update_score(points)
+		
+		if tile_map:
+			var point_display: Control = PointDisplay.instantiate()
+			point_display.position = position
+			point_display.set_points(points)
+			
+			tile_map.add_child(point_display)
