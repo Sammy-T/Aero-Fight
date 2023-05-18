@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cn8vagqbldhvk"]
 
 [ext_resource type="Script" path="res://scripts/spawners/hangar_spawner.gd" id="1_4mcji"]
-[ext_resource type="PackedScene" path="res://scenes/map/nav_map.tscn" id="2_6fn1x"]
+[ext_resource type="PackedScene" uid="uid://dcvb1bfnq7t4i" path="res://scenes/map/nav_map.tscn" id="2_6fn1x"]
 
 [node name="HangarSpawner" type="Node2D"]
 script = ExtResource("1_4mcji")

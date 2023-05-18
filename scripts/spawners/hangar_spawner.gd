@@ -59,11 +59,15 @@ func _find_spawn_pos() -> Vector2:
 	var player_map_pos: Vector2i = tile_map.local_to_map(player.position)
 	var offset: int = 50
 	
-	for x in range(-2, 3):
-		for y in range(-2, 3):
-			if x == 0 && y == 0:
-				continue
-			
+	# Shuffle the position offset ranges so there isn't too much
+	# preference toward the first checked values
+	var x_range: Array[int] = [-2, -1, 1, 2]
+	var y_range: Array[int] = [-2, -1, 1, 2]
+	x_range.shuffle()
+	y_range.shuffle()
+	
+	for x in x_range:
+		for y in y_range:
 			var offset_pos: Vector2i = player_map_pos
 			offset_pos.x += x * offset
 			offset_pos.y += y * offset

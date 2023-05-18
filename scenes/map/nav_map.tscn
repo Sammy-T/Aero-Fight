@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=18 format=3 uid="uid://dcvb1bfnq7t4i"]
 
 [ext_resource type="Material" uid="uid://lr248p57yetp" path="res://res/materials/water_mat.tres" id="1_nrleo"]
 [ext_resource type="Texture2D" uid="uid://cimade2legwib" path="res://assets/kenney_pixel-shmup/Tilemap/tiles_packed.png" id="2_a51wr"]
