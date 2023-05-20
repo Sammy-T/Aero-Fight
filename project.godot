@@ -92,3 +92,7 @@ toggle_pause={
 2d_physics/layer_4="EnemyProjectile"
 2d_physics/layer_5="Supplier"
 2d_physics/layer_6="Tank"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
