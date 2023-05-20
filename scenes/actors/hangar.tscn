@@ -1,11 +1,34 @@
-[gd_scene load_steps=12 format=3 uid="uid://gpkmnwl70nde"]
+[gd_scene load_steps=16 format=3 uid="uid://gpkmnwl70nde"]
 
 [ext_resource type="Script" path="res://scripts/actors/hangar.gd" id="1_iaqxx"]
 [ext_resource type="Texture2D" uid="uid://corgs4qvsne8n" path="res://assets/hangar.png" id="2_ulyq5"]
+[ext_resource type="Texture2D" uid="uid://cc3clywuqake2" path="res://assets/shmup_ext_flag_wave.png" id="3_4ib40"]
 [ext_resource type="Texture2D" uid="uid://c0c767lu0np3f" path="res://assets/bubbles.png" id="3_bgil0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtm1m"]
 size = Vector2(35, 31.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ovlt"]
+atlas = ExtResource("3_4ib40")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyrna"]
+atlas = ExtResource("3_4ib40")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b0fsf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ovlt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyrna")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
 
 [sub_resource type="Gradient" id="Gradient_disok"]
 offsets = PackedFloat32Array(0, 0.422222, 0.711111, 1)
@@ -189,6 +212,13 @@ shape = SubResource("RectangleShape2D_mtm1m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ulyq5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(22, 7)
+sprite_frames = SubResource("SpriteFrames_b0fsf")
+autoplay = "default"
+frame = 1
+frame_progress = 0.83219
 
 [node name="Explosion" type="GPUParticles2D" parent="."]
 position = Vector2(0, 9)
