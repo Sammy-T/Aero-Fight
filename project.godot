@@ -16,6 +16,10 @@ run/main_scene="res://scenes/gui/main_menu.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://assets/kenney_pixel-shmup/Ships/ship_0009.png"
 
+[autoload]
+
+Global="*res://scenes/global.tscn"
+
 [display]
 
 window/size/viewport_width=640

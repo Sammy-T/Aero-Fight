@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnxo2ac71opws"]
+
+[ext_resource type="AudioStream" uid="uid://cw3gouvcbbwb" path="res://assets/aero_fight_theme.ogg" id="1_5ubbc"]
+
+[node name="Global" type="Node2D"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("1_5ubbc")
+autoplay = true
+bus = &"Music"

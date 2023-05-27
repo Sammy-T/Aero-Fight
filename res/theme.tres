@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://cuqa1hr2l6pq1"]
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://cuqa1hr2l6pq1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hhap"]
 bg_color = Color(1, 0.52549, 0.0509804, 1)
@@ -14,7 +14,24 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70qdr"]
+bg_color = Color(1, 0.647059, 0.392157, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wk73q"]
+bg_color = Color(1, 0.52549, 0.0509804, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [resource]
 Button/colors/font_pressed_color = Color(0.270588, 0.270588, 0.270588, 1)
 Button/styles/focus = SubResource("StyleBoxFlat_2hhap")
 Button/styles/pressed = SubResource("StyleBoxFlat_n2bs8")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_70qdr")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_wk73q")
+Label/colors/font_color = Color(0.938382, 0.486531, 0, 1)

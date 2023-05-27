@@ -44,6 +44,49 @@ text = "Restart"
 layout_mode = 2
 text = "Main Menu"
 
+[node name="VolumeControls" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="VolumeControls"]
+layout_mode = 2
+text = "Main"
+
+[node name="MainVolume" type="HSlider" parent="VolumeControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+
+[node name="Label2" type="Label" parent="VolumeControls"]
+layout_mode = 2
+text = "Music"
+
+[node name="MusicVolume" type="HSlider" parent="VolumeControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+
+[node name="Label3" type="Label" parent="VolumeControls"]
+layout_mode = 2
+text = "Sfx"
+
+[node name="SfxVolume" type="HSlider" parent="VolumeControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+
 [connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="value_changed" from="VolumeControls/MainVolume" to="." method="_on_main_volume_value_changed"]
+[connection signal="value_changed" from="VolumeControls/MusicVolume" to="." method="_on_music_volume_value_changed"]
+[connection signal="value_changed" from="VolumeControls/SfxVolume" to="." method="_on_sfx_volume_value_changed"]

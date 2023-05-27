@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbajgrafpykx6"]
+[gd_scene load_steps=9 format=3 uid="uid://dbajgrafpykx6"]
 
 [ext_resource type="Theme" uid="uid://cuqa1hr2l6pq1" path="res://res/theme.tres" id="1_npj8k"]
 [ext_resource type="Script" path="res://scripts/gui/main_menu.gd" id="2_qpx0f"]
@@ -9,8 +9,11 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_jistv"]
 font_size = 32
-outline_size = 6
+outline_size = 7
 outline_color = Color(0.425136, 0.206567, 1.01075e-06, 1)
+
+[sub_resource type="Theme" id="Theme_jmo1f"]
+Label/colors/font_color = Color(1, 1, 1, 1)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -140,6 +143,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Credits"]
 layout_mode = 2
+theme = SubResource("Theme_jmo1f")
 
 [node name="Label" type="Label" parent="Credits/VBoxContainer"]
 layout_mode = 2

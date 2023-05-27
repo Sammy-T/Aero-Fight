@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/aero_fight_theme.ogg-990cff5c728ab828ea62c6df
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0
