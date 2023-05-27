@@ -132,6 +132,7 @@ autostart = true
 stream = ExtResource("4_wwp0c")
 volume_db = -8.0
 autoplay = true
+bus = &"Sfx"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
