@@ -13,6 +13,7 @@ const MAX_HEALTH: float = 6
 
 var speed: float = MAX_SPEED / 2
 var health: float = MAX_HEALTH
+var can_attack: bool = true
 var tile_map: TileMap
 
 @onready var shadow_holder: Node2D = %ShadowHolder
@@ -21,6 +22,7 @@ var tile_map: TileMap
 @onready var gun_2: Node2D = %Gun2
 @onready var particles_smoke: GPUParticles2D = %Smoke
 @onready var fire_timer: Timer = %FireTimer
+@onready var attack_cooldown: Timer = %AttackCooldown
 
 
 # Called when the node enters the scene tree for the first time.
@@ -55,9 +57,14 @@ func _physics_process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("fire") && fire_timer.is_stopped():
+	if event.is_action_pressed("fire") && fire_timer.is_stopped() && can_attack:
 		_fire_bullets()
 		fire_timer.start()
+		
+		can_attack = false
+		
+		if attack_cooldown.is_stopped():
+			attack_cooldown.start()
 	elif event.is_action_released("fire") && !fire_timer.is_stopped():
 		fire_timer.stop()
 
@@ -97,3 +104,7 @@ func update_health(delta: float) -> void:
 		# before the animation stops physics process
 		await get_tree().create_timer(0.25).timeout
 		speed = 0
+
+
+func _on_attack_cooldown_timeout() -> void:
+	can_attack = true

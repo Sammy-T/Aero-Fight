@@ -251,6 +251,11 @@ zoom = Vector2(1.5, 1.5)
 unique_name_in_owner = true
 wait_time = 0.5
 
+[node name="AttackCooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.4
+one_shot = true
+
 [node name="Explode" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_vlnkb")
 bus = &"Sfx"
@@ -262,3 +267,4 @@ libraries = {
 }
 
 [connection signal="timeout" from="FireTimer" to="." method="_fire_bullets"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
